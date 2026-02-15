@@ -1,4 +1,5 @@
 import { MapPin, Calendar } from "lucide-react";
+import ShareButton from "@/components/ShareButton";
 
 const events = [
   { title: "Newcomer Welcome Night — Toronto", date: "March 8, 2026", time: "6:00 PM – 9:00 PM", location: "Metro Toronto Convention Centre", desc: "An evening of networking, live performances, and resources for newly arrived immigrants.", city: "Toronto", theme: "community" },
@@ -33,8 +34,11 @@ export default function Events() {
         <div className="space-y-5 max-w-3xl">
           {events.map((event, idx) => (
             <div key={event.title} className="bg-card rounded-lg border p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-2 text-xs font-semibold text-accent uppercase">
-                <Calendar className="w-3.5 h-3.5" /> {event.date} · {event.time}
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-2 text-xs font-semibold text-accent uppercase">
+                  <Calendar className="w-3.5 h-3.5" /> {event.date} · {event.time}
+                </div>
+                <ShareButton title={event.title} text={`${event.title} — ${event.date}`} variant="icon" />
               </div>
               <h3 className="text-lg font-semibold text-foreground mt-2">{event.title}</h3>
               <p className="text-sm text-muted-foreground mt-1">{event.desc}</p>

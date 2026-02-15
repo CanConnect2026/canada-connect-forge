@@ -9,6 +9,7 @@ import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Fac
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ClaimForm from "@/components/ClaimForm";
+import ShareButton from "@/components/ShareButton";
 import type { Json } from "@/integrations/supabase/types";
 
 function parseSocialLinks(social: Json | null): Record<string, string> {
@@ -62,15 +63,23 @@ export default function ListingDetail() {
                 <MapPin className="w-4 h-4" /> {listing.full_address || `${listing.city}, ${listing.province}`}
               </p>
             </div>
-            {listing.claim_status === "unclaimed" && listing.listing_type !== "paid" && (
-              <Button
-                variant="outline"
-                className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
-                onClick={() => setShowClaimForm(true)}
-              >
-                <Flag className="w-4 h-4 mr-2" /> Claim This Listing
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              <ShareButton
+                title={listing.name}
+                text={`Check out ${listing.name} on CanConnect`}
+                variant="button"
+                className="[&_button]:bg-transparent [&_button]:border-primary-foreground/30 [&_button]:text-primary-foreground [&_button]:hover:bg-primary-foreground/10"
+              />
+              {listing.claim_status === "unclaimed" && listing.listing_type !== "paid" && (
+                <Button
+                  variant="outline"
+                  className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                  onClick={() => setShowClaimForm(true)}
+                >
+                  <Flag className="w-4 h-4 mr-2" /> Claim This Listing
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -89,15 +98,20 @@ export default function ListingDetail() {
 
             {/* Image Gallery */}
             {images.length > 0 ? (
-              <div className="bg-card rounded-lg border p-6">
-                <h2 className="font-display text-xl text-foreground mb-3">Photos</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {images.map((img, i) => (
-                    <div key={i} className="aspect-video rounded-md overflow-hidden bg-muted">
-                      <img src={img} alt={`${listing.name} photo ${i + 1}`} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
+              <div className="bg-card rounded-lg border overflow-hidden">
+                {images.length === 1 ? (
+                  <div className="w-full aspect-[16/9] bg-muted">
+                    <img src={images[0]} alt={`${listing.name} photo`} className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-1 p-1">
+                    {images.map((img, i) => (
+                      <div key={i} className={`bg-muted overflow-hidden ${i === 0 && images.length === 3 ? "col-span-2 aspect-[16/9]" : "aspect-[4/3]"}`}>
+                        <img src={img} alt={`${listing.name} photo ${i + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="bg-card rounded-lg border p-6">
