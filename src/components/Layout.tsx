@@ -7,10 +7,10 @@ import { useAuth } from "@/hooks/useAuth";
 const navLinks = [
   { to: "/", label: "Find Services" },
   { to: "/map", label: "Map" },
-  { to: "/guides", label: "City Guides" },
   { to: "/events", label: "Events" },
-  { to: "/about", label: "About Us" },
+  { to: "/guides", label: "City Guides" },
   { to: "/get-involved", label: "Get Involved" },
+  { to: "/about", label: "About Us" },
   { to: "/contact", label: "Contact" },
 ];
 
