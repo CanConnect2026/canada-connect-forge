@@ -22,6 +22,11 @@ import EventDetail from "./pages/EventDetail";
 import SubmitEvent from "./pages/SubmitEvent";
 import HowToGuides from "./pages/HowToGuides";
 import ArticleDetail from "./pages/ArticleDetail";
+import FAQ from "./pages/FAQ";
+import HowWeVerify from "./pages/HowWeVerify";
+import HelpCentre from "./pages/HelpCentre";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +57,11 @@ const App = () => (
               <Route path="/guides/:city" element={<CityGuide />} />
               <Route path="/how-to" element={<HowToGuides />} />
               <Route path="/how-to/:slug" element={<ArticleDetail />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/how-we-verify" element={<HowWeVerify />} />
+              <Route path="/help" element={<HelpCentre />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
