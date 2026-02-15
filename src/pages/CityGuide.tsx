@@ -955,6 +955,82 @@ const cityData: Record<string, CityData> = {
       },
     ],
   },
+  waterloo: {
+    name: "Waterloo",
+    tagline: "Innovation capital with world-class universities and a tight-knit community.",
+    population: "150,000",
+    overview:
+      "Waterloo is the heart of Canada's tech triangle, home to the University of Waterloo and Wilfrid Laurier University. The city punches well above its weight in tech innovation and startup culture. For newcomers, it offers a welcoming small-city feel with big opportunities, excellent schools, and a growing multicultural community.",
+    quickFacts: [
+      { label: "Region", value: "Waterloo Region" },
+      { label: "Average Rent (1BR)", value: "$1,550/month" },
+      { label: "Transit System", value: "GRT (bus + ION LRT)" },
+      { label: "Major Employers", value: "Tech, Education, Insurance" },
+      { label: "Known For", value: "UWaterloo, BlackBerry origins" },
+    ],
+    sections: [
+      {
+        icon: Home,
+        title: "Neighbourhoods & Housing",
+        content: "Waterloo is compact and walkable, especially near the universities. Uptown Waterloo is a vibrant core with shops and restaurants. The Beechwood and Lakeshore areas are popular with families. Housing is more affordable than the GTA.",
+        tips: [
+          "Uptown Waterloo is walkable and close to the ION LRT",
+          "Student housing turnover in spring creates rental opportunities",
+          "The region has a housing stability program for those in need",
+        ],
+      },
+      {
+        icon: Train,
+        title: "Getting Around",
+        content: "The ION LRT connects Waterloo to Kitchener seamlessly. Grand River Transit buses cover the region. Cycling is extremely popular with dedicated trails and bike lanes throughout the city.",
+        tips: [
+          "The ION LRT is the fastest way to travel between Waterloo and Kitchener",
+          "The Laurel Trail and Iron Horse Trail are excellent cycling routes",
+          "GO Transit bus service connects to Toronto's Square One and Bramalea",
+        ],
+      },
+      {
+        icon: Briefcase,
+        title: "Jobs & Employment",
+        content: "Waterloo is a global tech hub with companies like Google, SAP, and hundreds of startups. The university's co-op program creates a strong pipeline of talent and opportunity. Insurance and financial services are also major employers.",
+        tips: [
+          "Communitech Hub is the centre of the tech ecosystem — attend events",
+          "The Accelerator Centre supports newcomer entrepreneurs",
+          "Waterloo Region has lower unemployment than the provincial average",
+        ],
+      },
+      {
+        icon: GraduationCap,
+        title: "Education & Language",
+        content: "The University of Waterloo is one of Canada's top universities, known for engineering and computer science. Wilfrid Laurier University offers strong business and arts programs. Conestoga College provides practical trades training. LINC classes are available.",
+        tips: [
+          "UWaterloo's co-op program is one of the largest in the world",
+          "Laurier's Lazaridis School of Business is highly ranked",
+          "Waterloo Public Library offers free newcomer settlement programs",
+        ],
+      },
+      {
+        icon: Heart,
+        title: "Healthcare",
+        content: "Grand River Hospital serves the region. The city has community health centres with multilingual services. Mental health support is available through CMHA Waterloo Wellington and local counselling services.",
+        tips: [
+          "The Langs Community Health Centre serves newcomers in multiple languages",
+          "Region of Waterloo Public Health offers free immunizations and screenings",
+          "Telehealth Ontario provides free 24/7 health advice by phone",
+        ],
+      },
+      {
+        icon: Users,
+        title: "Community & Culture",
+        content: "Waterloo has a strong sense of community with farmers' markets, the Uptown arts scene, and multicultural events. The KW Multicultural Centre and local faith communities provide excellent newcomer support networks.",
+        tips: [
+          "The Waterloo Uptown Jazz Festival and Busker Carnival are summer highlights",
+          "KW Multicultural Centre is your go-to for settlement services",
+          "Community gardens and maker spaces help newcomers connect",
+        ],
+      },
+    ],
+  },
 };
 
 export default function CityGuide() {
