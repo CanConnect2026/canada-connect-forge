@@ -209,6 +209,9 @@ export default function Index() {
                 <div className="p-5">
                   <span className="text-xs font-semibold text-accent uppercase">
                     {format(new Date(event.event_date + "T00:00:00"), "MMM d, yyyy")}
+                    {event.start_time && (
+                      <span className="text-muted-foreground font-normal normal-case"> · {(() => { const [h, m] = event.start_time.split(":"); const hour = parseInt(h); return `${hour % 12 || 12}:${m} ${hour >= 12 ? "PM" : "AM"}`; })()}</span>
+                    )}
                   </span>
                   <h3 className="font-semibold mt-1 text-foreground group-hover:text-accent transition-colors">{event.title}</h3>
                   {event.location && (
