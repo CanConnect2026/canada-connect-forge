@@ -17,6 +17,7 @@ import ListingDetail from "./pages/ListingDetail";
 import Admin from "./pages/Admin";
 import SuggestService from "./pages/SuggestService";
 import CityGuide from "./pages/CityGuide";
+import EventDetail from "./pages/EventDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/events/:id" element={<EventDetail />} />
               <Route path="/get-involved" element={<GetInvolved />} />
               <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<Admin />} />
