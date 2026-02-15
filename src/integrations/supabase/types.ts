@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      events: {
+        Row: {
+          category: string | null
+          city: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          end_time: string | null
+          event_date: string
+          id: string
+          image_url: string | null
+          is_featured: boolean
+          is_published: boolean
+          location: string | null
+          start_time: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_time?: string | null
+          event_date: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          location?: string | null
+          start_time?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_time?: string | null
+          event_date?: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          location?: string | null
+          start_time?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       listing_claims: {
         Row: {
           admin_notes: string | null
