@@ -418,6 +418,51 @@ export type Database = {
         }
         Relationships: []
       }
+      video_tips: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          platform: string
+          social_channel_label: string | null
+          social_channel_url: string | null
+          sort_order: number
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          platform?: string
+          social_channel_label?: string | null
+          social_channel_url?: string | null
+          sort_order?: number
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          platform?: string
+          social_channel_label?: string | null
+          social_channel_url?: string | null
+          sort_order?: number
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

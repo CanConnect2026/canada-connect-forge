@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Search, BookOpen, Clock, ArrowRight, ChevronRight } from "lucide-react";
 import { useArticles, useFeaturedArticles, useArticleCategories } from "@/hooks/useArticles";
 import { format } from "date-fns";
+import VideoTipModule from "@/components/VideoTipModule";
 
 export default function HowToGuides() {
   const [search, setSearch] = useState("");
@@ -29,76 +30,88 @@ export default function HowToGuides() {
       </div>
 
       <div className="container mx-auto px-4 py-10">
-        {/* Search & Filters */}
-        <div className="max-w-3xl mx-auto mb-10">
-          <div className="flex items-center gap-2 bg-card rounded-lg border px-3 py-2 mb-4">
-            <Search className="w-4 h-4 text-muted-foreground shrink-0" />
-            <input
-              type="text"
-              placeholder="Search guides..."
-              className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedCategory("")}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                !selectedCategory
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              All
-            </button>
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.name === selectedCategory ? "" : cat.name)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === cat.name
-                    ? "bg-accent text-accent-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+          {/* Main content */}
+          <div>
+            {/* Search & Filters */}
+            <div className="max-w-3xl mb-10">
+              <div className="flex items-center gap-2 bg-card rounded-lg border px-3 py-2 mb-4">
+                <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+                <input
+                  type="text"
+                  placeholder="Search guides..."
+                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedCategory("")}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    !selectedCategory
+                      ? "bg-accent text-accent-foreground"
+                      : "bg-secondary text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  All
+                </button>
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.name === selectedCategory ? "" : cat.name)}
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                      selectedCategory === cat.name
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-secondary text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        {/* Featured Guides */}
-        {!search && !selectedCategory && featured.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-display text-foreground mb-6">Featured Guides</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {featured.map((article) => (
-                <ArticleCard key={article.id} article={article} featured />
-              ))}
+            {/* Featured Guides */}
+            {!search && !selectedCategory && featured.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-display text-foreground mb-6">Featured Guides</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {featured.map((article) => (
+                    <ArticleCard key={article.id} article={article} featured />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* All Guides */}
+            <div>
+              <h2 className="text-2xl font-display text-foreground mb-6">
+                {selectedCategory || "All Guides"}
+              </h2>
+              {isLoading ? (
+                <p className="text-muted-foreground text-center py-8">Loading guides...</p>
+              ) : articles.length === 0 ? (
+                <div className="text-center py-12">
+                  <BookOpen className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+                  <p className="text-muted-foreground">No guides found. Check back soon!</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {articles.map((article) => (
+                    <ArticleCard key={article.id} article={article} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        )}
 
-        {/* All Guides */}
-        <div>
-          <h2 className="text-2xl font-display text-foreground mb-6">
-            {selectedCategory || "All Guides"}
-          </h2>
-          {isLoading ? (
-            <p className="text-muted-foreground text-center py-8">Loading guides...</p>
-          ) : articles.length === 0 ? (
-            <div className="text-center py-12">
-              <BookOpen className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
-              <p className="text-muted-foreground">No guides found. Check back soon!</p>
+          {/* Sidebar */}
+          <div className="order-first lg:order-last space-y-4">
+            <div className="sticky top-20">
+              <VideoTipModule />
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {articles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
