@@ -1,6 +1,7 @@
-import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar, Clock } from "lucide-react";
+import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar, Clock, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import CategoryCard from "@/components/CategoryCard";
 import ListingCard from "@/components/ListingCard";
 import { useFeaturedListings } from "@/hooks/useListings";
@@ -101,7 +102,6 @@ export default function Index() {
                 <Link to={`/directory${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""}`}>Search</Link>
               </Button>
             </div>
-            {/* Slide indicators */}
             <div className="mt-6 flex gap-2">
               {slides.map((_, index) => (
                 <button
@@ -125,8 +125,11 @@ export default function Index() {
         <div className="container">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h2 className="text-3xl font-display text-foreground">Featured Support for Newcomers</h2>
-              <p className="text-muted-foreground mt-1">Handpicked resources to help you settle in</p>
+              <div className="flex items-center gap-2">
+                <h2 className="text-3xl font-display text-foreground">Featured Support for Newcomers</h2>
+                <FeaturedSupportModal />
+              </div>
+              <p className="text-muted-foreground mt-1">Trusted organizations offering practical help, professional guidance, and community connection</p>
             </div>
             <Link to="/directory" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               View all <ChevronRight className="w-4 h-4" />
@@ -140,12 +143,12 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Services & Resources */}
       <section className="py-16">
         <div className="container">
           <h2 className="text-3xl font-display text-foreground text-center mb-3">Services & Resources</h2>
-          <p className="text-muted-foreground text-center mb-10 max-w-lg mx-auto">
-            Browse by category to find exactly what you need
+          <p className="text-muted-foreground text-center mb-10 max-w-xl mx-auto">
+            CanConnect connects you with trusted services and support to help you settle, thrive, and feel at home in Canada.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {categoryIcons.map(cat => (
@@ -161,14 +164,14 @@ export default function Index() {
         </div>
       </section>
 
-      {/* How-To Guides */}
+      {/* Insights & Stories / How-To Guides */}
       {featuredArticles.length > 0 && (
         <section className="py-16">
           <div className="container">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <h2 className="text-3xl font-display text-foreground">How-To Guides for Newcomers</h2>
-                <p className="text-muted-foreground mt-1">Step-by-step instructions for essential tasks</p>
+                <h2 className="text-3xl font-display text-foreground">Insights & Stories</h2>
+                <p className="text-muted-foreground mt-1">Learn from real stories, expert advice, and practical guides</p>
               </div>
               <Link to="/how-to" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
                 All guides <ChevronRight className="w-4 h-4" />
@@ -205,32 +208,27 @@ export default function Index() {
         </section>
       )}
 
-      {/* Community CTA */}
+      {/* Community for Newcomers */}
       <section className="py-16 bg-primary">
         <div className="container text-center">
-          <h2 className="text-3xl font-display text-primary-foreground mb-3">You Belong Here</h2>
+          <h2 className="text-3xl font-display text-primary-foreground mb-3">Community for Newcomers</h2>
           <p className="text-primary-foreground/80 max-w-lg mx-auto mb-8 leading-relaxed">
-            Connect with others who understand your journey. Share stories, ask questions, and find your community in Canada.
+            Starting a new life in Canada can feel overwhelming — but you don't have to do it alone. Connect with others who understand your journey. Share stories, ask questions, and find your community.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              Explore Your Community
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-              Learn More
-            </Button>
-          </div>
+          <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+            Explore Your Community
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
         </div>
       </section>
 
-      {/* Events teaser */}
+      {/* Upcoming Events */}
       <section className="py-16 bg-section-alt">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
             <div>
               <h2 className="text-3xl font-display text-foreground">Upcoming Events</h2>
-              <p className="text-muted-foreground mt-1">Meet, learn, and grow with your community</p>
+              <p className="text-muted-foreground mt-1">Connect with your community and participate in newcomer-focused events</p>
             </div>
             <Link to="/events" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               All events <ChevronRight className="w-4 h-4" />
@@ -272,5 +270,55 @@ export default function Index() {
         </div>
       </section>
     </>
+  );
+}
+
+function FeaturedSupportModal() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button className="text-muted-foreground hover:text-accent transition-colors" aria-label="How we choose featured support">
+          <Info className="w-5 h-5" />
+        </button>
+      </DialogTrigger>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="font-display text-xl">How We Choose Featured Support</DialogTitle>
+          <DialogDescription className="sr-only">Information about how we select featured organizations</DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4 text-sm text-muted-foreground">
+          <p>
+            At CanConnect, our goal is to help newcomers across Ontario find legitimate, useful, and trustworthy support — whether they've just arrived or have been in Canada for several years.
+          </p>
+          <p>
+            The organizations featured on our homepage are selected to reflect the different stages of the newcomer journey, from immediate needs to long-term stability and community belonging.
+          </p>
+
+          <h4 className="font-semibold text-foreground mt-4">What We Look For</h4>
+          <p>We feature organizations that:</p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Serve newcomers in practical, meaningful ways</li>
+            <li>Are known for trust, accessibility, and community impact</li>
+            <li>Offer clear services with transparent costs</li>
+            <li>Address different needs — not just one type of support</li>
+          </ul>
+
+          <h4 className="font-semibold text-foreground mt-4">A Mix of Support Types</h4>
+          <p>Featured organizations may include:</p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Free, community-funded services</li>
+            <li>Paid professional services (e.g. legal or career support)</li>
+            <li>Cultural and social organizations that help newcomers build belonging</li>
+          </ul>
+          <p>All organizations are clearly labelled so newcomers can quickly understand whether a service is free or paid.</p>
+
+          <div className="bg-muted/50 rounded-md p-3 mt-4">
+            <p className="text-xs">
+              <strong className="text-foreground">Important:</strong> Being featured on CanConnect does not mean endorsement, partnership, or sponsorship. It simply means the organization aligns with our mission to help newcomers navigate life in Canada with confidence and clarity.
+            </p>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
