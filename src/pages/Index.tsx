@@ -1,10 +1,11 @@
-import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar } from "lucide-react";
+import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/CategoryCard";
 import ListingCard from "@/components/ListingCard";
 import { useFeaturedListings } from "@/hooks/useListings";
 import { useEvents } from "@/hooks/useEvents";
+import { useFeaturedArticles } from "@/hooks/useArticles";
 import heroImage from "@/assets/hero-image.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
 import { useState, useEffect, useCallback } from "react";
@@ -27,6 +28,7 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: featuredListings = [] } = useFeaturedListings();
   const { data: upcomingEvents = [] } = useEvents();
+  const { data: featuredArticles = [] } = useFeaturedArticles(3);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
@@ -158,6 +160,50 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* How-To Guides */}
+      {featuredArticles.length > 0 && (
+        <section className="py-16">
+          <div className="container">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-display text-foreground">How-To Guides for Newcomers</h2>
+                <p className="text-muted-foreground mt-1">Step-by-step instructions for essential tasks</p>
+              </div>
+              <Link to="/how-to" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+                All guides <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {featuredArticles.map(article => (
+                <Link key={article.id} to={`/how-to/${article.slug}`} className="group bg-card rounded-lg border overflow-hidden hover:shadow-md transition-shadow">
+                  {article.featured_image_url ? (
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img src={article.featured_image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    </div>
+                  ) : (
+                    <div className="aspect-[16/9] bg-muted flex items-center justify-center">
+                      <BookOpen className="w-10 h-10 text-muted-foreground/40" />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-semibold text-accent uppercase">{article.category}</span>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {article.estimated_read_minutes} min
+                      </span>
+                    </div>
+                    <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">{article.title}</h3>
+                    {article.summary && (
+                      <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{article.summary}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Community CTA */}
       <section className="py-16 bg-primary">
