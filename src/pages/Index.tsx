@@ -1,12 +1,14 @@
-import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight } from "lucide-react";
+import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/CategoryCard";
 import ListingCard from "@/components/ListingCard";
 import { useFeaturedListings } from "@/hooks/useListings";
+import { useEvents } from "@/hooks/useEvents";
 import heroImage from "@/assets/hero-image.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
 import { useState, useEffect, useCallback } from "react";
+import { format } from "date-fns";
 
 const categoryIcons = [
   { icon: Users, title: "Settlement & Newcomer Services", count: 42 },
@@ -24,6 +26,7 @@ const categoryIcons = [
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: featuredListings = [] } = useFeaturedListings();
+  const { data: upcomingEvents = [] } = useEvents();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
@@ -188,18 +191,33 @@ export default function Index() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { title: "Newcomer Welcome Night — Toronto", date: "Mar 8, 2026", location: "Metro Toronto Convention Centre" },
-              { title: "Resume Workshop for Immigrants", date: "Mar 15, 2026", location: "Achēv Centre, Mississauga" },
-              { title: "Multilingual Health Fair", date: "Mar 22, 2026", location: "Access Alliance, Toronto" },
-            ].map(event => (
-              <div key={event.title} className="bg-card rounded-lg border p-5 hover:shadow-md transition-shadow">
-                <span className="text-xs font-semibold text-accent uppercase">{event.date}</span>
-                <h3 className="font-semibold mt-1 text-foreground">{event.title}</h3>
-                <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5" /> {event.location}
-                </p>
-              </div>
+            {upcomingEvents.slice(0, 3).map(event => (
+              <Link key={event.id} to={`/events/${event.id}`} className="group bg-card rounded-lg border overflow-hidden hover:shadow-md transition-shadow">
+                {event.image_url ? (
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={event.image_url}
+                      alt={event.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-[16/9] bg-muted flex items-center justify-center">
+                    <Calendar className="w-10 h-10 text-muted-foreground/40" />
+                  </div>
+                )}
+                <div className="p-5">
+                  <span className="text-xs font-semibold text-accent uppercase">
+                    {format(new Date(event.event_date + "T00:00:00"), "MMM d, yyyy")}
+                  </span>
+                  <h3 className="font-semibold mt-1 text-foreground group-hover:text-accent transition-colors">{event.title}</h3>
+                  {event.location && (
+                    <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 shrink-0" /> {event.location}
+                    </p>
+                  )}
+                </div>
+              </Link>
             ))}
           </div>
         </div>
