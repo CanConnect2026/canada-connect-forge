@@ -38,7 +38,7 @@ export default function MapPage() {
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
-            <Button variant="outline" size="sm" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => setShowFilters(!showFilters)}>
+            <Button variant="outline" size="sm" className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => setShowFilters(!showFilters)}>
               <Filter className="w-4 h-4 mr-1" /> Filters
             </Button>
           </div>

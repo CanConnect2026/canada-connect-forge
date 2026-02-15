@@ -38,7 +38,7 @@ export default function ListingDetail() {
             {listing.claim_status === "unclaimed" && listing.listing_type !== "paid" && (
               <Button
                 variant="outline"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
                 onClick={() => setShowClaimForm(true)}
               >
                 <Flag className="w-4 h-4 mr-2" /> Claim This Listing
