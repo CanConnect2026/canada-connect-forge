@@ -32,7 +32,7 @@ export default function ListingsMap({ listings }: { listings: Listing[] }) {
       mapInstance.current.remove();
     }
 
-    const map = L.map(mapRef.current).setView([43.7, -79.4], 12);
+    const map = L.map(mapRef.current).setView([44.0, -80.0], 7);
     mapInstance.current = map;
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
