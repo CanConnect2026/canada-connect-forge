@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { format, parse } from "date-fns";
 import { cn } from "@/lib/utils";
 import { EVENT_CATEGORIES } from "@/data/eventCategories";
+import VideoTipModule from "@/components/VideoTipModule";
 
 function formatTime(time: string | null) {
   if (!time) return "";
@@ -219,6 +220,9 @@ export default function Events() {
                 ))}
               </div>
             </div>
+
+            {/* Video Tip */}
+            <VideoTipModule />
 
             {/* Submit CTA */}
             <div className="bg-card rounded-lg border p-4 text-center">
