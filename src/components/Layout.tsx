@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, MapPin, Search } from "lucide-react";
+import { Menu, X, MapPin, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { to: "/", label: "Find Services" },
   { to: "/directory", label: "Directory" },
+  { to: "/map", label: "Map" },
   { to: "/events", label: "Events" },
   { to: "/about", label: "About Us" },
   { to: "/get-involved", label: "Get Involved" },
@@ -15,6 +17,7 @@ const navLinks = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, signOut } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,15 +57,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {link.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  location.pathname === "/admin"
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                }`}
+              >
+                Admin
+              </Link>
+            )}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/login">Log In</Link>
-            </Button>
-            <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" asChild>
-              <Link to="/list-your-business">List Your Business</Link>
-            </Button>
+            {user ? (
+              <>
+                <span className="text-sm text-muted-foreground flex items-center gap-1">
+                  <User className="w-4 h-4" /> {user.email?.split("@")[0]}
+                </span>
+                <Button variant="outline" size="sm" onClick={signOut}>
+                  <LogOut className="w-4 h-4 mr-1" /> Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/login">Log In</Link>
+                </Button>
+                <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+                  <Link to="/get-involved">List Your Business</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -80,21 +108,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
                   className={`px-3 py-2.5 rounded-md text-sm font-medium ${
-                    location.pathname === link.to
-                      ? "bg-secondary text-foreground"
-                      : "text-muted-foreground"
+                    location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link to="/admin" onClick={() => setMobileOpen(false)} className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground">
+                  Admin
+                </Link>
+              )}
               <div className="flex gap-3 mt-3 pt-3 border-t">
-                <Button variant="outline" size="sm" className="flex-1" asChild>
-                  <Link to="/login">Log In</Link>
-                </Button>
-                <Button size="sm" className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90" asChild>
-                  <Link to="/list-your-business">List Your Business</Link>
-                </Button>
+                {user ? (
+                  <Button variant="outline" size="sm" className="flex-1" onClick={() => { signOut(); setMobileOpen(false); }}>
+                    <LogOut className="w-4 h-4 mr-1" /> Sign Out
+                  </Button>
+                ) : (
+                  <>
+                    <Button variant="outline" size="sm" className="flex-1" asChild>
+                      <Link to="/login" onClick={() => setMobileOpen(false)}>Log In</Link>
+                    </Button>
+                    <Button size="sm" className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+                      <Link to="/get-involved" onClick={() => setMobileOpen(false)}>List Your Business</Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -108,9 +147,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-display text-xl mb-3">
-                Can<span className="text-accent">Connect</span>
-              </h3>
+              <h3 className="font-display text-xl mb-3">Can<span className="text-accent">Connect</span></h3>
               <p className="text-sm opacity-80 leading-relaxed">
                 Created by immigrants, for immigrants. Your trusted guide to settling and thriving in Canada.
               </p>
@@ -119,6 +156,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <h4 className="font-semibold text-sm uppercase tracking-wider mb-3 opacity-60">Explore</h4>
               <ul className="space-y-2 text-sm opacity-80">
                 <li><Link to="/directory" className="hover:opacity-100">Directory</Link></li>
+                <li><Link to="/map" className="hover:opacity-100">Map</Link></li>
                 <li><Link to="/events" className="hover:opacity-100">Events</Link></li>
                 <li><Link to="/about" className="hover:opacity-100">About Us</Link></li>
                 <li><Link to="/get-involved" className="hover:opacity-100">Get Involved</Link></li>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/CategoryCard";
 import ListingCard from "@/components/ListingCard";
-import { mockListings } from "@/data/mockListings";
+import { useFeaturedListings } from "@/hooks/useListings";
 import heroImage from "@/assets/hero-image.jpg";
 import { useState } from "react";
 
@@ -22,6 +22,7 @@ const categoryIcons = [
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: featuredListings = [] } = useFeaturedListings();
 
   return (
     <>
@@ -62,7 +63,7 @@ export default function Index() {
                 </select>
               </div>
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 px-6" asChild>
-                <Link to="/directory">Search</Link>
+                <Link to={`/directory${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""}`}>Search</Link>
               </Button>
             </div>
           </div>
@@ -82,7 +83,7 @@ export default function Index() {
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {mockListings.slice(0, 4).map(listing => (
+            {featuredListings.map(listing => (
               <ListingCard key={listing.id} listing={listing} />
             ))}
           </div>
