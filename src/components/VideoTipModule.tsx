@@ -73,7 +73,7 @@ export default function VideoTipModule() {
       {expanded && (
         <div className="p-4">
           {/* Video embed or thumbnail */}
-          <div className="relative aspect-[9/16] max-h-[320px] rounded-md overflow-hidden bg-muted mb-3">
+          <div className="relative aspect-video w-full rounded-md overflow-hidden bg-muted mb-3">
             {playing && embedUrl ? (
               <iframe
                 src={embedUrl}
