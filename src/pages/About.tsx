@@ -1,4 +1,5 @@
 import { Heart, Shield, Users, Globe, Star } from "lucide-react";
+import aboutImage from "@/assets/about-community.jpg";
 
 export default function About() {
   return (
@@ -14,14 +15,23 @@ export default function About() {
 
       <div className="container py-16">
         {/* Our Story */}
-        <div className="max-w-3xl mb-16">
-          <h2 className="text-2xl font-display text-foreground mb-4">Our Story</h2>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-16">
+          <div>
+            <h2 className="text-2xl font-display text-foreground mb-4">Our Story</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
+            </p>
+          </div>
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={aboutImage}
+              alt="Diverse group of newcomers connecting at a community centre"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
         {/* Mission & Vision */}
