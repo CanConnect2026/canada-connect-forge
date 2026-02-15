@@ -1,27 +1,37 @@
-import { useState, useMemo } from "react";
-import { Search, MapPin, Filter, X } from "lucide-react";
+import { useState } from "react";
+import { Search, Filter, X, Map as MapIcon, List } from "lucide-react";
 import ListingCard from "@/components/ListingCard";
-import { mockListings, categories, ontarioCities, allLanguages } from "@/data/mockListings";
+import { useListings } from "@/hooks/useListings";
+import { categories, ontarioCities, allLanguages } from "@/data/mockListings";
 import { Button } from "@/components/ui/button";
+import ListingsMap from "@/components/ListingsMap";
 
 export default function Directory() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedType, setSelectedType] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
-  const filtered = useMemo(() => {
-    return mockListings.filter(l => {
-      if (search && !l.name.toLowerCase().includes(search.toLowerCase()) && !l.description.toLowerCase().includes(search.toLowerCase())) return false;
-      if (selectedCategory && l.category !== selectedCategory) return false;
-      if (selectedCity && l.city !== selectedCity) return false;
-      if (selectedLanguage && !l.languages.includes(selectedLanguage)) return false;
-      return true;
-    });
-  }, [search, selectedCategory, selectedCity, selectedLanguage]);
+  const { data: listings = [], isLoading } = useListings({
+    search: search || undefined,
+    category: selectedCategory || undefined,
+    city: selectedCity || undefined,
+    language: selectedLanguage || undefined,
+    listingType: selectedType || undefined,
+  });
 
-  const hasFilters = selectedCategory || selectedCity || selectedLanguage;
+  const hasFilters = selectedCategory || selectedCity || selectedLanguage || selectedType;
+
+  const clearFilters = () => {
+    setSearch("");
+    setSelectedCategory("");
+    setSelectedCity("");
+    setSelectedLanguage("");
+    setSelectedType("");
+  };
 
   return (
     <div className="bg-background min-h-screen">
@@ -41,11 +51,7 @@ export default function Directory() {
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
-            <Button
-              variant="outline"
-              className="sm:w-auto"
-              onClick={() => setShowFilters(!showFilters)}
-            >
+            <Button variant="outline" className="sm:w-auto" onClick={() => setShowFilters(!showFilters)}>
               <Filter className="w-4 h-4 mr-2" /> Filters
               {hasFilters && <span className="ml-2 w-2 h-2 rounded-full bg-accent" />}
             </Button>
@@ -57,67 +63,84 @@ export default function Directory() {
         {/* Filters */}
         {showFilters && (
           <div className="mb-6 p-4 bg-card rounded-lg border animate-fade-in">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
                 <label className="text-xs font-medium text-muted-foreground mb-1 block">Category</label>
-                <select
-                  className="w-full bg-background border rounded-md px-3 py-2 text-sm"
-                  value={selectedCategory}
-                  onChange={e => setSelectedCategory(e.target.value)}
-                >
+                <select className="w-full bg-background border rounded-md px-3 py-2 text-sm" value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
                   <option value="">All Categories</option>
                   {categories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
                 <label className="text-xs font-medium text-muted-foreground mb-1 block">City</label>
-                <select
-                  className="w-full bg-background border rounded-md px-3 py-2 text-sm"
-                  value={selectedCity}
-                  onChange={e => setSelectedCity(e.target.value)}
-                >
+                <select className="w-full bg-background border rounded-md px-3 py-2 text-sm" value={selectedCity} onChange={e => setSelectedCity(e.target.value)}>
                   <option value="">All Cities</option>
                   {ontarioCities.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
                 <label className="text-xs font-medium text-muted-foreground mb-1 block">Language</label>
-                <select
-                  className="w-full bg-background border rounded-md px-3 py-2 text-sm"
-                  value={selectedLanguage}
-                  onChange={e => setSelectedLanguage(e.target.value)}
-                >
+                <select className="w-full bg-background border rounded-md px-3 py-2 text-sm" value={selectedLanguage} onChange={e => setSelectedLanguage(e.target.value)}>
                   <option value="">All Languages</option>
                   {allLanguages.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
+              <div>
+                <label className="text-xs font-medium text-muted-foreground mb-1 block">Type</label>
+                <select className="w-full bg-background border rounded-md px-3 py-2 text-sm" value={selectedType} onChange={e => setSelectedType(e.target.value)}>
+                  <option value="">All Types</option>
+                  <option value="free">Free</option>
+                  <option value="nonprofit">Non-Profit</option>
+                  <option value="paid">Paid</option>
+                </select>
+              </div>
             </div>
             {hasFilters && (
-              <button
-                className="mt-3 text-xs text-accent hover:underline flex items-center gap-1"
-                onClick={() => { setSelectedCategory(""); setSelectedCity(""); setSelectedLanguage(""); }}
-              >
+              <button className="mt-3 text-xs text-accent hover:underline flex items-center gap-1" onClick={clearFilters}>
                 <X className="w-3 h-3" /> Clear all filters
               </button>
             )}
           </div>
         )}
 
-        <p className="text-sm text-muted-foreground mb-4">{filtered.length} services found</p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {filtered.map(listing => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm text-muted-foreground">{listings.length} services found</p>
+          <div className="flex items-center gap-1 bg-secondary rounded-lg p-1">
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "list" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              <List className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode("map")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "map" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              <MapIcon className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {filtered.length === 0 && (
+        {isLoading ? (
           <div className="text-center py-16">
-            <p className="text-muted-foreground">No services found matching your criteria.</p>
-            <Button variant="outline" className="mt-4" onClick={() => { setSearch(""); setSelectedCategory(""); setSelectedCity(""); setSelectedLanguage(""); }}>
-              Clear filters
-            </Button>
+            <p className="text-muted-foreground">Loading services...</p>
           </div>
+        ) : viewMode === "list" ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {listings.map(listing => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+            {listings.length === 0 && (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground">No services found matching your criteria.</p>
+                <Button variant="outline" className="mt-4" onClick={clearFilters}>Clear filters</Button>
+              </div>
+            )}
+          </>
+        ) : (
+          <ListingsMap listings={listings} />
         )}
       </div>
     </div>

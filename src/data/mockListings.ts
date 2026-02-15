@@ -1,89 +1,9 @@
-import { type Listing } from "@/components/ListingCard";
+import type { Tables } from "@/integrations/supabase/types";
 
-export const mockListings: Listing[] = [
-  {
-    id: "1",
-    name: "COSTI Immigrant Services",
-    description: "Settlement counselling, language training, employment support, and community integration for newcomers across Ontario.",
-    category: "Settlement & Newcomer Services",
-    city: "Toronto",
-    province: "ON",
-    type: "free",
-    languages: ["English", "French", "Arabic", "Farsi", "Spanish"],
-    phone: "+1 416-658-1600",
-    website: "https://costi.org",
-  },
-  {
-    id: "2",
-    name: "Newcomer Women's Services Toronto",
-    description: "Empowering immigrant and refugee women through counselling, employment programs, and crisis support services.",
-    category: "Settlement & Newcomer Services",
-    city: "Toronto",
-    province: "ON",
-    type: "nonprofit",
-    languages: ["English", "French", "Somali", "Arabic"],
-  },
-  {
-    id: "3",
-    name: "Matthew House Ottawa",
-    description: "Transitional housing and settlement support for refugee claimants arriving in Ottawa.",
-    category: "Housing & Shelter",
-    city: "Ottawa",
-    province: "ON",
-    type: "free",
-    languages: ["English", "French"],
-  },
-  {
-    id: "4",
-    name: "Achēv Employment Services",
-    description: "Job search workshops, resume writing, mentorship, and skills training for newcomers looking to build their careers in Canada.",
-    category: "Employment & Career Support",
-    city: "Mississauga",
-    province: "ON",
-    type: "free",
-    languages: ["English", "Urdu", "Punjabi", "Hindi", "Arabic"],
-  },
-  {
-    id: "5",
-    name: "Pathways Immigration Law",
-    description: "Full-service immigration law firm specializing in work permits, PR applications, and family sponsorship.",
-    category: "Immigration & Legal Support",
-    city: "Toronto",
-    province: "ON",
-    type: "paid",
-    languages: ["English", "Mandarin", "Cantonese"],
-  },
-  {
-    id: "6",
-    name: "Centre for Immigrant & Community Services",
-    description: "Providing culturally sensitive settlement, language, and employment services in Scarborough and Markham.",
-    category: "Settlement & Newcomer Services",
-    city: "Scarborough",
-    province: "ON",
-    type: "free",
-    languages: ["English", "Mandarin", "Cantonese", "Tagalog", "Tamil"],
-  },
-  {
-    id: "7",
-    name: "Access Alliance Multicultural Health",
-    description: "Community health centre offering primary care, mental health support, and wellness programs for newcomers.",
-    category: "Health & Wellness",
-    city: "Toronto",
-    province: "ON",
-    type: "free",
-    languages: ["English", "French", "Arabic", "Tigrinya", "Amharic", "Somali"],
-  },
-  {
-    id: "8",
-    name: "Newcomer Kitchen",
-    description: "A social enterprise helping newcomer women build food businesses and find community through cooking.",
-    category: "Community & Cultural Organizations",
-    city: "Toronto",
-    province: "ON",
-    type: "nonprofit",
-    languages: ["English", "Arabic", "Farsi"],
-  },
-];
+// Re-export for backward compatibility
+export type Listing = Tables<"listings">;
+
+export const mockListings: any[] = [];
 
 export const categories = [
   "Settlement & Newcomer Services",
