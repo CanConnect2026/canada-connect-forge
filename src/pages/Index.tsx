@@ -5,7 +5,8 @@ import CategoryCard from "@/components/CategoryCard";
 import ListingCard from "@/components/ListingCard";
 import { useFeaturedListings } from "@/hooks/useListings";
 import heroImage from "@/assets/hero-image.jpg";
-import { useState } from "react";
+import heroImage2 from "@/assets/hero-image-2.jpg";
+import { useState, useEffect, useCallback } from "react";
 
 const categoryIcons = [
   { icon: Users, title: "Settlement & Newcomer Services", count: 42 },
@@ -23,22 +24,51 @@ const categoryIcons = [
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: featuredListings = [] } = useFeaturedListings();
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      image: heroImage,
+      title: "Your Warm Welcome to Canada",
+      subtitle: "Find trusted services, resources, and community support in your new home.",
+    },
+    {
+      image: heroImage2,
+      title: "Find trusted services and community support across Ontario",
+      subtitle: "CanConnect helps newcomers discover verified services, organizations, and local resources — all in one place.",
+    },
+  ];
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 6000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
 
   return (
     <>
       {/* Hero */}
       <section className="relative min-h-[520px] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroImage} alt="Diverse group of newcomers in Canada" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-[hsl(var(--hero-overlay)/0.75)]" />
-        </div>
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+            style={{ opacity: currentSlide === index ? 1 : 0 }}
+          >
+            <img src={slide.image} alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-[hsl(var(--hero-overlay)/0.75)]" />
+          </div>
+        ))}
         <div className="container relative z-10 py-20">
           <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-primary-foreground leading-tight">
-              Your Warm Welcome to Canada
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-primary-foreground leading-tight transition-opacity duration-500">
+              {slides[currentSlide].title}
             </h1>
-            <p className="mt-4 text-lg text-primary-foreground/80 leading-relaxed">
-              Find trusted services, resources, and community support in your new home.
+            <p className="mt-4 text-lg text-primary-foreground/80 leading-relaxed transition-opacity duration-500">
+              {slides[currentSlide].subtitle}
             </p>
             <div className="mt-8 bg-card/95 backdrop-blur rounded-lg p-2 flex flex-col sm:flex-row gap-2 shadow-xl">
               <div className="flex-1 flex items-center gap-2 bg-background rounded-md px-3">
@@ -65,6 +95,21 @@ export default function Index() {
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 px-6" asChild>
                 <Link to={`/directory${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""}`}>Search</Link>
               </Button>
+            </div>
+            {/* Slide indicators */}
+            <div className="mt-6 flex gap-2">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all ${
+                    currentSlide === index
+                      ? "bg-primary-foreground w-8"
+                      : "bg-primary-foreground/40 hover:bg-primary-foreground/60"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>

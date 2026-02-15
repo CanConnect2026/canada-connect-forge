@@ -16,6 +16,7 @@ const cities = [
   { name: "Oakville", slug: "oakville", description: "Upscale lakeside town with strong schools and family-oriented living." },
   { name: "Burlington", slug: "burlington", description: "Scenic waterfront city with a balanced lifestyle and growing diversity." },
   { name: "Scarborough", slug: "scarborough", description: "One of Toronto's most diverse districts — affordable and transit-connected." },
+  { name: "Waterloo", slug: "waterloo", description: "Innovation hub with world-class universities and a welcoming newcomer community." },
 ];
 
 export default function Guides() {
