@@ -6,6 +6,7 @@ import AdminListings from "@/components/admin/AdminListings";
 import AdminClaims from "@/components/admin/AdminClaims";
 import AdminSuggestions from "@/components/admin/AdminSuggestions";
 import AdminEvents from "@/components/admin/AdminEvents";
+import AdminArticles from "@/components/admin/AdminArticles";
 
 export default function Admin() {
   const { user, isAdmin, loading } = useAuth();
@@ -26,11 +27,13 @@ export default function Admin() {
           <TabsList className="mb-6">
             <TabsTrigger value="listings">Listings</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
+            <TabsTrigger value="guides">Guides</TabsTrigger>
             <TabsTrigger value="claims">Claims</TabsTrigger>
             <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
           </TabsList>
           <TabsContent value="listings"><AdminListings /></TabsContent>
           <TabsContent value="events"><AdminEvents /></TabsContent>
+          <TabsContent value="guides"><AdminArticles /></TabsContent>
           <TabsContent value="claims"><AdminClaims /></TabsContent>
           <TabsContent value="suggestions"><AdminSuggestions /></TabsContent>
         </Tabs>

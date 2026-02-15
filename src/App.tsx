@@ -20,6 +20,8 @@ import CityGuide from "./pages/CityGuide";
 import Guides from "./pages/Guides";
 import EventDetail from "./pages/EventDetail";
 import SubmitEvent from "./pages/SubmitEvent";
+import HowToGuides from "./pages/HowToGuides";
+import ArticleDetail from "./pages/ArticleDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +50,8 @@ const App = () => (
               <Route path="/suggest" element={<SuggestService />} />
               <Route path="/guides" element={<Guides />} />
               <Route path="/guides/:city" element={<CityGuide />} />
+              <Route path="/how-to" element={<HowToGuides />} />
+              <Route path="/how-to/:slug" element={<ArticleDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

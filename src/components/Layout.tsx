@@ -8,6 +8,7 @@ const navLinks = [
   { to: "/", label: "Find Services" },
   { to: "/map", label: "Map" },
   { to: "/events", label: "Events" },
+  { to: "/how-to", label: "How-To Guides" },
   { to: "/guides", label: "City Guides" },
   { to: "/get-involved", label: "Get Involved" },
   { to: "/about", label: "About Us" },
@@ -158,6 +159,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <li><Link to="/directory" className="hover:opacity-100">Directory</Link></li>
                 <li><Link to="/map" className="hover:opacity-100">Map</Link></li>
                 <li><Link to="/events" className="hover:opacity-100">Events</Link></li>
+                <li><Link to="/how-to" className="hover:opacity-100">How-To Guides</Link></li>
                 <li><Link to="/about" className="hover:opacity-100">About Us</Link></li>
                 <li><Link to="/get-involved" className="hover:opacity-100">Get Involved</Link></li>
                 <li><Link to="/suggest" className="hover:opacity-100">Suggest a Service</Link></li>
