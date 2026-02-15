@@ -1,7 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { useEvent, useRelatedEvents } from "@/hooks/useEvents";
-import { MapPin, Calendar, Clock, ChevronLeft } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { MapPin, Calendar, Clock, ChevronLeft, Plus } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
+import { Button } from "@/components/ui/button";
 import { format, parse } from "date-fns";
 
 function formatTime(time: string | null) {
@@ -17,6 +19,7 @@ export default function EventDetail() {
   const { id } = useParams<{ id: string }>();
   const { data: event, isLoading } = useEvent(id || "");
   const { data: relatedEvents = [] } = useRelatedEvents(event);
+  const { user } = useAuth();
 
   if (isLoading) return <div className="container py-16 text-center text-muted-foreground">Loading...</div>;
   if (!event) return <div className="container py-16 text-center text-muted-foreground">Event not found.</div>;
@@ -45,7 +48,14 @@ export default function EventDetail() {
               </div>
               <h1 className="text-3xl font-display text-foreground">{event.title}</h1>
             </div>
-            <ShareButton title={event.title} text={`${event.title} — ${eventDate}`} variant="button" />
+            <div className="flex items-center gap-2">
+              <ShareButton title={event.title} text={`${event.title} — ${eventDate}`} variant="button" />
+              <Link to={user ? "/submit-event" : "/login"}>
+                <Button variant="outline" size="sm">
+                  <Plus className="w-4 h-4 mr-1" /> Add Your Event
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-4 mt-4 text-sm text-muted-foreground">
