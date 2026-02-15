@@ -160,6 +160,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <li><Link to="/events" className="hover:opacity-100">Events</Link></li>
                 <li><Link to="/about" className="hover:opacity-100">About Us</Link></li>
                 <li><Link to="/get-involved" className="hover:opacity-100">Get Involved</Link></li>
+                <li><Link to="/suggest" className="hover:opacity-100">Suggest a Service</Link></li>
               </ul>
             </div>
             <div>
@@ -169,6 +170,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <li><Link to="/contact" className="hover:opacity-100">Contact Us</Link></li>
                 <li><Link to="/faq" className="hover:opacity-100">FAQ</Link></li>
                 <li><Link to="/how-we-verify" className="hover:opacity-100">How We Verify</Link></li>
+                <li><Link to="/suggest" className="hover:opacity-100">Suggest a Service</Link></li>
               </ul>
             </div>
             <div>
