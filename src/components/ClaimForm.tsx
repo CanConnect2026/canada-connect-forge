@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface ClaimFormProps {
   listingId: string;
@@ -24,7 +24,10 @@ export default function ClaimForm({ listingId, listingName, onClose }: ClaimForm
     proof_description: "",
   });
 
+  const location = useLocation();
+
   if (!user) {
+    const loginUrl = `/login?redirectTo=${encodeURIComponent(location.pathname)}`;
     return (
       <div className="fixed inset-0 bg-foreground/50 z-50 flex items-center justify-center p-4">
         <div className="bg-card rounded-lg border p-6 max-w-md w-full shadow-xl">
@@ -34,7 +37,7 @@ export default function ClaimForm({ listingId, listingName, onClose }: ClaimForm
           </div>
           <p className="text-muted-foreground text-sm mb-4">You need to be signed in to claim a listing.</p>
           <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90" asChild>
-            <Link to="/login">Sign In</Link>
+            <Link to={loginUrl}>Sign In</Link>
           </Button>
         </div>
       </div>

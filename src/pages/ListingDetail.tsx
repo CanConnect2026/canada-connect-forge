@@ -1,15 +1,32 @@
 import { useParams, Link } from "react-router-dom";
 import { useListing } from "@/hooks/useListings";
+import { useRelatedListings } from "@/hooks/useRelatedListings";
 import { useAuth } from "@/hooks/useAuth";
 import ListingBadge from "@/components/ListingBadge";
-import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag } from "lucide-react";
+import ListingCard from "@/components/ListingCard";
+import ListingDetailMap from "@/components/ListingDetailMap";
+import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Facebook, Twitter, Instagram, Linkedin, Image as ImageIcon, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ClaimForm from "@/components/ClaimForm";
+import type { Json } from "@/integrations/supabase/types";
+
+function parseSocialLinks(social: Json | null): Record<string, string> {
+  if (!social || typeof social !== "object" || Array.isArray(social)) return {};
+  return social as Record<string, string>;
+}
+
+const socialIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  facebook: Facebook,
+  twitter: Twitter,
+  instagram: Instagram,
+  linkedin: Linkedin,
+};
 
 export default function ListingDetail() {
   const { id } = useParams<{ id: string }>();
   const { data: listing, isLoading } = useListing(id || "");
+  const { data: relatedListings = [] } = useRelatedListings(listing);
   const { user } = useAuth();
   const [showClaimForm, setShowClaimForm] = useState(false);
 
@@ -17,9 +34,19 @@ export default function ListingDetail() {
   if (!listing) return <div className="container py-16 text-center text-muted-foreground">Listing not found.</div>;
 
   const description = listing.description_en || "";
+  const socialLinks = parseSocialLinks(listing.social_links);
+  const hasSocialLinks = Object.values(socialLinks).some(v => v);
+  const images = listing.images?.filter(Boolean) || [];
+  const hasMap = listing.latitude && listing.longitude;
+  const directionsUrl = hasMap
+    ? `https://www.google.com/maps/dir/?api=1&destination=${listing.latitude},${listing.longitude}`
+    : listing.full_address
+      ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(listing.full_address)}`
+      : null;
 
   return (
     <div className="bg-background min-h-screen">
+      {/* Header */}
       <div className="bg-primary py-6">
         <div className="container">
           <Link to="/directory" className="inline-flex items-center gap-1 text-primary-foreground/70 hover:text-primary-foreground text-sm mb-4">
@@ -52,11 +79,37 @@ export default function ListingDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Description */}
             <div className="bg-card rounded-lg border p-6">
               <h2 className="font-display text-xl text-foreground mb-3">About</h2>
-              <p className="text-muted-foreground leading-relaxed">{description}</p>
+              <p className="text-muted-foreground leading-relaxed">
+                {description || "No description available yet."}
+              </p>
             </div>
 
+            {/* Image Gallery */}
+            {images.length > 0 ? (
+              <div className="bg-card rounded-lg border p-6">
+                <h2 className="font-display text-xl text-foreground mb-3">Photos</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {images.map((img, i) => (
+                    <div key={i} className="aspect-video rounded-md overflow-hidden bg-muted">
+                      <img src={img} alt={`${listing.name} photo ${i + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-card rounded-lg border p-6">
+                <h2 className="font-display text-xl text-foreground mb-3">Photos</h2>
+                <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
+                  <ImageIcon className="w-10 h-10 mb-2 opacity-40" />
+                  <p className="text-sm">No photos yet. Claim this listing to add images.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Services */}
             {listing.services_provided && listing.services_provided.length > 0 && (
               <div className="bg-card rounded-lg border p-6">
                 <h2 className="font-display text-xl text-foreground mb-3">Services Provided</h2>
@@ -70,6 +123,7 @@ export default function ListingDetail() {
               </div>
             )}
 
+            {/* Languages */}
             {listing.languages_served.length > 0 && (
               <div className="bg-card rounded-lg border p-6">
                 <h2 className="font-display text-xl text-foreground mb-3">Languages Served</h2>
@@ -80,10 +134,36 @@ export default function ListingDetail() {
                 </div>
               </div>
             )}
+
+            {/* Map & Directions */}
+            {hasMap && (
+              <div className="bg-card rounded-lg border p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="font-display text-xl text-foreground">Location</h2>
+                  {directionsUrl && (
+                    <a
+                      href={directionsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
+                    >
+                      <Navigation className="w-4 h-4" /> Get Directions
+                    </a>
+                  )}
+                </div>
+                <ListingDetailMap latitude={listing.latitude!} longitude={listing.longitude!} name={listing.name} />
+                {listing.full_address && (
+                  <p className="text-sm text-muted-foreground mt-3 flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4 shrink-0" /> {listing.full_address}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
           <div className="space-y-4">
+            {/* Contact */}
             <div className="bg-card rounded-lg border p-5">
               <h3 className="font-semibold text-foreground mb-3">Contact Information</h3>
               <div className="space-y-3 text-sm">
@@ -102,22 +182,69 @@ export default function ListingDetail() {
                     <Globe className="w-4 h-4 shrink-0" /> Visit Website
                   </a>
                 )}
+                {directionsUrl && !hasMap && (
+                  <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-accent">
+                    <Navigation className="w-4 h-4 shrink-0" /> Get Directions
+                  </a>
+                )}
               </div>
             </div>
 
+            {/* Social Links */}
+            {hasSocialLinks && (
+              <div className="bg-card rounded-lg border p-5">
+                <h3 className="font-semibold text-foreground mb-3">Social Media</h3>
+                <div className="flex gap-3">
+                  {Object.entries(socialLinks).map(([platform, url]) => {
+                    if (!url) return null;
+                    const Icon = socialIcons[platform.toLowerCase()] || ExternalLink;
+                    return (
+                      <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-accent transition-colors" title={platform}>
+                        <Icon className="w-5 h-5" />
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Category */}
             <div className="bg-card rounded-lg border p-5">
               <h3 className="font-semibold text-foreground mb-3">Category</h3>
-              <span className="text-sm text-accent font-medium">{listing.category}</span>
+              <Link to={`/directory?category=${encodeURIComponent(listing.category)}`} className="text-sm text-accent font-medium hover:underline">
+                {listing.category}
+              </Link>
             </div>
 
+            {/* Pricing */}
             {listing.pricing_info && (
               <div className="bg-card rounded-lg border p-5">
                 <h3 className="font-semibold text-foreground mb-3">Pricing</h3>
                 <p className="text-sm text-muted-foreground">{listing.pricing_info}</p>
               </div>
             )}
+
+            {/* Address */}
+            {listing.full_address && (
+              <div className="bg-card rounded-lg border p-5">
+                <h3 className="font-semibold text-foreground mb-3">Address</h3>
+                <p className="text-sm text-muted-foreground">{listing.full_address}</p>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Related Listings */}
+        {relatedListings.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-display text-foreground mb-6">Similar Services Near You</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {relatedListings.map(l => (
+                <ListingCard key={l.id} listing={l} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Claim form modal */}
