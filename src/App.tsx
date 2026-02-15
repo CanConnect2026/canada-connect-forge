@@ -17,6 +17,7 @@ import ListingDetail from "./pages/ListingDetail";
 import Admin from "./pages/Admin";
 import SuggestService from "./pages/SuggestService";
 import CityGuide from "./pages/CityGuide";
+import Guides from "./pages/Guides";
 import EventDetail from "./pages/EventDetail";
 import SubmitEvent from "./pages/SubmitEvent";
 import NotFound from "./pages/NotFound";
@@ -45,7 +46,8 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/suggest" element={<SuggestService />} />
-              <Route path="/city-guide" element={<CityGuide />} />
+              <Route path="/guides" element={<Guides />} />
+              <Route path="/guides/:city" element={<CityGuide />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
