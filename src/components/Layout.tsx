@@ -3,6 +3,7 @@ import { Menu, X, MapPin, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import Footer from "@/components/Footer";
 
 const navLinks = [
   { to: "/", label: "Find Services" },
@@ -142,56 +143,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="flex-1">{children}</main>
-
-      {/* Footer */}
-      <footer className="bg-primary text-primary-foreground">
-        <div className="container py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-display text-xl mb-3">Can<span className="text-accent">Connect</span></h3>
-              <p className="text-sm opacity-80 leading-relaxed">
-                Created by immigrants, for immigrants. Your trusted guide to settling and thriving in Canada.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm uppercase tracking-wider mb-3 opacity-60">Explore</h4>
-              <ul className="space-y-2 text-sm opacity-80">
-                <li><Link to="/directory" className="hover:opacity-100">Directory</Link></li>
-                <li><Link to="/map" className="hover:opacity-100">Map</Link></li>
-                <li><Link to="/events" className="hover:opacity-100">Events</Link></li>
-                <li><Link to="/how-to" className="hover:opacity-100">How-To Guides</Link></li>
-                <li><Link to="/about" className="hover:opacity-100">About Us</Link></li>
-                <li><Link to="/get-involved" className="hover:opacity-100">Get Involved</Link></li>
-                <li><Link to="/suggest" className="hover:opacity-100">Suggest a Service</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm uppercase tracking-wider mb-3 opacity-60">Support</h4>
-              <ul className="space-y-2 text-sm opacity-80">
-                <li><Link to="/help" className="hover:opacity-100">Help Centre</Link></li>
-                <li><Link to="/contact" className="hover:opacity-100">Contact Us</Link></li>
-                <li><Link to="/faq" className="hover:opacity-100">FAQ</Link></li>
-                <li><Link to="/how-we-verify" className="hover:opacity-100">How We Verify</Link></li>
-                <li><Link to="/suggest" className="hover:opacity-100">Suggest a Service</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm uppercase tracking-wider mb-3 opacity-60">Contact</h4>
-              <ul className="space-y-2 text-sm opacity-80">
-                <li>info@canconnect.ca</li>
-                <li>+1 647-782-0023</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-primary-foreground/20 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs opacity-60">
-            <span>© 2026 CanConnect.ca — All rights reserved.</span>
-            <div className="flex gap-4">
-              <Link to="/privacy" className="hover:opacity-100">Privacy Policy</Link>
-              <Link to="/terms" className="hover:opacity-100">Terms of Service</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
