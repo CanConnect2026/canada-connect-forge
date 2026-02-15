@@ -64,13 +64,22 @@ export default function Events() {
             <h1 className="text-4xl font-display text-primary-foreground">Upcoming Events</h1>
             <p className="text-primary-foreground/70 mt-2">Meet, learn, and grow with your community</p>
           </div>
-          {user && (
-            <Link to="/submit-event">
-              <Button variant="secondary" size="sm">
-                <Plus className="w-4 h-4 mr-1" /> Submit an Event
-              </Button>
-            </Link>
-          )}
+          <div className="flex flex-col items-end gap-1">
+            {user ? (
+              <Link to="/submit-event">
+                <Button variant="secondary" size="sm">
+                  <Plus className="w-4 h-4 mr-1" /> Add Your Event
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button variant="secondary" size="sm">
+                  <Plus className="w-4 h-4 mr-1" /> Add Your Event
+                </Button>
+              </Link>
+            )}
+            <span className="text-xs text-primary-foreground/60">Free for community & newcomer-focused events</span>
+          </div>
         </div>
       </div>
 
@@ -212,16 +221,15 @@ export default function Events() {
             </div>
 
             {/* Submit CTA */}
-            {!user && (
-              <div className="bg-card rounded-lg border p-4 text-center">
-                <p className="text-sm text-muted-foreground mb-2">Have an event to share?</p>
-                <Link to="/login">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Plus className="w-4 h-4 mr-1" /> Log in to submit
-                  </Button>
-                </Link>
-              </div>
-            )}
+            <div className="bg-card rounded-lg border p-4 text-center">
+              <p className="text-sm text-muted-foreground mb-2">Have an event to share?</p>
+              <Link to={user ? "/submit-event" : "/login"}>
+                <Button variant="outline" size="sm" className="w-full">
+                  <Plus className="w-4 h-4 mr-1" /> {user ? "Submit an Event" : "Log in to submit"}
+                </Button>
+              </Link>
+              <p className="text-xs text-muted-foreground mt-2">Free for community events</p>
+            </div>
           </div>
         </div>
       </div>
