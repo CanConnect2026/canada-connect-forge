@@ -4,10 +4,16 @@ import aboutImage from "@/assets/about-community.jpg";
 export default function About() {
   return (
     <div className="bg-background">
-      <div className="bg-primary py-16">
-        <div className="container">
+      {/* Hero banner with image */}
+      <div className="relative bg-primary py-20 overflow-hidden">
+        <img
+          src={aboutImage}
+          alt="Diverse group of newcomers connecting at a community centre"
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
+        />
+        <div className="container relative z-10">
           <h1 className="text-4xl font-display text-primary-foreground">About CanConnect</h1>
-          <p className="text-primary-foreground/70 mt-2 max-w-2xl">
+          <p className="text-primary-foreground/80 mt-2 max-w-2xl text-lg">
             Created by immigrants, for immigrants.
           </p>
         </div>
@@ -15,35 +21,26 @@ export default function About() {
 
       <div className="container py-16">
         {/* Our Story */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-16">
-          <div>
-            <h2 className="text-2xl font-display text-foreground mb-4">Our Story</h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
-            </p>
-          </div>
-          <div className="rounded-xl overflow-hidden shadow-lg">
-            <img
-              src={aboutImage}
-              alt="Diverse group of newcomers connecting at a community centre"
-              className="w-full h-full object-cover"
-            />
-          </div>
+        <div className="max-w-3xl mb-16">
+          <h2 className="text-2xl font-display text-foreground mb-4">Our Story</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
+          </p>
         </div>
 
         {/* Mission & Vision */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-card rounded-lg border p-8">
-            <h3 className="text-xl font-display text-foreground mb-3">Our Mission</h3>
+          <div className="bg-accent/5 rounded-lg border border-accent/20 p-8">
+            <h3 className="text-xl font-display text-accent mb-3">Our Mission</h3>
             <p className="text-muted-foreground leading-relaxed">
               To empower immigrants with trusted information, services, and community connections that support a confident and successful settlement journey in Canada.
             </p>
           </div>
-          <div className="bg-card rounded-lg border p-8">
-            <h3 className="text-xl font-display text-foreground mb-3">Our Vision</h3>
+          <div className="bg-accent/5 rounded-lg border border-accent/20 p-8">
+            <h3 className="text-xl font-display text-accent mb-3">Our Vision</h3>
             <p className="text-muted-foreground leading-relaxed">
               A Canada where every newcomer can access the support they need and feel a true sense of belonging.
             </p>
