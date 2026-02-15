@@ -3,12 +3,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import ListingBadge from "@/components/ListingBadge";
-import { Check, X, Star, Eye, EyeOff, Shield, ShieldOff } from "lucide-react";
+import { Check, X, Star, Eye, EyeOff, Shield, ShieldOff, Plus, Pencil } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import AdminListingForm from "./AdminListingForm";
+import { useState } from "react";
 
 export default function AdminListings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [formOpen, setFormOpen] = useState(false);
+  const [editData, setEditData] = useState<any>(null);
 
   const { data: listings = [], isLoading } = useQuery({
     queryKey: ["admin-listings"],
@@ -35,7 +39,14 @@ export default function AdminListings() {
   if (isLoading) return <p className="text-muted-foreground">Loading...</p>;
 
   return (
-    <div className="bg-card rounded-lg border overflow-hidden">
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm text-muted-foreground">{listings.length} listings total</p>
+        <Button size="sm" onClick={() => { setEditData(null); setFormOpen(true); }}>
+          <Plus className="w-4 h-4 mr-1" /> Add Listing
+        </Button>
+      </div>
+      <div className="bg-card rounded-lg border overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>
@@ -91,7 +102,10 @@ export default function AdminListings() {
                       updates: { verification_status: l.verification_status === "verified" ? "unverified" : "verified" },
                     })}
                   >
-                    {l.verification_status === "verified" ? <ShieldOff className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                  {l.verification_status === "verified" ? <ShieldOff className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                  </Button>
+                  <Button variant="ghost" size="icon" title="Edit" onClick={() => { setEditData(l); setFormOpen(true); }}>
+                    <Pencil className="w-4 h-4" />
                   </Button>
                 </div>
               </TableCell>
@@ -99,6 +113,8 @@ export default function AdminListings() {
           ))}
         </TableBody>
       </Table>
+      </div>
+      <AdminListingForm open={formOpen} onOpenChange={setFormOpen} editData={editData} />
     </div>
   );
 }

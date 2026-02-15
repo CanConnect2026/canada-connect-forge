@@ -17,7 +17,7 @@ export interface Event {
   created_at: string;
 }
 
-export function useEvents(filters?: { date?: string; city?: string }) {
+export function useEvents(filters?: { date?: string; city?: string; category?: string }) {
   return useQuery({
     queryKey: ["events", filters],
     queryFn: async () => {
@@ -32,6 +32,9 @@ export function useEvents(filters?: { date?: string; city?: string }) {
       }
       if (filters?.city) {
         query = query.eq("city", filters.city);
+      }
+      if (filters?.category) {
+        query = query.eq("category", filters.category);
       }
 
       const { data, error } = await query;

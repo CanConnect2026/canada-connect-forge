@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { MapPin, Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Calendar as CalendarIcon, Clock, Plus, Tag } from "lucide-react";
 import { useEvents } from "@/hooks/useEvents";
+import { useAuth } from "@/hooks/useAuth";
 import ShareButton from "@/components/ShareButton";
 import { Calendar } from "@/components/ui/calendar";
-import { format, parse, startOfMonth, addMonths, subMonths } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { format, parse } from "date-fns";
 import { cn } from "@/lib/utils";
+import { EVENT_CATEGORIES } from "@/data/eventCategories";
 
 function formatTime(time: string | null) {
   if (!time) return "";
@@ -19,32 +22,55 @@ function formatTime(time: string | null) {
 export default function Events() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dateFilter = searchParams.get("date") || undefined;
+  const categoryFilter = searchParams.get("category") || undefined;
+  const { user } = useAuth();
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     dateFilter ? parse(dateFilter, "yyyy-MM-dd", new Date()) : undefined
   );
 
-  const { data: events = [], isLoading } = useEvents({ date: dateFilter });
+  const { data: events = [], isLoading } = useEvents({ date: dateFilter, category: categoryFilter });
+
+  const updateParams = (updates: Record<string, string | undefined>) => {
+    const params = new URLSearchParams(searchParams);
+    Object.entries(updates).forEach(([k, v]) => {
+      if (v) params.set(k, v);
+      else params.delete(k);
+    });
+    setSearchParams(params);
+  };
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
-    if (date) {
-      setSearchParams({ date: format(date, "yyyy-MM-dd") });
-    } else {
-      setSearchParams({});
-    }
+    updateParams({ date: date ? format(date, "yyyy-MM-dd") : undefined });
   };
 
-  const clearDate = () => {
+  const handleCategorySelect = (cat: string) => {
+    updateParams({ category: categoryFilter === cat ? undefined : cat });
+  };
+
+  const clearFilters = () => {
     setSelectedDate(undefined);
     setSearchParams({});
   };
 
+  const hasFilters = dateFilter || categoryFilter;
+
   return (
     <div className="bg-background min-h-screen">
       <div className="bg-primary py-12">
-        <div className="container">
-          <h1 className="text-4xl font-display text-primary-foreground">Upcoming Events</h1>
-          <p className="text-primary-foreground/70 mt-2">Meet, learn, and grow with your community</p>
+        <div className="container flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-4xl font-display text-primary-foreground">Upcoming Events</h1>
+            <p className="text-primary-foreground/70 mt-2">Meet, learn, and grow with your community</p>
+          </div>
+          {user && (
+            <Link to="/submit-event">
+              <Button variant="secondary" size="sm">
+                <Plus className="w-4 h-4 mr-1" /> Submit an Event
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -52,13 +78,21 @@ export default function Events() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
           {/* Event listings */}
           <div>
-            {dateFilter && (
-              <div className="flex items-center gap-2 mb-6">
-                <span className="text-sm text-muted-foreground">
-                  Showing events for <strong className="text-foreground">{format(parse(dateFilter, "yyyy-MM-dd", new Date()), "MMMM d, yyyy")}</strong>
-                </span>
-                <button onClick={clearDate} className="text-xs text-accent hover:underline">
-                  Clear filter
+            {hasFilters && (
+              <div className="flex items-center gap-2 mb-6 flex-wrap">
+                <span className="text-sm text-muted-foreground">Filtering by:</span>
+                {dateFilter && (
+                  <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
+                    {format(parse(dateFilter, "yyyy-MM-dd", new Date()), "MMMM d, yyyy")}
+                  </span>
+                )}
+                {categoryFilter && (
+                  <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
+                    {categoryFilter}
+                  </span>
+                )}
+                <button onClick={clearFilters} className="text-xs text-accent hover:underline ml-1">
+                  Clear all
                 </button>
               </div>
             )}
@@ -67,9 +101,9 @@ export default function Events() {
               <div className="text-center py-12 text-muted-foreground">Loading events...</div>
             ) : events.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground">No events found{dateFilter ? " for this date" : ""}.</p>
-                {dateFilter && (
-                  <button onClick={clearDate} className="text-sm text-accent hover:underline mt-2">
+                <p className="text-muted-foreground">No events found{hasFilters ? " for these filters" : ""}.</p>
+                {hasFilters && (
+                  <button onClick={clearFilters} className="text-sm text-accent hover:underline mt-2">
                     View all events
                   </button>
                 )}
@@ -118,6 +152,11 @@ export default function Events() {
                           <ShareButton title={event.title} text={`${event.title} — ${event.event_date}`} url={`${window.location.origin}/events/${event.id}`} variant="icon" />
                         </div>
                       </div>
+                      {event.category && (
+                        <span className="inline-flex items-center gap-1 text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full mt-1">
+                          <Tag className="w-3 h-3" /> {event.category}
+                        </span>
+                      )}
                       {event.description && (
                         <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{event.description}</p>
                       )}
@@ -133,8 +172,9 @@ export default function Events() {
             )}
           </div>
 
-          {/* Calendar sidebar */}
-          <div className="order-first lg:order-last">
+          {/* Sidebar */}
+          <div className="order-first lg:order-last space-y-4">
+            {/* Calendar */}
             <div className="bg-card rounded-lg border p-4 sticky top-4">
               <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Date</h3>
               <Calendar
@@ -144,11 +184,44 @@ export default function Events() {
                 className={cn("p-0 pointer-events-auto")}
               />
               {selectedDate && (
-                <button onClick={clearDate} className="w-full mt-3 text-xs text-accent hover:underline text-center">
-                  Show all events
+                <button onClick={() => handleDateSelect(undefined)} className="w-full mt-3 text-xs text-accent hover:underline text-center">
+                  Show all dates
                 </button>
               )}
             </div>
+
+            {/* Category filter */}
+            <div className="bg-card rounded-lg border p-4">
+              <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Category</h3>
+              <div className="flex flex-wrap gap-1.5">
+                {EVENT_CATEGORIES.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => handleCategorySelect(cat)}
+                    className={cn(
+                      "text-xs px-2.5 py-1 rounded-full transition-colors",
+                      categoryFilter === cat
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Submit CTA */}
+            {!user && (
+              <div className="bg-card rounded-lg border p-4 text-center">
+                <p className="text-sm text-muted-foreground mb-2">Have an event to share?</p>
+                <Link to="/login">
+                  <Button variant="outline" size="sm" className="w-full">
+                    <Plus className="w-4 h-4 mr-1" /> Log in to submit
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
