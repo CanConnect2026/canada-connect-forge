@@ -16,8 +16,8 @@ export default function ListingCard({ listing }: { listing: Listing }) {
       className="group bg-card rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex flex-col"
     >
       <div className="relative h-40 bg-muted overflow-hidden">
-        {listing.logo_url ? (
-          <img src={listing.logo_url} alt={listing.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        {listing.logo_url || (listing.images && listing.images.length > 0) ? (
+          <img src={listing.logo_url || listing.images![0]} alt={listing.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground text-4xl font-display">
             {listing.name.charAt(0)}
