@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import ListingDetail from "./pages/ListingDetail";
 import Admin from "./pages/Admin";
 import SuggestService from "./pages/SuggestService";
+import CityGuide from "./pages/CityGuide";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/suggest" element={<SuggestService />} />
+              <Route path="/city-guide" element={<CityGuide />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
