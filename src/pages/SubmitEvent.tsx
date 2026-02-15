@@ -177,6 +177,23 @@ export default function SubmitEvent() {
                 <li>Individuals hosting newcomer events</li>
               </ul>
             </div>
+
+            <div className="bg-muted/50 rounded-xl p-5 text-sm space-y-3 mt-6">
+              <p className="font-medium text-foreground">What happens after you submit</p>
+              <ul className="text-muted-foreground space-y-2 list-disc list-inside">
+                <li>Your event will be reviewed by the CanConnect team</li>
+                <li>Review typically takes 1–3 business days</li>
+                <li>If approved, your event will be published on the Events page</li>
+                <li>You'll receive a confirmation once your event goes live</li>
+                <li>If changes are needed, we'll reach out before publishing</li>
+              </ul>
+              <p className="font-medium text-foreground pt-2">Good to know</p>
+              <ul className="text-muted-foreground space-y-2 list-disc list-inside">
+                <li>Events may be lightly edited for clarity or formatting</li>
+                <li>Submitting an event does not guarantee approval</li>
+                <li>Approved events remain live until the event date has passed</li>
+              </ul>
+            </div>
           </div>
 
           {/* Form */}
