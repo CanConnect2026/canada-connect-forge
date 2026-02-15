@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           category: string | null
           city: string | null
+          cost_type: string
           created_at: string
           created_by: string | null
           description: string | null
@@ -27,14 +28,20 @@ export type Database = {
           image_url: string | null
           is_featured: boolean
           is_published: boolean
+          languages: string[]
+          latitude: number | null
           location: string | null
+          longitude: number | null
           start_time: string | null
+          status: Database["public"]["Enums"]["event_status"]
+          submitted_by_type: string
           title: string
           updated_at: string
         }
         Insert: {
           category?: string | null
           city?: string | null
+          cost_type?: string
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -44,14 +51,20 @@ export type Database = {
           image_url?: string | null
           is_featured?: boolean
           is_published?: boolean
+          languages?: string[]
+          latitude?: number | null
           location?: string | null
+          longitude?: number | null
           start_time?: string | null
+          status?: Database["public"]["Enums"]["event_status"]
+          submitted_by_type?: string
           title: string
           updated_at?: string
         }
         Update: {
           category?: string | null
           city?: string | null
+          cost_type?: string
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -61,8 +74,13 @@ export type Database = {
           image_url?: string | null
           is_featured?: boolean
           is_published?: boolean
+          languages?: string[]
+          latitude?: number | null
           location?: string | null
+          longitude?: number | null
           start_time?: string | null
+          status?: Database["public"]["Enums"]["event_status"]
+          submitted_by_type?: string
           title?: string
           updated_at?: string
         }
@@ -329,6 +347,7 @@ export type Database = {
     Enums: {
       app_role: "admin" | "moderator" | "user"
       claim_status: "unclaimed" | "pending" | "approved" | "rejected"
+      event_status: "pending" | "approved" | "expired"
       listing_type: "free" | "nonprofit" | "paid"
       verification_status: "unverified" | "verified" | "rejected"
     }
@@ -460,6 +479,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "moderator", "user"],
       claim_status: ["unclaimed", "pending", "approved", "rejected"],
+      event_status: ["pending", "approved", "expired"],
       listing_type: ["free", "nonprofit", "paid"],
       verification_status: ["unverified", "verified", "rejected"],
     },
