@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      advertising_inquiries: {
+        Row: {
+          budget_range: string | null
+          company_name: string
+          contact_name: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          phone: string | null
+        }
+        Insert: {
+          budget_range?: string | null
+          company_name: string
+          contact_name: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          phone?: string | null
+        }
+        Update: {
+          budget_range?: string | null
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          phone?: string | null
+        }
+        Relationships: []
+      }
       article_categories: {
         Row: {
           created_at: string
@@ -101,10 +134,39 @@ export type Database = {
         }
         Relationships: []
       }
+      contributions: {
+        Row: {
+          contribution_types: string[]
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+        }
+        Insert: {
+          contribution_types?: string[]
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+        }
+        Update: {
+          contribution_types?: string[]
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           category: string | null
           city: string | null
+          contact_email: string | null
+          contact_phone: string | null
           cost_type: string
           created_at: string
           created_by: string | null
@@ -119,15 +181,19 @@ export type Database = {
           latitude: number | null
           location: string | null
           longitude: number | null
+          social_links: Json | null
           start_time: string | null
           status: Database["public"]["Enums"]["event_status"]
           submitted_by_type: string
           title: string
           updated_at: string
+          website: string | null
         }
         Insert: {
           category?: string | null
           city?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           cost_type?: string
           created_at?: string
           created_by?: string | null
@@ -142,15 +208,19 @@ export type Database = {
           latitude?: number | null
           location?: string | null
           longitude?: number | null
+          social_links?: Json | null
           start_time?: string | null
           status?: Database["public"]["Enums"]["event_status"]
           submitted_by_type?: string
           title: string
           updated_at?: string
+          website?: string | null
         }
         Update: {
           category?: string | null
           city?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           cost_type?: string
           created_at?: string
           created_by?: string | null
@@ -165,11 +235,13 @@ export type Database = {
           latitude?: number | null
           location?: string | null
           longitude?: number | null
+          social_links?: Json | null
           start_time?: string | null
           status?: Database["public"]["Enums"]["event_status"]
           submitted_by_type?: string
           title?: string
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -319,6 +391,27 @@ export type Database = {
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
           website?: string | null
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string | null
         }
         Relationships: []
       }

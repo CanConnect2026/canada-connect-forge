@@ -10,6 +10,7 @@ import { useFeaturedArticles } from "@/hooks/useArticles";
 import heroImage from "@/assets/hero-image.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
 import { useState, useEffect, useCallback } from "react";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import { format } from "date-fns";
 
 const categoryIcons = [
@@ -147,9 +148,7 @@ export default function Index() {
       <section className="py-16">
         <div className="container">
           <h2 className="text-3xl font-display text-foreground text-center mb-3">Services & Resources</h2>
-          <p className="text-muted-foreground text-center mb-10 max-w-xl mx-auto">
-            CanConnect connects you with trusted services and support to help you settle, thrive, and feel at home in Canada.
-          </p>
+          <p className="text-muted-foreground text-center mb-10">Browse by category to find exactly what you need</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {categoryIcons.map(cat => (
               <CategoryCard
@@ -219,6 +218,10 @@ export default function Index() {
             Explore Your Community
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
+          <div className="mt-8 max-w-md mx-auto">
+            <p className="text-primary-foreground/60 text-sm mb-2">Get monthly tips and resources</p>
+            <NewsletterSignup source="community" />
+          </div>
         </div>
       </section>
 

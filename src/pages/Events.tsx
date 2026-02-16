@@ -10,6 +10,7 @@ import { format, parse } from "date-fns";
 import { cn } from "@/lib/utils";
 import { EVENT_CATEGORIES } from "@/data/eventCategories";
 import VideoTipModule from "@/components/VideoTipModule";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 function formatTime(time: string | null) {
   if (!time) return "";
@@ -234,6 +235,9 @@ export default function Events() {
               </Link>
               <p className="text-xs text-muted-foreground mt-2">Free for community events</p>
             </div>
+
+            {/* Newsletter */}
+            <NewsletterSignup source="events" variant="card" />
           </div>
         </div>
       </div>

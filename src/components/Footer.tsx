@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { MapPin, Mail } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 function useRecentListings() {
   return useQuery({
@@ -12,22 +13,6 @@ function useRecentListings() {
         .select("id, name, city, listing_type")
         .eq("is_published", true)
         .order("created_at", { ascending: false })
-        .limit(5);
-      if (error) throw error;
-      return data;
-    },
-  });
-}
-
-function usePopularListings() {
-  return useQuery({
-    queryKey: ["listings", "popular-footer"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("listings")
-        .select("id, name, city, listing_type")
-        .eq("is_published", true)
-        .eq("is_featured", true)
         .limit(5);
       if (error) throw error;
       return data;
@@ -46,13 +31,12 @@ const socialLinks = [
 
 export default function Footer() {
   const { data: recentListings = [] } = useRecentListings();
-  const { data: popularListings = [] } = usePopularListings();
 
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-          {/* Column 1 — Organization */}
+          {/* Column 1 — Organization + Newsletter */}
           <div>
             <h3 className="font-display text-xl mb-1.5">
               Can<span className="text-accent">Connect</span>
@@ -70,7 +54,7 @@ export default function Footer() {
                 info@canconnect.ca
               </li>
             </ul>
-            <div className="flex gap-2">
+            <div className="flex gap-2 mb-6">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
@@ -82,6 +66,12 @@ export default function Footer() {
                 </a>
               ))}
             </div>
+            {/* Newsletter */}
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-widest opacity-50 mb-2">Monthly Newsletter</h4>
+              <p className="text-xs opacity-60 mb-2">Tips, events, and resources for newcomers — once a month.</p>
+              <NewsletterSignup source="footer" />
+            </div>
           </div>
 
           {/* Column 2 — Explore */}
@@ -91,12 +81,11 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm opacity-80">
               {[
-                { to: "/", label: "Find Services" },
-                { to: "/map", label: "Map" },
+                { to: "/directory", label: "Find Services" },
+                { to: "/map", label: "Service Map" },
                 { to: "/events", label: "Events" },
                 { to: "/how-to", label: "How-To Guides" },
                 { to: "/guides", label: "City Guides" },
-                { to: "/get-involved", label: "Get Involved" },
                 { to: "/about", label: "About Us" },
               ].map((l) => (
                 <li key={l.to}>
@@ -106,16 +95,18 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
 
-            {/* Trust & Help links */}
-            <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 mt-6 opacity-50">
-              Help & Trust
+          {/* Column 3 — Contribute */}
+          <div>
+            <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
+              Contribute
             </h4>
             <ul className="space-y-2 text-sm opacity-80">
               {[
-                { to: "/help", label: "Help Centre" },
-                { to: "/faq", label: "FAQ" },
-                { to: "/how-we-verify", label: "How We Verify" },
+                { to: "/get-involved", label: "Get Involved" },
+                { to: "/suggest", label: "Suggest a Service" },
+                { to: "/submit-event", label: "Submit an Event" },
                 { to: "/contact", label: "Contact Us" },
               ].map((l) => (
                 <li key={l.to}>
@@ -125,58 +116,52 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
 
-          {/* Column 3 — Recent Listings */}
-          <div>
-            <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
-              Recent Listings
-            </h4>
-            {recentListings.length > 0 ? (
-              <ul className="space-y-3 text-sm">
-                {recentListings.map((l) => (
-                  <li key={l.id}>
-                    <Link
-                      to={`/listing/${l.id}`}
-                      className="block opacity-80 hover:opacity-100 hover:text-accent transition-colors"
-                    >
-                      <span className="block leading-snug">{l.name}</span>
-                      <span className="text-xs opacity-50">{l.city}, ON</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm opacity-50">No recent listings yet.</p>
+            {/* Recent Listings */}
+            {recentListings.length > 0 && (
+              <>
+                <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 mt-6 opacity-50">
+                  Recently Added
+                </h4>
+                <ul className="space-y-2.5 text-sm">
+                  {recentListings.slice(0, 3).map((l) => (
+                    <li key={l.id}>
+                      <Link
+                        to={`/listing/${l.id}`}
+                        className="block opacity-80 hover:opacity-100 hover:text-accent transition-colors"
+                      >
+                        <span className="block leading-snug">{l.name}</span>
+                        <span className="text-xs opacity-50">{l.city}, ON</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </div>
 
-          {/* Column 4 — Popular Listings */}
+          {/* Column 4 — Help & Trust */}
           <div>
             <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
-              Popular Services
+              Help & Trust
             </h4>
-            {popularListings.length > 0 ? (
-              <ul className="space-y-3 text-sm">
-                {popularListings.map((l) => (
-                  <li key={l.id}>
-                    <Link
-                      to={`/listing/${l.id}`}
-                      className="block opacity-80 hover:opacity-100 hover:text-accent transition-colors"
-                    >
-                      <span className="block leading-snug">{l.name}</span>
-                      <span className="text-xs opacity-50">{l.city}, ON</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul className="space-y-2 text-sm opacity-80">
-                <li><Link to="/" className="hover:opacity-100 hover:text-accent transition-colors">Browse Services</Link></li>
-                <li><Link to="/map" className="hover:opacity-100 hover:text-accent transition-colors">Explore the Map</Link></li>
-                <li><Link to="/events" className="hover:opacity-100 hover:text-accent transition-colors">Upcoming Events</Link></li>
-              </ul>
-            )}
+            <ul className="space-y-2 text-sm opacity-80">
+              {[
+                { to: "/help", label: "Help Centre" },
+                { to: "/faq", label: "FAQ" },
+                { to: "/how-we-verify", label: "How We Verify" },
+                { to: "/privacy", label: "Privacy Policy" },
+                { to: "/terms", label: "Terms of Service" },
+                { to: "/about", label: "About CanConnect" },
+                { to: "/contact", label: "Contact Support" },
+              ].map((l) => (
+                <li key={l.label}>
+                  <Link to={l.to} className="hover:opacity-100 hover:text-accent transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
