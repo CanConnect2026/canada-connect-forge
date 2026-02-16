@@ -122,7 +122,7 @@ export default function Index() {
       </section>
 
       {/* Featured Support */}
-      <section className="py-16 bg-section-alt">
+      <section className="py-10 bg-section-alt">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
             <div>
@@ -145,7 +145,7 @@ export default function Index() {
       </section>
 
       {/* Services & Resources */}
-      <section className="py-16">
+      <section className="py-10">
         <div className="container">
           <h2 className="text-3xl font-display text-foreground text-center mb-3">Services & Resources</h2>
           <p className="text-muted-foreground text-center mb-10">Browse by category to find exactly what you need</p>
@@ -165,7 +165,7 @@ export default function Index() {
 
       {/* Insights & Stories / How-To Guides */}
       {featuredArticles.length > 0 && (
-        <section className="py-16">
+        <section className="py-10">
           <div className="container">
             <div className="flex items-end justify-between mb-8">
               <div>
@@ -208,7 +208,7 @@ export default function Index() {
       )}
 
       {/* Community for Newcomers */}
-      <section className="py-16 bg-primary">
+      <section className="py-10 bg-primary">
         <div className="container text-center">
           <h2 className="text-3xl font-display text-primary-foreground mb-3">Community for Newcomers</h2>
           <p className="text-primary-foreground/80 max-w-lg mx-auto mb-8 leading-relaxed">
@@ -226,7 +226,7 @@ export default function Index() {
       </section>
 
       {/* Upcoming Events */}
-      <section className="py-16 bg-section-alt">
+      <section className="py-10 bg-section-alt">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
             <div>
