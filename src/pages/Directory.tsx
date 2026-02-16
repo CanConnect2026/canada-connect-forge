@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Search, Filter, X, Map as MapIcon, List } from "lucide-react";
+import { Search, Filter, X, Map as MapIcon, List, SlidersHorizontal } from "lucide-react";
 import ListingCard from "@/components/ListingCard";
 import { useListings } from "@/hooks/useListings";
 import { categories, ontarioCities, allLanguages } from "@/data/mockListings";
 import { Button } from "@/components/ui/button";
 import ListingsMap from "@/components/ListingsMap";
+import { Link } from "react-router-dom";
 
 export default function Directory() {
   const [search, setSearch] = useState("");
@@ -45,14 +46,14 @@ export default function Directory() {
               <Search className="w-4 h-4 text-muted-foreground shrink-0" />
               <input
                 type="text"
-                placeholder="Search services..."
+                placeholder="Search by name, service, or keyword..."
                 className="w-full py-2.5 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
             <Button variant="outline" className="sm:w-auto" onClick={() => setShowFilters(!showFilters)}>
-              <Filter className="w-4 h-4 mr-2" /> Filters
+              <SlidersHorizontal className="w-4 h-4 mr-2" /> Filters
               {hasFilters && <span className="ml-2 w-2 h-2 rounded-full bg-accent" />}
             </Button>
           </div>
@@ -109,12 +110,14 @@ export default function Directory() {
             <button
               onClick={() => setViewMode("list")}
               className={`p-2 rounded-md transition-colors ${viewMode === "list" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              aria-label="List view"
             >
               <List className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewMode("map")}
               className={`p-2 rounded-md transition-colors ${viewMode === "map" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              aria-label="Map view"
             >
               <MapIcon className="w-4 h-4" />
             </button>
@@ -134,8 +137,15 @@ export default function Directory() {
             </div>
             {listings.length === 0 && (
               <div className="text-center py-16">
-                <p className="text-muted-foreground">No services found matching your criteria.</p>
-                <Button variant="outline" className="mt-4" onClick={clearFilters}>Clear filters</Button>
+                <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+                <p className="text-muted-foreground font-medium">No services found matching your criteria</p>
+                <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search terms</p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5">
+                  <Button variant="outline" onClick={clearFilters}>Clear filters</Button>
+                  <Link to="/suggest">
+                    <Button variant="ghost" className="text-accent">Suggest a service we should add</Button>
+                  </Link>
+                </div>
               </div>
             )}
           </>

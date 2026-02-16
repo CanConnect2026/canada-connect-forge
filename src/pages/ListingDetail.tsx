@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import ListingBadge from "@/components/ListingBadge";
 import ListingCard from "@/components/ListingCard";
 import ListingDetailMap from "@/components/ListingDetailMap";
-import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Facebook, Twitter, Instagram, Linkedin, Image as ImageIcon, Navigation } from "lucide-react";
+import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Facebook, Twitter, Instagram, Linkedin, Image as ImageIcon, Navigation, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ClaimForm from "@/components/ClaimForm";
@@ -32,7 +32,14 @@ export default function ListingDetail() {
   const [showClaimForm, setShowClaimForm] = useState(false);
 
   if (isLoading) return <div className="container py-16 text-center text-muted-foreground">Loading...</div>;
-  if (!listing) return <div className="container py-16 text-center text-muted-foreground">Listing not found.</div>;
+  if (!listing) return (
+    <div className="container py-16 text-center">
+      <MapPin className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+      <p className="text-muted-foreground font-medium">Listing not found</p>
+      <p className="text-sm text-muted-foreground mt-1">This service may have been removed or the link may be incorrect.</p>
+      <Link to="/directory" className="inline-block mt-4 text-accent hover:underline text-sm">← Back to Directory</Link>
+    </div>
+  );
 
   const description = listing.description_en || "";
   const socialLinks = parseSocialLinks(listing.social_links);
@@ -92,7 +99,7 @@ export default function ListingDetail() {
             <div className="bg-card rounded-lg border p-6">
               <h2 className="font-display text-xl text-foreground mb-3">About</h2>
               <p className="text-muted-foreground leading-relaxed">
-                {description || "No description available yet."}
+                {description || "No description available yet. If you represent this organization, claim this listing to add more details."}
               </p>
             </div>
 
@@ -173,6 +180,18 @@ export default function ListingDetail() {
                 )}
               </div>
             )}
+
+            {/* Trust label */}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <ShieldCheck className="w-4 h-4 text-accent/60" />
+              <span>
+                {listing.verification_status === "verified"
+                  ? "Verified by CanConnect"
+                  : listing.claim_status === "approved"
+                    ? "Claimed & reviewed by CanConnect"
+                    : "Community listing · Reviewed by CanConnect"}
+              </span>
+            </div>
           </div>
 
           {/* Sidebar */}
@@ -200,6 +219,9 @@ export default function ListingDetail() {
                   <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-accent">
                     <Navigation className="w-4 h-4 shrink-0" /> Get Directions
                   </a>
+                )}
+                {!listing.phone && !listing.email && !listing.website && (
+                  <p className="text-muted-foreground text-sm">No contact information available yet.</p>
                 )}
               </div>
             </div>

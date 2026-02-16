@@ -19,17 +19,17 @@ export default function HowToGuides() {
     <div className="bg-background min-h-screen">
       {/* Header */}
       <div className="bg-primary py-12">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-display text-primary-foreground mb-4">
-            How-To Guides for Newcomers
+        <div className="container text-center">
+          <h1 className="text-4xl md:text-5xl font-display text-primary-foreground mb-3">
+            How-To Guides
           </h1>
           <p className="text-primary-foreground/70 text-lg max-w-2xl mx-auto">
-            Step-by-step instructions to help you navigate essential services, processes, and daily life in Canada.
+            Practical, step-by-step guides to help you navigate essential services and daily life in Canada.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-10">
+      <div className="container py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
           {/* Main content */}
           <div>
@@ -92,9 +92,12 @@ export default function HowToGuides() {
               {isLoading ? (
                 <p className="text-muted-foreground text-center py-8">Loading guides...</p>
               ) : articles.length === 0 ? (
-                <div className="text-center py-12">
+                <div className="text-center py-16">
                   <BookOpen className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
-                  <p className="text-muted-foreground">No guides found. Check back soon!</p>
+                  <p className="text-muted-foreground font-medium">No guides available yet</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    We're working on practical guides for newcomers. Check back soon!
+                  </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -67,19 +67,11 @@ export default function Events() {
             <p className="text-primary-foreground/70 mt-2">Meet, learn, and grow with your community</p>
           </div>
           <div className="flex flex-col items-end gap-1">
-            {user ? (
-              <Link to="/submit-event">
-                <Button variant="secondary" size="sm">
-                  <Plus className="w-4 h-4 mr-1" /> Add Your Event
-                </Button>
-              </Link>
-            ) : (
-              <Link to="/login">
-                <Button variant="secondary" size="sm">
-                  <Plus className="w-4 h-4 mr-1" /> Add Your Event
-                </Button>
-              </Link>
-            )}
+            <Link to={user ? "/submit-event" : "/login"}>
+              <Button variant="secondary" size="sm">
+                <Plus className="w-4 h-4 mr-1" /> Add Your Event
+              </Button>
+            </Link>
             <span className="text-xs text-primary-foreground/60">Free for community & newcomer-focused events</span>
           </div>
         </div>
@@ -111,13 +103,24 @@ export default function Events() {
             {isLoading ? (
               <div className="text-center py-12 text-muted-foreground">Loading events...</div>
             ) : events.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">No events found{hasFilters ? " for these filters" : ""}.</p>
-                {hasFilters && (
-                  <button onClick={clearFilters} className="text-sm text-accent hover:underline mt-2">
-                    View all events
-                  </button>
-                )}
+              <div className="text-center py-16">
+                <CalendarIcon className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+                <p className="text-muted-foreground font-medium">
+                  {hasFilters ? "No events match your filters" : "No upcoming events right now"}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {hasFilters
+                    ? "Try a different date or category to find what you're looking for."
+                    : "Check back soon — new events are added regularly by the community."}
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5">
+                  {hasFilters && (
+                    <Button variant="outline" onClick={clearFilters}>Clear filters</Button>
+                  )}
+                  <Link to={user ? "/submit-event" : "/login"}>
+                    <Button variant="ghost" className="text-accent">Add your event</Button>
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
@@ -163,11 +166,18 @@ export default function Events() {
                           <ShareButton title={event.title} text={`${event.title} — ${event.event_date}`} url={`${window.location.origin}/events/${event.id}`} variant="icon" />
                         </div>
                       </div>
-                      {event.category && (
-                        <span className="inline-flex items-center gap-1 text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full mt-1">
-                          <Tag className="w-3 h-3" /> {event.category}
-                        </span>
-                      )}
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        {event.category && (
+                          <span className="inline-flex items-center gap-1 text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full">
+                            <Tag className="w-3 h-3" /> {event.category}
+                          </span>
+                        )}
+                        {event.cost_type && (
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${event.cost_type === "Free" ? "bg-accent/10 text-accent" : "bg-secondary text-secondary-foreground"}`}>
+                            {event.cost_type}
+                          </span>
+                        )}
+                      </div>
                       {event.description && (
                         <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{event.description}</p>
                       )}
