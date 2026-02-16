@@ -184,13 +184,7 @@ export default function ListingDetail() {
             {/* Trust label */}
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="w-4 h-4 text-accent/60" />
-              <span>
-                {listing.verification_status === "verified"
-                  ? "Verified by CanConnect"
-                  : listing.claim_status === "approved"
-                    ? "Claimed & reviewed by CanConnect"
-                    : "Community listing · Reviewed by CanConnect"}
-              </span>
+              <span>Community-submitted · Reviewed by CanConnect</span>
             </div>
           </div>
 
