@@ -1,24 +1,7 @@
 import { Link } from "react-router-dom";
 import { MapPin, Mail } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
-function useRecentListings() {
-  return useQuery({
-    queryKey: ["listings", "recent-footer"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("listings")
-        .select("id, name, city, listing_type")
-        .eq("is_published", true)
-        .order("created_at", { ascending: false })
-        .limit(5);
-      if (error) throw error;
-      return data;
-    },
-  });
-}
 
 const socialLinks = [
   { label: "LinkedIn", icon: "in" },
@@ -30,8 +13,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const { data: recentListings = [] } = useRecentListings();
-
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container py-14">
@@ -117,27 +98,6 @@ export default function Footer() {
               ))}
             </ul>
 
-            {/* Recent Listings */}
-            {recentListings.length > 0 && (
-              <>
-                <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 mt-6 opacity-50">
-                  Recently Added
-                </h4>
-                <ul className="space-y-2.5 text-sm">
-                  {recentListings.slice(0, 3).map((l) => (
-                    <li key={l.id}>
-                      <Link
-                        to={`/listing/${l.id}`}
-                        className="block opacity-80 hover:opacity-100 hover:text-accent transition-colors"
-                      >
-                        <span className="block leading-snug">{l.name}</span>
-                        <span className="text-xs opacity-50">{l.city}, ON</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
           </div>
 
           {/* Column 4 — Help & Trust */}
