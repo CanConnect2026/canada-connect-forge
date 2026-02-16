@@ -48,14 +48,7 @@ export default function GetInvolved() {
 
   return (
     <div className="bg-background">
-      <div className="bg-primary py-16">
-        <div className="container">
-          <h1 className="text-4xl font-display text-primary-foreground">Get Involved</h1>
-          <p className="text-primary-foreground/70 mt-2">CanConnect is a community-built platform. Here's how you can contribute.</p>
-        </div>
-      </div>
-
-      <div className="container py-12">
+      <div className="container py-10">
         {submitted ? (
           <div className="max-w-lg mx-auto text-center py-12">
             <CheckCircle2 className="w-16 h-16 text-accent mx-auto mb-4" />
@@ -64,8 +57,8 @@ export default function GetInvolved() {
           </div>
         ) : (
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-display text-foreground mb-2">Ready to Contribute?</h2>
-            <p className="text-muted-foreground mb-6">Select one or more ways you'd like to get involved, and we'll reach out.</p>
+            <h1 className="text-3xl font-display text-foreground mb-1">Ready to Contribute?</h1>
+            <p className="text-muted-foreground mb-6">CanConnect is community-built. Select one or more ways you'd like to get involved, and we'll reach out.</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Contribution options */}
