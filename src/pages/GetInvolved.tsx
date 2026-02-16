@@ -1,32 +1,31 @@
 import { useState } from "react";
-import { Heart, MessageSquare, PenLine, Handshake, CheckCircle2, Send } from "lucide-react";
+import { CheckCircle2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const contributionOptions = [
-  { id: "story", icon: MessageSquare, title: "Share Your Story", desc: "Your experience can help others navigate their journey." },
-  { id: "content", icon: PenLine, title: "Write or Contribute Content", desc: "Help create practical guides, resources, and stories." },
-  { id: "resources", icon: Heart, title: "Share Resources or Events", desc: "Know about a helpful service or event? Let us know." },
-  { id: "collaborate", icon: Handshake, title: "Collaborate on Projects", desc: "Partner with us to build impactful community initiatives." },
+  { id: "story", label: "Share Your Story" },
+  { id: "content", label: "Write or Contribute Content" },
+  { id: "resources", label: "Share Resources or Events" },
+  { id: "collaborate", label: "Collaborate on Projects" },
+  { id: "other", label: "Other" },
 ];
 
 export default function GetInvolved() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
 
-  const toggle = (id: string) =>
-    setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selected.length === 0) {
-      toast({ title: "Please select at least one option", variant: "destructive" });
+    if (!selected) {
+      toast({ title: "Please select how you'd like to help", variant: "destructive" });
       return;
     }
     setLoading(true);
@@ -34,7 +33,7 @@ export default function GetInvolved() {
       const { error } = await supabase.from("contributions" as any).insert({
         name: name.trim(),
         email: email.trim(),
-        contribution_types: selected,
+        contribution_types: [selected],
         message: message.trim() || null,
       });
       if (error) throw error;
@@ -61,42 +60,24 @@ export default function GetInvolved() {
           <div className="max-w-3xl mx-auto">
             <h1 className="text-3xl font-display text-foreground mb-1">Ready to Contribute?</h1>
             <p className="text-muted-foreground mb-6">
-              CanConnect is community-built. Select one or more ways you'd like to get involved, and we'll reach out.
+              CanConnect is community-built. Let us know how you'd like to get involved, and we'll reach out.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Contribution options */}
+              {/* Contribution dropdown */}
               <div>
-                <p className="text-sm font-medium text-foreground mb-2">How would you like to help? <span className="text-accent">*</span></p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {contributionOptions.map(opt => {
-                    const isSelected = selected.includes(opt.id);
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => toggle(opt.id)}
-                        className={`text-left rounded-lg border p-4 transition-all ${
-                          isSelected
-                            ? "border-accent bg-accent/5 ring-1 ring-accent"
-                            : "border-border bg-card hover:border-accent/40"
-                        }`}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-accent/20" : "bg-accent/10"}`}>
-                            <opt.icon className={`w-4 h-4 ${isSelected ? "text-accent" : "text-accent/70"}`} />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-foreground text-sm">{opt.title}</h3>
-                            <p className="text-xs text-muted-foreground mt-0.5">{opt.desc}</p>
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                <label className="text-sm font-medium text-foreground block mb-1">How would you like to help? <span className="text-accent">*</span></label>
+                <Select value={selected} onValueChange={setSelected}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select an option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {contributionOptions.map(opt => (
+                      <SelectItem key={opt.id} value={opt.id}>{opt.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-
               {/* Contact info */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
