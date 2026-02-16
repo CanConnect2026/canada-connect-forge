@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
+import logoFull from "@/assets/canconnect-logo-full.jpg";
+import logoIcon from "@/assets/canconnect-icon.png";
 
 const navLinks = [
   { to: "/", label: "Find Services" },
@@ -41,8 +43,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Main nav */}
       <header className="bg-card border-b sticky top-0 z-50">
         <div className="container flex items-center justify-between h-16">
-          <Link to="/" className="font-display text-2xl tracking-tight text-foreground">
-            Can<span className="text-accent">Connect</span>
+          <Link to="/" className="flex items-center">
+            <img src={logoIcon} alt="CanConnect" className="h-9 w-9 sm:hidden" />
+            <img src={logoFull} alt="CanConnect" className="hidden sm:block h-10 object-contain" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
