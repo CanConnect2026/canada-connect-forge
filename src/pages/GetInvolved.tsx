@@ -52,64 +52,71 @@ export default function GetInvolved() {
         {submitted ? (
           <div className="max-w-lg mx-auto text-center py-12">
             <CheckCircle2 className="w-16 h-16 text-accent mx-auto mb-4" />
-            <h2 className="font-display text-3xl mb-3">Thank You!</h2>
-            <p className="text-muted-foreground">We've received your contribution interest. Our team will be in touch within a few days.</p>
+            <h2 className="font-display text-3xl mb-3">Thanks for Your Interest!</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              We've received your contribution interest and will be in touch within a few days. We appreciate your support for the newcomer community.
+            </p>
           </div>
         ) : (
           <div className="max-w-3xl mx-auto">
             <h1 className="text-3xl font-display text-foreground mb-1">Ready to Contribute?</h1>
-            <p className="text-muted-foreground mb-6">CanConnect is community-built. Select one or more ways you'd like to get involved, and we'll reach out.</p>
+            <p className="text-muted-foreground mb-6">
+              CanConnect is community-built. Select one or more ways you'd like to get involved, and we'll reach out.
+            </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Contribution options */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {contributionOptions.map(opt => {
-                  const isSelected = selected.includes(opt.id);
-                  return (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => toggle(opt.id)}
-                      className={`text-left rounded-lg border p-4 transition-all ${
-                        isSelected
-                          ? "border-accent bg-accent/5 ring-1 ring-accent"
-                          : "border-border bg-card hover:border-accent/40"
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-accent/20" : "bg-accent/10"}`}>
-                          <opt.icon className={`w-4 h-4 ${isSelected ? "text-accent" : "text-accent/70"}`} />
+              <div>
+                <p className="text-sm font-medium text-foreground mb-2">How would you like to help? <span className="text-accent">*</span></p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {contributionOptions.map(opt => {
+                    const isSelected = selected.includes(opt.id);
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => toggle(opt.id)}
+                        className={`text-left rounded-lg border p-4 transition-all ${
+                          isSelected
+                            ? "border-accent bg-accent/5 ring-1 ring-accent"
+                            : "border-border bg-card hover:border-accent/40"
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-accent/20" : "bg-accent/10"}`}>
+                            <opt.icon className={`w-4 h-4 ${isSelected ? "text-accent" : "text-accent/70"}`} />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-foreground text-sm">{opt.title}</h3>
+                            <p className="text-xs text-muted-foreground mt-0.5">{opt.desc}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground text-sm">{opt.title}</h3>
-                          <p className="text-xs text-muted-foreground mt-0.5">{opt.desc}</p>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Contact info */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-foreground block mb-1">Name *</label>
-                  <input required value={name} onChange={e => setName(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" />
+                  <label className="text-sm font-medium text-foreground block mb-1">Name <span className="text-accent">*</span></label>
+                  <input required value={name} onChange={e => setName(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" placeholder="Your name" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-foreground block mb-1">Email *</label>
-                  <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" />
+                  <label className="text-sm font-medium text-foreground block mb-1">Email <span className="text-accent">*</span></label>
+                  <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" placeholder="your@email.com" />
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-foreground block mb-1">Anything else you'd like to share?</label>
-                <textarea value={message} onChange={e => setMessage(e.target.value)} rows={3} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm resize-none" placeholder="Optional" />
+                <label className="text-sm font-medium text-foreground block mb-1">Anything else you'd like to share? <span className="text-muted-foreground font-normal">(optional)</span></label>
+                <textarea value={message} onChange={e => setMessage(e.target.value)} rows={3} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm resize-none" placeholder="Tell us a bit about yourself or your ideas..." />
               </div>
 
               <Button type="submit" className="bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
                 <Send className="w-4 h-4 mr-2" />
-                {loading ? "Submitting..." : "Submit"}
+                {loading ? "Submitting..." : "Send My Interest"}
               </Button>
             </form>
           </div>

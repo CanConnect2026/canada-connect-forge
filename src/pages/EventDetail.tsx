@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEvent, useRelatedEvents } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
-import { MapPin, Calendar, Clock, ChevronLeft, Plus, Globe, Mail, Phone, ExternalLink } from "lucide-react";
+import { MapPin, Calendar, Clock, ChevronLeft, Plus, Globe, Mail, Phone, ExternalLink, Tag } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
 import { Button } from "@/components/ui/button";
 import { format, parse } from "date-fns";
@@ -22,7 +22,14 @@ export default function EventDetail() {
   const { user } = useAuth();
 
   if (isLoading) return <div className="container py-16 text-center text-muted-foreground">Loading...</div>;
-  if (!event) return <div className="container py-16 text-center text-muted-foreground">Event not found.</div>;
+  if (!event) return (
+    <div className="container py-16 text-center">
+      <Calendar className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+      <p className="text-muted-foreground font-medium">Event not found</p>
+      <p className="text-sm text-muted-foreground mt-1">This event may have been removed or the link may be incorrect.</p>
+      <Link to="/events" className="inline-block mt-4 text-accent hover:underline text-sm">← Back to Events</Link>
+    </div>
+  );
 
   const eventDate = format(parse(event.event_date, "yyyy-MM-dd", new Date()), "MMMM d, yyyy");
   const hasContactInfo = event.website || event.contact_email || event.contact_phone;
@@ -62,7 +69,7 @@ export default function EventDetail() {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 mt-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-3 mt-4 text-sm text-muted-foreground">
               {event.start_time && (
                 <span className="flex items-center gap-1.5">
                   <Clock className="w-4 h-4" />
@@ -77,6 +84,11 @@ export default function EventDetail() {
               {event.cost_type && (
                 <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${event.cost_type === "Free" ? "bg-accent/10 text-accent" : "bg-secondary text-secondary-foreground"}`}>
                   {event.cost_type}
+                </span>
+              )}
+              {event.category && (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-secondary text-secondary-foreground">
+                  <Tag className="w-3 h-3" /> {event.category}
                 </span>
               )}
             </div>
@@ -95,7 +107,7 @@ export default function EventDetail() {
                 <div className="space-y-2.5 text-sm">
                   {event.website && (
                     <a href={event.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-accent hover:underline">
-                      <Globe className="w-4 h-4" /> {event.website}
+                      <Globe className="w-4 h-4" /> Visit Website
                     </a>
                   )}
                   {event.contact_email && (
@@ -116,9 +128,15 @@ export default function EventDetail() {
                 </div>
               </div>
             )}
+
+            {/* Community-submitted label */}
+            <p className="text-xs text-muted-foreground mt-4 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent/60" />
+              Community-submitted · Reviewed by CanConnect
+            </p>
           </div>
 
-          {/* Right sidebar — additional images or directions */}
+          {/* Right sidebar */}
           <div className="space-y-4">
             {event.location && (
               <div className="bg-card rounded-lg border p-5">

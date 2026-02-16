@@ -23,8 +23,8 @@ export default function Guides() {
   return (
     <div className="bg-background min-h-screen">
       <div className="bg-primary py-12">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-display text-primary-foreground mb-4">
+        <div className="container text-center">
+          <h1 className="text-4xl md:text-5xl font-display text-primary-foreground mb-3">
             City Guides
           </h1>
           <p className="text-primary-foreground/70 text-lg max-w-2xl mx-auto">
@@ -33,25 +33,33 @@ export default function Guides() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {cities.map((city) => (
-            <Link key={city.name} to={`/guides/${city.slug}`}>
-              <div className="group bg-card rounded-2xl p-6 border hover:border-accent hover:shadow-md transition-all cursor-pointer h-full">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <MapPin size={22} className="text-primary" />
+      <div className="container py-10">
+        {cities.length === 0 ? (
+          <div className="text-center py-16">
+            <MapPin className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+            <p className="text-muted-foreground font-medium">City guides are coming soon</p>
+            <p className="text-sm text-muted-foreground mt-1">We're building detailed guides for Ontario's major cities. Check back soon!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {cities.map((city) => (
+              <Link key={city.name} to={`/guides/${city.slug}`}>
+                <div className="group bg-card rounded-2xl p-6 border hover:border-accent hover:shadow-md transition-all cursor-pointer h-full">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <MapPin size={22} className="text-primary" />
+                  </div>
+                  <h3 className="text-xl font-display font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                    {city.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4">{city.description}</p>
+                  <span className="text-accent text-sm font-semibold flex items-center gap-1">
+                    Read Guide <ArrowRight size={14} />
+                  </span>
                 </div>
-                <h3 className="text-xl font-display font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
-                  {city.name}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4">{city.description}</p>
-                <span className="text-accent text-sm font-semibold flex items-center gap-1">
-                  Read Guide <ArrowRight size={14} />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
