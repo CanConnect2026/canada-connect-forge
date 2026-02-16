@@ -1,9 +1,18 @@
 import { useState } from "react";
-import { Search, Filter, X } from "lucide-react";
+import { Search, Filter, X, Bus, ExternalLink, MapPin, Navigation } from "lucide-react";
 import { useListings } from "@/hooks/useListings";
 import { categories, ontarioCities, allLanguages } from "@/data/mockListings";
 import { Button } from "@/components/ui/button";
 import ListingsMap from "@/components/ListingsMap";
+
+const transitSystems = [
+  { name: "TTC (Toronto)", url: "https://www.ttc.ca", area: "Toronto" },
+  { name: "GO Transit", url: "https://www.gotransit.com", area: "Greater Toronto & Hamilton" },
+  { name: "MiWay (Mississauga)", url: "https://www.mississauga.ca/miway-transit", area: "Mississauga" },
+  { name: "OC Transpo (Ottawa)", url: "https://www.octranspo.com", area: "Ottawa" },
+  { name: "HSR (Hamilton)", url: "https://www.hamilton.ca/hsr", area: "Hamilton" },
+  { name: "GRT (Waterloo Region)", url: "https://www.grt.ca", area: "Kitchener-Waterloo" },
+];
 
 export default function MapPage() {
   const [search, setSearch] = useState("");
@@ -70,11 +79,79 @@ export default function MapPage() {
           </div>
         )}
 
-        {isLoading ? (
-          <div className="h-[600px] flex items-center justify-center text-muted-foreground">Loading map...</div>
-        ) : (
-          <ListingsMap listings={listings} />
-        )}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+          {/* Map */}
+          <div>
+            {isLoading ? (
+              <div className="h-[600px] flex items-center justify-center text-muted-foreground">Loading map...</div>
+            ) : (
+              <ListingsMap listings={listings} />
+            )}
+          </div>
+
+          {/* Transit & Navigation Panel */}
+          <div className="space-y-4">
+            {/* Getting Around */}
+            <div className="bg-card rounded-lg border p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Bus className="w-4 h-4 text-accent" />
+                <h3 className="font-semibold text-foreground text-sm">Getting Around Ontario</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">
+                Ontario's cities have reliable public transit. Most systems accept contactless payment or reloadable transit cards (like PRESTO). Buses, subways, and streetcars run frequently during the day.
+              </p>
+              <div className="space-y-2.5">
+                {transitSystems.map(t => (
+                  <a
+                    key={t.name}
+                    href={t.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2.5 rounded-md border hover:bg-secondary transition-colors"
+                  >
+                    <div>
+                      <span className="text-sm font-medium text-foreground">{t.name}</span>
+                      <span className="text-xs text-muted-foreground block">{t.area}</span>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Navigation Tools */}
+            <div className="bg-card rounded-lg border p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Navigation className="w-4 h-4 text-accent" />
+                <h3 className="font-semibold text-foreground text-sm">Navigation Tools</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">Open any service location in your preferred maps app for directions.</p>
+              <div className="space-y-2">
+                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2.5 rounded-md border hover:bg-secondary transition-colors">
+                  <MapPin className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium text-foreground">Google Maps</span>
+                  <ExternalLink className="w-3 h-3 text-muted-foreground ml-auto" />
+                </a>
+                <a href="https://maps.apple.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2.5 rounded-md border hover:bg-secondary transition-colors">
+                  <MapPin className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium text-foreground">Apple Maps</span>
+                  <ExternalLink className="w-3 h-3 text-muted-foreground ml-auto" />
+                </a>
+              </div>
+            </div>
+
+            {/* Tips */}
+            <div className="bg-accent/5 rounded-lg border border-accent/20 p-5">
+              <h3 className="font-semibold text-foreground text-sm mb-2">💡 Transit Tips for Newcomers</h3>
+              <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside">
+                <li>Get a <strong>PRESTO card</strong> — it works across most Ontario transit systems</li>
+                <li>Use <strong>Google Maps</strong> for real-time transit directions</li>
+                <li>Many transit systems offer <strong>reduced fares</strong> for seniors, students, and children</li>
+                <li>Rush hours are typically 7–9 AM and 4–6 PM on weekdays</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

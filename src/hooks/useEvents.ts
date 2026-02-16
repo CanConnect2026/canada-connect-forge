@@ -11,10 +11,16 @@ export interface Event {
   location: string | null;
   city: string | null;
   category: string | null;
+  cost_type: string;
   image_url: string | null;
   is_featured: boolean;
   is_published: boolean;
   created_at: string;
+  website?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  social_links?: Record<string, string> | null;
+  languages?: string[];
 }
 
 export function useEvents(filters?: { date?: string; city?: string; category?: string }) {
