@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MapPin, Mail } from "lucide-react";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import logoWhite from "@/assets/canconnect-logo-white.png";
 
 
 const socialLinks = [
@@ -19,9 +20,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Column 1 — Organization + Newsletter */}
           <div>
-            <h3 className="font-display text-xl mb-1.5">
-              Can<span className="text-accent">Connect</span>
-            </h3>
+            <img src={logoWhite} alt="CanConnect" className="h-10 object-contain mb-1.5" />
             <p className="text-sm opacity-70 leading-relaxed mb-5">
               Created by immigrants, for immigrants.
             </p>

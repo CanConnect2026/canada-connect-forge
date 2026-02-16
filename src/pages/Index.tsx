@@ -9,6 +9,7 @@ import { useEvents } from "@/hooks/useEvents";
 import { useFeaturedArticles } from "@/hooks/useArticles";
 import heroImage from "@/assets/hero-image.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
+import logoWhite from "@/assets/canconnect-logo-white.png";
 import { useState, useEffect, useCallback } from "react";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import { format } from "date-fns";
@@ -71,6 +72,7 @@ export default function Index() {
         ))}
         <div className="container relative z-10 py-20">
           <div className="max-w-2xl animate-fade-in-up">
+            <img src={logoWhite} alt="CanConnect — Arrive. Connect. Thrive." className="h-12 md:h-14 mb-6 object-contain" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-primary-foreground leading-tight transition-opacity duration-500">
               {slides[currentSlide].title}
             </h1>
