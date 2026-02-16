@@ -218,10 +218,6 @@ export default function Index() {
             Explore Your Community
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
-          <div className="mt-8 max-w-md mx-auto">
-            <p className="text-primary-foreground/60 text-sm mb-2">Get monthly tips and resources</p>
-            <NewsletterSignup source="community" />
-          </div>
         </div>
       </section>
 
