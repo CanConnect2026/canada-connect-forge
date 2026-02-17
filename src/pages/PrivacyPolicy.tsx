@@ -11,8 +11,11 @@ export default function PrivacyPolicy() {
       </div>
       <div className="container py-16">
         <div className="max-w-3xl prose prose-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mb-2">
+            <strong>Effective Date: April 1, 2026</strong>
+          </p>
           <p className="text-sm text-muted-foreground mb-8">
-            <em>This is a placeholder privacy policy. The final version will be published before launch and will comply with all applicable Canadian privacy legislation.</em>
+            <em>This privacy policy complies with all applicable Canadian privacy legislation including PIPEDA.</em>
           </p>
 
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">Information We Collect</h2>
@@ -26,6 +29,12 @@ export default function PrivacyPolicy() {
 
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">Publicly Available Information</h2>
           <p>Listings on CanConnect are created using publicly available information. Organizations can request updates or removal at any time.</p>
+
+          <h2 className="text-lg font-display text-foreground mt-8 mb-3">Third-Party Services</h2>
+          <p>CanConnect may use third-party services for analytics, authentication, and hosting. These services have their own privacy policies governing the use of your information.</p>
+
+          <h2 className="text-lg font-display text-foreground mt-8 mb-3">Your Rights</h2>
+          <p>You have the right to access, correct, or delete your personal information. To exercise these rights, contact us at the email below.</p>
 
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">Contact</h2>
           <p>

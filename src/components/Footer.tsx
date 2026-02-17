@@ -3,28 +3,28 @@ import { MapPin, Mail } from "lucide-react";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import logoWhite from "@/assets/canconnect-logo-white.png";
 
-
 const socialLinks = [
-  { label: "LinkedIn", icon: "in" },
-  { label: "X", icon: "𝕏" },
-  { label: "Instagram", icon: "IG" },
-  { label: "Facebook", icon: "FB" },
-  { label: "YouTube", icon: "YT" },
-  { label: "Pinterest", icon: "P" },
+  { label: "LinkedIn", icon: "in", url: "#" },
+  { label: "Instagram", icon: "IG", url: "#" },
+  { label: "Facebook", icon: "FB", url: "#" },
+  { label: "YouTube", icon: "YT", url: "#" },
 ];
 
 export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-          {/* Column 1 — Organization + Newsletter */}
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+          {/* Column 1 — Brand & Contact */}
+          <div className="sm:col-span-2 lg:col-span-1">
             <img src={logoWhite} alt="CanConnect" className="h-10 object-contain mb-1.5" />
+            <p className="text-xs uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
+              Arrive. Connect. Thrive.
+            </p>
             <p className="text-sm opacity-70 leading-relaxed mb-5">
               Created by immigrants, for immigrants.
             </p>
-            <ul className="space-y-2.5 text-sm opacity-80 mb-6">
+            <ul className="space-y-2.5 text-sm opacity-80 mb-5">
               <li className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 shrink-0 opacity-60" />
                 250 Yonge St, Suite 2210, Toronto, ON M5B 2L7
@@ -34,23 +34,17 @@ export default function Footer() {
                 info@canconnect.ca
               </li>
             </ul>
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
-                  href="#"
+                  href={s.url}
                   aria-label={s.label}
                   className="w-8 h-8 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center text-[10px] font-bold transition-colors"
                 >
                   {s.icon}
                 </a>
               ))}
-            </div>
-            {/* Newsletter */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-widest opacity-50 mb-2">Monthly Newsletter</h4>
-              <p className="text-xs opacity-60 mb-2">Tips, events, and resources for newcomers — once a month.</p>
-              <NewsletterSignup source="footer" />
             </div>
           </div>
 
@@ -96,7 +90,6 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-
           </div>
 
           {/* Column 4 — Help & Trust */}
@@ -109,10 +102,6 @@ export default function Footer() {
                 { to: "/help", label: "Help Centre" },
                 { to: "/faq", label: "FAQ" },
                 { to: "/how-we-verify", label: "How We Verify" },
-                { to: "/privacy", label: "Privacy Policy" },
-                { to: "/terms", label: "Terms of Service" },
-                { to: "/about", label: "About CanConnect" },
-                { to: "/contact", label: "Contact Support" },
               ].map((l) => (
                 <li key={l.label}>
                   <Link to={l.to} className="hover:opacity-100 hover:text-accent transition-colors">
@@ -121,6 +110,17 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Column 5 — Newsletter */}
+          <div>
+            <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
+              Monthly Newsletter
+            </h4>
+            <p className="text-xs opacity-60 mb-3">
+              Tips, events, and resources for newcomers — once a month.
+            </p>
+            <NewsletterSignup source="footer" />
           </div>
         </div>
 

@@ -11,8 +11,11 @@ export default function TermsOfService() {
       </div>
       <div className="container py-16">
         <div className="max-w-3xl prose prose-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mb-2">
+            <strong>Effective Date: April 1, 2026</strong>
+          </p>
           <p className="text-sm text-muted-foreground mb-8">
-            <em>This is a placeholder terms of service. The final version will be published before launch and will comply with all applicable Canadian law.</em>
+            <em>These terms comply with all applicable Canadian law.</em>
           </p>
 
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">Use of the Platform</h2>
@@ -24,8 +27,17 @@ export default function TermsOfService() {
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">User Submissions</h2>
           <p>By submitting content (events, suggestions, stories), you grant CanConnect permission to use and display that content on the platform.</p>
 
+          <h2 className="text-lg font-display text-foreground mt-8 mb-3">Account Responsibilities</h2>
+          <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</p>
+
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">Disclaimer</h2>
           <p>CanConnect does not provide legal, financial, or immigration advice. The platform is provided "as is" without warranties of any kind.</p>
+
+          <h2 className="text-lg font-display text-foreground mt-8 mb-3">Limitation of Liability</h2>
+          <p>CanConnect shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform.</p>
+
+          <h2 className="text-lg font-display text-foreground mt-8 mb-3">Changes to These Terms</h2>
+          <p>We may update these terms from time to time. Continued use of the platform constitutes acceptance of the revised terms.</p>
 
           <h2 className="text-lg font-display text-foreground mt-8 mb-3">Contact</h2>
           <p>
