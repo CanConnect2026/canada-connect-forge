@@ -64,7 +64,7 @@ export default function Login() {
 
         <div className="bg-card rounded-lg border p-6 shadow-sm">
           {/* Social login buttons */}
-          <div className="space-y-3 mb-6">
+          <div className="space-y-3 mb-4">
             <Button variant="outline" className="w-full" onClick={() => handleSocialLogin("google")}>
               <Chrome className="w-4 h-4 mr-2" /> Continue with Google
             </Button>
@@ -72,6 +72,10 @@ export default function Login() {
               <Apple className="w-4 h-4 mr-2" /> Continue with Apple
             </Button>
           </div>
+
+          <p className="text-center text-xs text-muted-foreground mb-5">
+            We never post to your social accounts.
+          </p>
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center"><div className="w-full border-t" /></div>

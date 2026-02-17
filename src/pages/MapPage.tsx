@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Search, Filter, X, Bus, ExternalLink, MapPin, Navigation } from "lucide-react";
+import { Search, X, Bus, ExternalLink, MapPin, Navigation } from "lucide-react";
 import { useListings } from "@/hooks/useListings";
 import { categories, ontarioCities, allLanguages } from "@/data/mockListings";
-import { Button } from "@/components/ui/button";
 import ListingsMap from "@/components/ListingsMap";
 
 const transitSystems = [
@@ -19,7 +18,6 @@ export default function MapPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
 
   const { data: listings = [], isLoading } = useListings({
     search: search || undefined,
@@ -32,52 +30,72 @@ export default function MapPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <div className="bg-primary py-6">
+      {/* Header with heading, search, and always-visible filters */}
+      <div className="bg-primary py-8">
         <div className="container">
-          <h1 className="text-2xl font-display text-primary-foreground">Service Map</h1>
-          <p className="text-primary-foreground/70 text-sm mt-1">Explore services near you</p>
-          <div className="mt-4 flex flex-col sm:flex-row gap-2 max-w-xl">
-            <div className="flex-1 flex items-center gap-2 bg-card/95 backdrop-blur rounded-md px-3">
+          <h1 className="text-3xl font-display text-primary-foreground">Find Services Near You</h1>
+          <p className="text-primary-foreground/70 text-sm mt-1.5 max-w-lg">
+            Search by category, location, or language to discover trusted services.
+          </p>
+
+          {/* Search bar */}
+          <div className="mt-5 max-w-xl">
+            <div className="flex items-center gap-2 bg-card/95 backdrop-blur rounded-md px-3">
               <Search className="w-4 h-4 text-muted-foreground shrink-0" />
               <input
                 type="text"
-                placeholder="Search..."
-                className="w-full py-2 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                placeholder="Search services..."
+                className="w-full py-2.5 bg-transparent text-sm outline-none placeholder:text-muted-foreground text-foreground"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
-            <Button variant="outline" size="sm" className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => setShowFilters(!showFilters)}>
-              <Filter className="w-4 h-4 mr-1" /> Filters
-            </Button>
           </div>
+
+          {/* Always-visible filters */}
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 max-w-xl">
+            <select
+              className="bg-card/95 backdrop-blur border-0 rounded-md px-3 py-2 text-sm text-foreground"
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value)}
+            >
+              <option value="">All Categories</option>
+              {categories.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <select
+              className="bg-card/95 backdrop-blur border-0 rounded-md px-3 py-2 text-sm text-foreground"
+              value={selectedCity}
+              onChange={e => setSelectedCity(e.target.value)}
+            >
+              <option value="">All Cities</option>
+              {ontarioCities.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <select
+              className="bg-card/95 backdrop-blur border-0 rounded-md px-3 py-2 text-sm text-foreground"
+              value={selectedLanguage}
+              onChange={e => setSelectedLanguage(e.target.value)}
+            >
+              <option value="">All Languages</option>
+              {allLanguages.map(l => <option key={l} value={l}>{l}</option>)}
+            </select>
+          </div>
+
+          {hasFilters && (
+            <button
+              className="mt-2 text-xs text-primary-foreground/70 hover:text-primary-foreground flex items-center gap-1 transition-colors"
+              onClick={() => { setSelectedCategory(""); setSelectedCity(""); setSelectedLanguage(""); }}
+            >
+              <X className="w-3 h-3" /> Clear filters
+            </button>
+          )}
         </div>
       </div>
 
+      {/* Results count + Map + Sidebar */}
       <div className="container py-4">
-        {showFilters && (
-          <div className="mb-4 p-4 bg-card rounded-lg border animate-fade-in">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <select className="bg-background border rounded-md px-3 py-2 text-sm" value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
-                <option value="">All Categories</option>
-                {categories.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-              <select className="bg-background border rounded-md px-3 py-2 text-sm" value={selectedCity} onChange={e => setSelectedCity(e.target.value)}>
-                <option value="">All Cities</option>
-                {ontarioCities.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-              <select className="bg-background border rounded-md px-3 py-2 text-sm" value={selectedLanguage} onChange={e => setSelectedLanguage(e.target.value)}>
-                <option value="">All Languages</option>
-                {allLanguages.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-            </div>
-            {hasFilters && (
-              <button className="mt-2 text-xs text-accent hover:underline flex items-center gap-1" onClick={() => { setSelectedCategory(""); setSelectedCity(""); setSelectedLanguage(""); }}>
-                <X className="w-3 h-3" /> Clear filters
-              </button>
-            )}
-          </div>
-        )}
+        <p className="text-sm text-muted-foreground mb-3">
+          {isLoading ? "Loading..." : `${listings.length} service${listings.length !== 1 ? "s" : ""} found`}
+        </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* Map */}
@@ -91,14 +109,13 @@ export default function MapPage() {
 
           {/* Transit & Navigation Panel */}
           <div className="space-y-4">
-            {/* Getting Around */}
             <div className="bg-card rounded-lg border p-5">
               <div className="flex items-center gap-2 mb-3">
                 <Bus className="w-4 h-4 text-accent" />
                 <h3 className="font-semibold text-foreground text-sm">Getting Around Ontario</h3>
               </div>
               <p className="text-xs text-muted-foreground mb-4">
-                Ontario's cities have reliable public transit. Most systems accept contactless payment or reloadable transit cards (like PRESTO). Buses, subways, and streetcars run frequently during the day.
+                Ontario's cities have reliable public transit. Most systems accept contactless payment or reloadable transit cards (like PRESTO).
               </p>
               <div className="space-y-2.5">
                 {transitSystems.map(t => (
@@ -119,7 +136,6 @@ export default function MapPage() {
               </div>
             </div>
 
-            {/* Quick Navigation Tools */}
             <div className="bg-card rounded-lg border p-5">
               <div className="flex items-center gap-2 mb-3">
                 <Navigation className="w-4 h-4 text-accent" />
@@ -140,7 +156,6 @@ export default function MapPage() {
               </div>
             </div>
 
-            {/* Tips */}
             <div className="bg-accent/5 rounded-lg border border-accent/20 p-5">
               <h3 className="font-semibold text-foreground text-sm mb-2">💡 Transit Tips for Newcomers</h3>
               <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside">
