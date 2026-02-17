@@ -14,9 +14,9 @@ export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
-          {/* Column 1 — Brand & Contact */}
-          <div className="sm:col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-6">
+          {/* Column 1 — Brand & Contact (wider) */}
+          <div className="sm:col-span-2 lg:col-span-3">
             <img src={logoWhite} alt="CanConnect" className="h-10 object-contain mb-1.5" />
             <p className="text-xs uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
               Arrive. Connect. Thrive.
@@ -25,9 +25,9 @@ export default function Footer() {
               Created by immigrants, for immigrants.
             </p>
             <ul className="space-y-2.5 text-sm opacity-80 mb-5">
-              <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 shrink-0 opacity-60" />
-                250 Yonge St, Suite 2210, Toronto, ON M5B 2L7
+              <li className="flex items-start gap-2">
+                <MapPin className="w-3.5 h-3.5 shrink-0 opacity-60 mt-0.5" />
+                <span>250 Yonge St, Suite 2210,<br />Toronto, ON M5B 2L7</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 shrink-0 opacity-60" />
@@ -49,11 +49,11 @@ export default function Footer() {
           </div>
 
           {/* Column 2 — Explore */}
-          <div>
+          <div className="lg:col-span-2">
             <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
               Explore
             </h4>
-            <ul className="space-y-2 text-sm opacity-80">
+            <ul className="space-y-2.5 text-sm opacity-80">
               {[
                 { to: "/directory", label: "Find Services" },
                 { to: "/map", label: "Service Map" },
@@ -72,11 +72,11 @@ export default function Footer() {
           </div>
 
           {/* Column 3 — Contribute */}
-          <div>
+          <div className="lg:col-span-2">
             <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
               Contribute
             </h4>
-            <ul className="space-y-2 text-sm opacity-80">
+            <ul className="space-y-2.5 text-sm opacity-80">
               {[
                 { to: "/get-involved", label: "Get Involved" },
                 { to: "/suggest", label: "Suggest a Service" },
@@ -93,11 +93,11 @@ export default function Footer() {
           </div>
 
           {/* Column 4 — Help & Trust */}
-          <div>
+          <div className="lg:col-span-2">
             <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
               Help & Trust
             </h4>
-            <ul className="space-y-2 text-sm opacity-80">
+            <ul className="space-y-2.5 text-sm opacity-80">
               {[
                 { to: "/help", label: "Help Centre" },
                 { to: "/faq", label: "FAQ" },
@@ -113,11 +113,11 @@ export default function Footer() {
           </div>
 
           {/* Column 5 — Newsletter */}
-          <div>
+          <div className="sm:col-span-2 lg:col-span-3">
             <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
               Monthly Newsletter
             </h4>
-            <p className="text-xs opacity-60 mb-3">
+            <p className="text-xs opacity-60 mb-3 leading-relaxed">
               Tips, events, and resources for newcomers — once a month.
             </p>
             <NewsletterSignup source="footer" />
