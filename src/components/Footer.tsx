@@ -19,10 +19,10 @@ export default function Footer() {
           {/* Column 1 — Brand & Contact (wider) */}
           <div className="sm:col-span-2 lg:col-span-3">
             <div className="flex items-center gap-2.5 mb-1.5">
-              <img src={iconWhite} alt="" className="h-9 w-9 object-contain" />
-              <span className="text-xl font-display font-bold tracking-wide text-primary-foreground">CANCONNECT</span>
+              <img src={iconWhite} alt="" className="h-10 w-10 object-contain" />
+              <span className="text-2xl font-display font-bold tracking-wide text-primary-foreground">CANCONNECT</span>
             </div>
-            <p className="text-xs uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
+            <p className="text-sm uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
               Arrive. Connect. Thrive.
             </p>
             <p className="text-sm opacity-70 leading-relaxed mb-5">
