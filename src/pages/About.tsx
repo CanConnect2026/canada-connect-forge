@@ -1,17 +1,11 @@
 import { Heart, Shield, Users, Globe, Star } from "lucide-react";
-import aboutImage from "@/assets/about-community.jpg";
 
 export default function About() {
   return (
     <div className="bg-background">
       {/* Hero banner with image */}
-      <div className="relative bg-primary py-20 overflow-hidden">
-        <img
-          src={aboutImage}
-          alt="Diverse group of newcomers connecting at a community centre"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
-        />
-        <div className="container relative z-10">
+      <div className="bg-primary py-20">
+        <div className="container">
           <h1 className="text-4xl font-display text-primary-foreground">About CanConnect</h1>
           <p className="text-primary-foreground/80 mt-2 max-w-2xl text-lg">
             Created by immigrants, for immigrants.
