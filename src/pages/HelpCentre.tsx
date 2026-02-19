@@ -87,7 +87,7 @@ export default function HelpCentre() {
                 <Accordion type="single" collapsible className="w-full">
                   {section.items.map((item, i) => (
                     <AccordionItem key={i} value={`${section.title}-${i}`}>
-                      <AccordionTrigger className="text-left text-foreground text-sm">
+                      <AccordionTrigger className="text-left text-foreground text-sm font-sans">
                         {item.q}
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground text-sm">
