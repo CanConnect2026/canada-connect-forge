@@ -163,64 +163,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Insights & Stories / How-To Guides */}
-      {featuredArticles.length > 0 && (
-        <section className="py-10">
-          <div className="container">
-            <div className="flex items-end justify-between mb-8">
-              <div>
-                <h2 className="text-3xl font-display text-foreground">Insights & Stories</h2>
-                <p className="text-muted-foreground mt-1">Learn from real stories, expert advice, and practical guides</p>
-              </div>
-              <Link to="/how-to" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
-                All guides <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {featuredArticles.map(article => (
-                <Link key={article.id} to={`/how-to/${article.slug}`} className="group bg-card rounded-lg border overflow-hidden hover:shadow-md transition-shadow">
-                  {article.featured_image_url ? (
-                    <div className="aspect-[16/9] overflow-hidden">
-                      <img src={article.featured_image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    </div>
-                  ) : (
-                    <div className="aspect-[16/9] bg-muted flex items-center justify-center">
-                      <BookOpen className="w-10 h-10 text-muted-foreground/40" />
-                    </div>
-                  )}
-                  <div className="p-5">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-semibold text-accent uppercase">{article.category}</span>
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {article.estimated_read_minutes} min
-                      </span>
-                    </div>
-                    <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">{article.title}</h3>
-                    {article.summary && (
-                      <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{article.summary}</p>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Community for Newcomers */}
-      <section className="py-10 bg-primary">
-        <div className="container text-center">
-          <h2 className="text-3xl font-display text-primary-foreground mb-3">Community for Newcomers</h2>
-          <p className="text-primary-foreground/80 max-w-lg mx-auto mb-8 leading-relaxed">
-            Starting a new life in Canada can feel overwhelming — but you don't have to do it alone. Connect with others who understand your journey. Share stories, ask questions, and find your community.
-          </p>
-          <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-            Explore Your Community
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
-      </section>
-
       {/* Upcoming Events */}
       <section className="py-10 bg-section-alt">
         <div className="container">
@@ -268,6 +210,64 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Community for Newcomers */}
+      <section className="py-10 bg-primary">
+        <div className="container text-center">
+          <h2 className="text-3xl font-display text-primary-foreground mb-3">Community for Newcomers</h2>
+          <p className="text-primary-foreground/80 max-w-lg mx-auto mb-8 leading-relaxed">
+            Starting a new life in Canada can feel overwhelming — but you don't have to do it alone. Connect with others who understand your journey. Share stories, ask questions, and find your community.
+          </p>
+          <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+            Explore Your Community
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+      </section>
+
+      {/* Insights & Stories / How-To Guides */}
+      {featuredArticles.length > 0 && (
+        <section className="py-10">
+          <div className="container">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-display text-foreground">Insights & Stories</h2>
+                <p className="text-muted-foreground mt-1">Learn from real stories, expert advice, and practical guides</p>
+              </div>
+              <Link to="/how-to" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+                All guides <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {featuredArticles.map(article => (
+                <Link key={article.id} to={`/how-to/${article.slug}`} className="group bg-card rounded-lg border overflow-hidden hover:shadow-md transition-shadow">
+                  {article.featured_image_url ? (
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img src={article.featured_image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    </div>
+                  ) : (
+                    <div className="aspect-[16/9] bg-muted flex items-center justify-center">
+                      <BookOpen className="w-10 h-10 text-muted-foreground/40" />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-semibold text-accent uppercase">{article.category}</span>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {article.estimated_read_minutes} min
+                      </span>
+                    </div>
+                    <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">{article.title}</h3>
+                    {article.summary && (
+                      <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{article.summary}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }
