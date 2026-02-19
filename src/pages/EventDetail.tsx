@@ -3,6 +3,7 @@ import { useEvent, useRelatedEvents } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
 import { MapPin, Calendar, Clock, ChevronLeft, Plus, Globe, Mail, Phone, ExternalLink, Tag } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
+import ListingDetailMap from "@/components/ListingDetailMap";
 import { Button } from "@/components/ui/button";
 import { format, parse } from "date-fns";
 
@@ -164,6 +165,14 @@ export default function EventDetail() {
             </div>
           </div>
         </div>
+
+        {/* Location map */}
+        {event.latitude && event.longitude && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-display text-foreground mb-4">Location</h2>
+            <ListingDetailMap latitude={event.latitude} longitude={event.longitude} name={event.title} />
+          </div>
+        )}
 
         {/* Related events */}
         {relatedEvents.length > 0 && (

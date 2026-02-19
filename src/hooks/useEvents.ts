@@ -21,6 +21,8 @@ export interface Event {
   contact_phone?: string | null;
   social_links?: Record<string, string> | null;
   languages?: string[];
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export function useEvents(filters?: { date?: string; city?: string; category?: string }) {
