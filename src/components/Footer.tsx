@@ -25,9 +25,6 @@ export default function Footer() {
             <p className="text-xs uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
               Arrive. Connect. Thrive.
             </p>
-            <p className="text-sm opacity-70 leading-relaxed mb-5">
-              Created by immigrants, for immigrants.
-            </p>
             <ul className="space-y-2.5 text-sm opacity-80 mb-5">
               <li className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 shrink-0 opacity-60 mt-0.5" />
@@ -130,7 +127,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-primary-foreground/15 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs opacity-50">
-          <span>© 2026 CanConnect.ca — All rights reserved.</span>
+          <span>© 2026 CanConnect.ca — All rights reserved. Created by immigrants, for immigrants.</span>
           <div className="flex gap-4">
             <Link to="/privacy" className="hover:opacity-100 transition-opacity">Privacy Policy</Link>
             <Link to="/terms" className="hover:opacity-100 transition-opacity">Terms of Service</Link>
