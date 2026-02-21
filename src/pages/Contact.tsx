@@ -86,6 +86,31 @@ export default function Contact() {
 
           {/* Right — Quick links + Advertising + Contact info */}
           <div className="space-y-8">
+            {/* Contact Info — first so address is visible immediately */}
+            <div>
+              <h2 className="text-2xl font-display text-foreground mb-4">Contact Information</h2>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Email</p>
+                    <p className="text-sm text-muted-foreground">info@canconnect.ca</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Address</p>
+                    <p className="text-sm text-muted-foreground">250 Yonge St, Suite 2210, Toronto, ON M5B 2L7</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Quick Links */}
             <div>
               <h2 className="text-2xl font-display text-foreground mb-4">Quick Links</h2>
@@ -141,31 +166,6 @@ export default function Contact() {
                 </button>
               }
             />
-
-            {/* Contact Info */}
-            <div>
-              <h2 className="text-2xl font-display text-foreground mb-4">Contact Information</h2>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                    <Mail className="w-4 h-4 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Email</p>
-                    <p className="text-sm text-muted-foreground">info@canconnect.ca</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Address</p>
-                    <p className="text-sm text-muted-foreground">250 Yonge St, Suite 2210, Toronto, ON M5B 2L7</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
