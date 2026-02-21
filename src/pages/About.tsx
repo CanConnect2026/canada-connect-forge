@@ -1,9 +1,10 @@
 import { Heart, Shield, Users, Globe, Star } from "lucide-react";
+import aboutCommunity from "@/assets/about-community.jpg";
 
 export default function About() {
   return (
     <div className="bg-background">
-      {/* Hero banner with image */}
+      {/* Hero banner */}
       <div className="bg-primary py-20">
         <div className="container">
           <h1 className="text-4xl font-display text-primary-foreground">About CanConnect</h1>
@@ -14,30 +15,38 @@ export default function About() {
       </div>
 
       <div className="container py-16">
-        {/* Our Story */}
-        <div className="max-w-3xl mb-16">
-          <h2 className="text-2xl font-display text-foreground mb-4">Our Story</h2>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
-          </p>
-        </div>
-
-        {/* Mission & Vision */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-accent/5 rounded-lg border border-accent/20 p-8">
-            <h3 className="text-xl font-display text-accent mb-3">Our Mission</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              To empower immigrants with trusted information, services, and community connections that support a confident and successful settlement journey in Canada.
+        {/* Two-column: Our Story + Image | Mission & Vision */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          {/* Left — Our Story + Image */}
+          <div>
+            <h2 className="text-2xl font-display text-foreground mb-4">Our Story</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
             </p>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
+            </p>
+            <img
+              src={aboutCommunity}
+              alt="Community of newcomers connecting together"
+              className="w-full h-56 object-cover rounded-lg"
+            />
           </div>
-          <div className="bg-accent/5 rounded-lg border border-accent/20 p-8">
-            <h3 className="text-xl font-display text-accent mb-3">Our Vision</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              A Canada where every newcomer can access the support they need and feel a true sense of belonging.
-            </p>
+
+          {/* Right — Mission & Vision */}
+          <div className="space-y-6">
+            <div className="bg-accent/5 rounded-lg border border-accent/20 p-8">
+              <h3 className="text-xl font-display text-accent mb-3">Our Mission</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                To empower immigrants with trusted information, services, and community connections that support a confident and successful settlement journey in Canada.
+              </p>
+            </div>
+            <div className="bg-accent/5 rounded-lg border border-accent/20 p-8">
+              <h3 className="text-xl font-display text-accent mb-3">Our Vision</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                A Canada where every newcomer can access the support they need and feel a true sense of belonging.
+              </p>
+            </div>
           </div>
         </div>
 
