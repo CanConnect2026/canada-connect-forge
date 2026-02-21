@@ -21,7 +21,7 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-3">
             <div className="flex items-center gap-2.5 mb-1.5">
               <img src={iconWhite} alt="" className="h-9 w-9 object-contain" />
-              <span className="text-xl font-display font-bold tracking-wide text-primary-foreground">CANCONNECT</span>
+              <span className="text-2xl font-display font-bold tracking-wide text-primary-foreground">CANCONNECT</span>
             </div>
             <p className="text-xs uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
               Arrive. Connect. Thrive.
