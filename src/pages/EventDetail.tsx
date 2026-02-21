@@ -167,12 +167,23 @@ export default function EventDetail() {
         </div>
 
         {/* Location map */}
-        {event.latitude && event.longitude && (
+        {(event.latitude && event.longitude) ? (
           <div className="mt-8">
             <h2 className="text-2xl font-display text-foreground mb-4">Location</h2>
             <ListingDetailMap latitude={event.latitude} longitude={event.longitude} name={event.title} />
           </div>
-        )}
+        ) : event.location ? (
+          <div className="mt-8">
+            <h2 className="text-2xl font-display text-foreground mb-4">Location</h2>
+            <iframe
+              title="Location map"
+              className="w-full h-[300px] rounded-lg border"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(event.location + (event.city ? `, ${event.city}` : ''))}&output=embed`}
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        ) : null}
 
         {/* Related events */}
         {relatedEvents.length > 0 && (

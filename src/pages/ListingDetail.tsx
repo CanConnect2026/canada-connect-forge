@@ -157,7 +157,7 @@ export default function ListingDetail() {
             )}
 
             {/* Map & Directions */}
-            {hasMap && (
+            {(hasMap || listing.full_address) && (
               <div className="bg-card rounded-lg border p-6">
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="font-display text-xl text-foreground">Location</h2>
@@ -172,7 +172,17 @@ export default function ListingDetail() {
                     </a>
                   )}
                 </div>
-                <ListingDetailMap latitude={listing.latitude!} longitude={listing.longitude!} name={listing.name} />
+                {hasMap ? (
+                  <ListingDetailMap latitude={listing.latitude!} longitude={listing.longitude!} name={listing.name} />
+                ) : (
+                  <iframe
+                    title="Location map"
+                    className="w-full h-[300px] rounded-lg border"
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(listing.full_address!)}&output=embed`}
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                )}
                 {listing.full_address && (
                   <p className="text-sm text-muted-foreground mt-3 flex items-center gap-1.5">
                     <MapPin className="w-4 h-4 shrink-0" /> {listing.full_address}
