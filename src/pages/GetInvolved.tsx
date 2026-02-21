@@ -117,10 +117,7 @@ export default function GetInvolved() {
           <div className="space-y-8">
             <div>
               <p className="text-muted-foreground leading-relaxed">
-                CanConnect is a community-built platform created by immigrants, for immigrants. While many people come here to find resources, services, and connection, this page is for those who want to contribute.
-              </p>
-              <p className="text-muted-foreground leading-relaxed mt-3">
-                If you have experience, insight, skills, or stories that can help newcomers navigate life in Canada, this is where you can take part.
+                CanConnect is built by immigrants, for immigrants. This page is for those who want to give back — whether through experience, skills, or stories that help newcomers navigate life in Canada.
               </p>
             </div>
 
