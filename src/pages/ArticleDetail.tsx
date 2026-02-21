@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import Breadcrumb from "@/components/Breadcrumb";
 import { useArticle, useRelatedArticles } from "@/hooks/useArticles";
 import { ChevronLeft, Clock, Calendar, BookOpen, ArrowRight, CheckCircle2 } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
@@ -27,9 +28,13 @@ export default function ArticleDetail() {
       )}
 
       <div className="container py-8">
-        <Link to="/how-to" className="inline-flex items-center gap-1 text-muted-foreground hover:text-accent text-sm mb-6">
-          <ChevronLeft className="w-4 h-4" /> Back to Guides
-        </Link>
+        <Breadcrumb
+          items={[
+            { label: "How-To Guides", to: "/how-to" },
+            { label: article.title },
+          ]}
+          className="mb-6"
+        />
 
         <div className="max-w-3xl">
           {/* Header */}

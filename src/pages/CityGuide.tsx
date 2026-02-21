@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
-import { MapPin, Train, Home, Briefcase, GraduationCap, Heart, Users, ArrowLeft } from "lucide-react";
+import { MapPin, Train, Home, Briefcase, GraduationCap, Heart, Users } from "lucide-react";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 
 import torontoLandmark from "@/assets/landmarks/toronto.jpg";
@@ -1080,7 +1081,7 @@ export default function CityGuide() {
             <p className="text-muted-foreground mb-6">We don't have a guide for this city yet.</p>
             <Button asChild variant="outline">
               <Link to="/guides">
-                <ArrowLeft size={16} className="mr-2" /> Back to City Guides
+                ← Back to City Guides
               </Link>
             </Button>
           </div>
@@ -1093,9 +1094,13 @@ export default function CityGuide() {
     <div className="bg-background min-h-screen">
       <div className="bg-primary py-10">
         <div className="container mx-auto px-4">
-          <Link to="/guides" className="inline-flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground transition-colors mb-6">
-            <ArrowLeft size={16} /> Back to City Guides
-          </Link>
+          <Breadcrumb
+            items={[
+              { label: "City Guides", to: "/guides" },
+              { label: data.name },
+            ]}
+            className="mb-6 [&_a]:text-primary-foreground/70 [&_a:hover]:text-primary-foreground [&_svg]:text-primary-foreground/40 [&>a]:text-primary-foreground/70 [&_span.text-foreground]:text-primary-foreground"
+          />
           <div className="flex items-center gap-3 mb-3">
             <div className="w-12 h-12 rounded-xl bg-primary-foreground/10 flex items-center justify-center">
               <MapPin size={22} className="text-primary-foreground" />
