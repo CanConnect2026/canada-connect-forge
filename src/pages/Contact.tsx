@@ -3,9 +3,44 @@ import { Mail, MapPin, Plus, Handshake, Calendar, Megaphone, CheckCircle2 } from
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { sendNotification } from "@/hooks/useNotification";
 
 export default function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { error } = await supabase.from("contact_messages" as any).insert({
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim(),
+      });
+      if (error) throw error;
+
+      await sendNotification({
+        type: "contact",
+        data: {
+          first_name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+        },
+      });
+
+      setSubmitted(true);
+    } catch {
+      toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-background">
@@ -28,20 +63,22 @@ export default function Contact() {
                 <p className="text-sm text-muted-foreground mt-1">We'll get back to you within 1–2 business days.</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-foreground block mb-1">Name <span className="text-accent">*</span></label>
-                  <input required className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" placeholder="Your name" />
+                  <input required value={name} onChange={e => setName(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" placeholder="Your name" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground block mb-1">Email <span className="text-accent">*</span></label>
-                  <input required type="email" className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" placeholder="your@email.com" />
+                  <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm" placeholder="your@email.com" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground block mb-1">Message <span className="text-accent">*</span></label>
-                  <textarea required rows={5} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm resize-none" placeholder="How can we help?" />
+                  <textarea required rows={5} value={message} onChange={e => setMessage(e.target.value)} className="w-full bg-background border rounded-md px-3 py-2.5 text-sm resize-none" placeholder="How can we help?" />
                 </div>
-                <Button type="submit" className="bg-accent text-accent-foreground hover:bg-accent/90">Send Message</Button>
+                <Button type="submit" className="bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
+                  {loading ? "Sending..." : "Send Message"}
+                </Button>
               </form>
             )}
           </div>
@@ -118,4 +155,3 @@ export default function Contact() {
     </div>
   );
 }
-

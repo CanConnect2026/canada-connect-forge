@@ -3,6 +3,7 @@ import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { sendNotification } from "@/hooks/useNotification";
 
 interface NewsletterSignupProps {
   source?: string;
@@ -12,6 +13,7 @@ interface NewsletterSignupProps {
 
 export default function NewsletterSignup({ source = "footer", variant = "inline", className = "" }: NewsletterSignupProps) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const { toast } = useToast();
@@ -21,7 +23,11 @@ export default function NewsletterSignup({ source = "footer", variant = "inline"
     if (!email.trim()) return;
     setLoading(true);
     try {
-      const { error } = await supabase.from("newsletter_subscribers" as any).insert({ email: email.trim(), source });
+      const { error } = await supabase.from("newsletter_subscribers" as any).insert({
+        email: email.trim(),
+        name: name.trim() || null,
+        source,
+      });
       if (error) {
         if (error.code === "23505") {
           setSubscribed(true);
@@ -29,6 +35,15 @@ export default function NewsletterSignup({ source = "footer", variant = "inline"
         }
         throw error;
       }
+
+      await sendNotification({
+        type: "newsletter_signup",
+        data: {
+          first_name: name.trim() || undefined,
+          email: email.trim(),
+        },
+      });
+
       setSubscribed(true);
     } catch {
       toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
@@ -51,36 +66,54 @@ export default function NewsletterSignup({ source = "footer", variant = "inline"
       <div className={`bg-card rounded-lg border p-5 ${className}`}>
         <h3 className="font-semibold text-foreground text-sm mb-1">Stay Connected</h3>
         <p className="text-xs text-muted-foreground mb-3">Get monthly tips, events, and resources for newcomers.</p>
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <input
-            type="email"
-            required
-            placeholder="your@email.com"
-            className="flex-1 bg-background border rounded-md px-3 py-2 text-sm outline-none"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            type="text"
+            placeholder="Your name (optional)"
+            className="w-full bg-background border rounded-md px-3 py-2 text-sm outline-none"
+            value={name}
+            onChange={e => setName(e.target.value)}
           />
-          <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
-            {loading ? "..." : "Join"}
-          </Button>
+          <div className="flex gap-2">
+            <input
+              type="email"
+              required
+              placeholder="your@email.com"
+              className="flex-1 bg-background border rounded-md px-3 py-2 text-sm outline-none"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
+              {loading ? "..." : "Join"}
+            </Button>
+          </div>
         </form>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`flex gap-2 ${className}`}>
+    <form onSubmit={handleSubmit} className={`space-y-2 ${className}`}>
       <input
-        type="email"
-        required
-        placeholder="your@email.com"
-        className="flex-1 bg-primary-foreground/10 border border-primary-foreground/20 rounded-md px-3 py-2 text-sm outline-none text-primary-foreground placeholder:text-primary-foreground/40"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
+        type="text"
+        placeholder="Your name (optional)"
+        className="w-full bg-primary-foreground/10 border border-primary-foreground/20 rounded-md px-3 py-2 text-sm outline-none text-primary-foreground placeholder:text-primary-foreground/40"
+        value={name}
+        onChange={e => setName(e.target.value)}
       />
-      <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shrink-0" disabled={loading}>
-        {loading ? "..." : "Subscribe"}
-      </Button>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          required
+          placeholder="your@email.com"
+          className="flex-1 bg-primary-foreground/10 border border-primary-foreground/20 rounded-md px-3 py-2 text-sm outline-none text-primary-foreground placeholder:text-primary-foreground/40"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shrink-0" disabled={loading}>
+          {loading ? "..." : "Subscribe"}
+        </Button>
+      </div>
     </form>
   );
 }

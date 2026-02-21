@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { sendNotification } from "@/hooks/useNotification";
 
 const contributionOptions = [
   { id: "story", label: "Share Your Story" },
@@ -44,6 +45,16 @@ export default function GetInvolved() {
         message: message.trim() || null,
       });
       if (error) throw error;
+
+      await sendNotification({
+        type: "get_involved",
+        data: {
+          first_name: name.trim(),
+          email: email.trim(),
+          message: message.trim() || undefined,
+        },
+      });
+
       setSubmitted(true);
     } catch {
       toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
