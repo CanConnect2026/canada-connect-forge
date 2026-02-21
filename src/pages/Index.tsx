@@ -277,7 +277,7 @@ export default function Index() {
               <img
                 src={mobileAppPreview}
                 alt="CanConnect mobile app preview"
-                className="max-w-[320px] md:max-w-[380px] w-full h-auto drop-shadow-2xl"
+                className="max-w-[400px] md:max-w-[500px] w-full h-auto drop-shadow-2xl"
               />
             </div>
             <div className="flex-1 text-center md:text-left">
