@@ -143,7 +143,9 @@ export default function EventDetail() {
               <div className="bg-card rounded-lg border p-5">
                 <h3 className="font-semibold text-foreground text-sm mb-3">Get Directions</h3>
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location + (event.city ? `, ${event.city}, ON` : ", ON"))}`}
+                  href={event.latitude && event.longitude
+                    ? `https://www.google.com/maps/dir/?api=1&destination=${event.latitude},${event.longitude}`
+                    : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(event.location + (event.city ? `, ${event.city}, ON` : ", ON"))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-accent hover:underline"
