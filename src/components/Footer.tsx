@@ -83,6 +83,7 @@ export default function Footer() {
                 { to: "/get-involved", label: "Get Involved" },
                 { to: "/suggest", label: "Suggest a Service" },
                 { to: "/submit-event", label: "Submit an Event" },
+                { to: "/advertise", label: "Advertise with Us" },
                 { to: "/contact", label: "Contact Us" },
               ].map((l) => (
                 <li key={l.to}>

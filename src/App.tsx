@@ -28,6 +28,7 @@ import HelpCentre from "./pages/HelpCentre";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import HowWeChooseFeatured from "./pages/HowWeChooseFeatured";
+import Advertise from "./pages/Advertise";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -66,6 +67,7 @@ const App = () => (
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/how-we-choose-featured" element={<HowWeChooseFeatured />} />
+              <Route path="/advertise" element={<Advertise />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
