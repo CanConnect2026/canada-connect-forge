@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Mail, MapPin, Plus, Handshake, Calendar, Megaphone, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
@@ -76,7 +75,18 @@ export default function Contact() {
             </div>
 
             {/* Advertising */}
-            <AdvertisingInquiry />
+            <Link
+              to="/advertise"
+              className="flex items-center gap-3 p-4 rounded-lg border border-accent/30 bg-accent/5 hover:bg-accent/10 transition-colors w-full text-left"
+            >
+              <div className="w-9 h-9 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                <Megaphone className="w-4 h-4 text-accent" />
+              </div>
+              <div>
+                <span className="text-sm font-semibold text-foreground block">Advertise with CanConnect</span>
+                <span className="text-xs text-muted-foreground">Reach newcomers across Ontario</span>
+              </div>
+            </Link>
 
             {/* Contact Info */}
             <div>
@@ -109,115 +119,3 @@ export default function Contact() {
   );
 }
 
-function AdvertisingInquiry() {
-  const [open, setOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
-
-  const [form, setForm] = useState({
-    company_name: "",
-    contact_name: "",
-    email: "",
-    phone: "",
-    budget_range: "",
-    message: "",
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const { error } = await supabase.from("advertising_inquiries" as any).insert({
-        company_name: form.company_name.trim(),
-        contact_name: form.contact_name.trim(),
-        email: form.email.trim(),
-        phone: form.phone.trim() || null,
-        budget_range: form.budget_range || null,
-        message: form.message.trim() || null,
-      });
-      if (error) throw error;
-      setSubmitted(true);
-    } catch {
-      toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (!open) {
-    return (
-      <div>
-        <button
-          onClick={() => setOpen(true)}
-          className="flex items-center gap-3 p-4 rounded-lg border border-accent/30 bg-accent/5 hover:bg-accent/10 transition-colors w-full text-left"
-        >
-          <div className="w-9 h-9 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-            <Megaphone className="w-4 h-4 text-accent" />
-          </div>
-          <div>
-            <span className="text-sm font-semibold text-foreground block">Advertise with CanConnect</span>
-            <span className="text-xs text-muted-foreground">Reach newcomers across Ontario</span>
-          </div>
-        </button>
-      </div>
-    );
-  }
-
-  if (submitted) {
-    return (
-      <div className="bg-accent/5 border border-accent/20 rounded-lg p-6 text-center">
-        <CheckCircle2 className="w-8 h-8 text-accent mx-auto mb-2" />
-        <p className="font-semibold text-foreground text-sm">Inquiry received!</p>
-        <p className="text-xs text-muted-foreground mt-1">Our partnerships team will contact you within 2 business days.</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-card rounded-lg border p-5">
-      <div className="flex items-center gap-2 mb-4">
-        <Megaphone className="w-4 h-4 text-accent" />
-        <h3 className="font-semibold text-foreground text-sm">Advertising Inquiry</h3>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Company Name <span className="text-accent">*</span></label>
-          <input required value={form.company_name} onChange={e => setForm(f => ({ ...f, company_name: e.target.value }))} className="w-full bg-background border rounded-md px-3 py-2 text-sm" />
-        </div>
-        <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Your Name <span className="text-accent">*</span></label>
-          <input required value={form.contact_name} onChange={e => setForm(f => ({ ...f, contact_name: e.target.value }))} className="w-full bg-background border rounded-md px-3 py-2 text-sm" />
-        </div>
-        <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Email <span className="text-accent">*</span></label>
-          <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full bg-background border rounded-md px-3 py-2 text-sm" />
-        </div>
-        <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Phone <span className="text-muted-foreground font-normal">(optional)</span></label>
-          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="w-full bg-background border rounded-md px-3 py-2 text-sm" />
-        </div>
-        <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Budget Range <span className="text-muted-foreground font-normal">(optional)</span></label>
-          <select value={form.budget_range} onChange={e => setForm(f => ({ ...f, budget_range: e.target.value }))} className="w-full bg-background border rounded-md px-3 py-2 text-sm">
-            <option value="">Select...</option>
-            <option value="Under $500">Under $500</option>
-            <option value="$500 - $1,000">$500 – $1,000</option>
-            <option value="$1,000 - $5,000">$1,000 – $5,000</option>
-            <option value="$5,000+">$5,000+</option>
-          </select>
-        </div>
-        <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Tell us about your goals <span className="text-muted-foreground font-normal">(optional)</span></label>
-          <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} rows={3} className="w-full bg-background border rounded-md px-3 py-2 text-sm resize-none" />
-        </div>
-        <div className="flex gap-2">
-          <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
-            {loading ? "Sending..." : "Submit Inquiry"}
-          </Button>
-          <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)}>Cancel</Button>
-        </div>
-      </form>
-    </div>
-  );
-}
