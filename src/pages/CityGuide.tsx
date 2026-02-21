@@ -2,22 +2,38 @@ import { useParams, Link } from "react-router-dom";
 import { MapPin, Train, Home, Briefcase, GraduationCap, Heart, Users, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import torontoLandmark from "@/assets/landmarks/toronto.jpg";
+import ottawaLandmark from "@/assets/landmarks/ottawa.jpg";
+import hamiltonLandmark from "@/assets/landmarks/hamilton.jpg";
+import bramptonLandmark from "@/assets/landmarks/brampton.jpg";
+import mississaugaLandmark from "@/assets/landmarks/mississauga.jpg";
+import londonLandmark from "@/assets/landmarks/london.jpg";
+import windsorLandmark from "@/assets/landmarks/windsor.jpg";
+import kitchenerLandmark from "@/assets/landmarks/kitchener.jpg";
+import markhamLandmark from "@/assets/landmarks/markham.jpg";
+import vaughanLandmark from "@/assets/landmarks/vaughan.jpg";
+import barrieLandmark from "@/assets/landmarks/barrie.jpg";
+import guelphLandmark from "@/assets/landmarks/guelph.jpg";
+import oshawaLandmark from "@/assets/landmarks/oshawa.jpg";
+import scarboroughLandmark from "@/assets/landmarks/scarborough.jpg";
+import waterlooLandmark from "@/assets/landmarks/waterloo.jpg";
+
 const CITY_LANDMARKS: Record<string, { url: string; alt: string }> = {
-  toronto: { url: "https://images.unsplash.com/photo-1517090504332-eaa7b23a2c01?w=600&h=800&fit=crop", alt: "CN Tower, Toronto" },
-  ottawa: { url: "https://images.unsplash.com/photo-1558531304-a4a0e7c505d0?w=600&h=800&fit=crop", alt: "Parliament Hill, Ottawa" },
-  hamilton: { url: "https://images.unsplash.com/photo-1580068797614-17b17da3d7a7?w=600&h=800&fit=crop", alt: "Dundas Peak, Hamilton" },
-  brampton: { url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=800&fit=crop", alt: "Brampton cityscape" },
-  mississauga: { url: "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=600&h=800&fit=crop", alt: "Absolute Towers, Mississauga" },
-  london: { url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=800&fit=crop", alt: "London, Ontario" },
-  windsor: { url: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=800&fit=crop", alt: "Ambassador Bridge, Windsor" },
-  kitchener: { url: "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&h=800&fit=crop", alt: "Kitchener downtown" },
-  markham: { url: "https://images.unsplash.com/photo-1555992643-0f7d1d8c8b2e?w=600&h=800&fit=crop", alt: "Markham cityscape" },
-  vaughan: { url: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&h=800&fit=crop", alt: "Vaughan Metropolitan Centre" },
-  barrie: { url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=800&fit=crop", alt: "Kempenfelt Bay, Barrie" },
-  guelph: { url: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=600&h=800&fit=crop", alt: "University of Guelph" },
-  oshawa: { url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=800&fit=crop", alt: "Oshawa cityscape" },
-  scarborough: { url: "https://images.unsplash.com/photo-1508693926297-1d61ee3df82a?w=600&h=800&fit=crop", alt: "Scarborough Bluffs" },
-  waterloo: { url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=800&fit=crop", alt: "University of Waterloo" },
+  toronto: { url: torontoLandmark, alt: "CN Tower, Toronto" },
+  ottawa: { url: ottawaLandmark, alt: "Parliament Hill, Ottawa" },
+  hamilton: { url: hamiltonLandmark, alt: "Dundas Peak, Hamilton" },
+  brampton: { url: bramptonLandmark, alt: "Brampton cityscape" },
+  mississauga: { url: mississaugaLandmark, alt: "Absolute Towers, Mississauga" },
+  london: { url: londonLandmark, alt: "London, Ontario" },
+  windsor: { url: windsorLandmark, alt: "Ambassador Bridge, Windsor" },
+  kitchener: { url: kitchenerLandmark, alt: "Kitchener downtown" },
+  markham: { url: markhamLandmark, alt: "Markham cityscape" },
+  vaughan: { url: vaughanLandmark, alt: "Vaughan Metropolitan Centre" },
+  barrie: { url: barrieLandmark, alt: "Kempenfelt Bay, Barrie" },
+  guelph: { url: guelphLandmark, alt: "University of Guelph" },
+  oshawa: { url: oshawaLandmark, alt: "Oshawa cityscape" },
+  scarborough: { url: scarboroughLandmark, alt: "Scarborough Bluffs" },
+  waterloo: { url: waterlooLandmark, alt: "University of Waterloo" },
 };
 
 interface CitySection {
