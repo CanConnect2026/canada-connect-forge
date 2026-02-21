@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MapPin, Mail } from "lucide-react";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import ReportIssueDialog from "@/components/ReportIssueDialog";
 import logoWhite from "@/assets/canconnect-logo-white.png";
 import iconWhite from "@/assets/canconnect-icon-white.png";
 
@@ -105,7 +106,6 @@ export default function Footer() {
                 { to: "/help", label: "Help Centre" },
                 { to: "/faq", label: "FAQ" },
                 { to: "/how-we-verify", label: "How We Verify" },
-                { to: "/how-we-choose-featured", label: "Featured Listings" },
                 { to: "/privacy", label: "Privacy Policy" },
                 { to: "/terms", label: "Terms of Service" },
               ].map((l) => (
@@ -115,6 +115,16 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <ReportIssueDialog
+                  relatedUrl={typeof window !== "undefined" ? window.location.href : "/"}
+                  trigger={
+                    <button className="hover:opacity-100 hover:text-accent transition-colors">
+                      Report an Issue
+                    </button>
+                  }
+                />
+              </li>
             </ul>
           </div>
 
