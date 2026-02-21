@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { MapPin, Calendar as CalendarIcon, Clock, Plus, Tag } from "lucide-react";
-import { useEvents } from "@/hooks/useEvents";
+import { useEvents, Event } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
 import ShareButton from "@/components/ShareButton";
 import { Calendar } from "@/components/ui/calendar";
@@ -21,6 +21,74 @@ function formatTime(time: string | null) {
   return `${h12}:${m} ${ampm}`;
 }
 
+function EventCard({ event, isPast }: { event: Event; isPast: boolean }) {
+  return (
+    <Link
+      to={`/events/${event.id}`}
+      className="group flex gap-4 bg-card rounded-lg border overflow-hidden hover:shadow-md transition-all relative"
+    >
+      {isPast && (
+        <span className="absolute top-2 left-2 z-10 text-[10px] font-semibold uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
+          Past Event
+        </span>
+      )}
+      {/* Image thumbnail */}
+      <div className="w-40 sm:w-52 shrink-0 bg-muted">
+        {event.image_url ? (
+          <img src={event.image_url} alt={event.title} className="w-full h-full object-cover min-h-[120px]" />
+        ) : (
+          <div className="w-full h-full min-h-[120px] flex items-center justify-center text-muted-foreground">
+            <CalendarIcon className="w-8 h-8 opacity-30" />
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 py-4 pr-4">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-accent uppercase">
+              <CalendarIcon className="w-3.5 h-3.5" />
+              {format(parse(event.event_date, "yyyy-MM-dd", new Date()), "MMMM d, yyyy")}
+              {event.start_time && (
+                <span className="text-muted-foreground font-normal flex items-center gap-1">
+                  <Clock className="w-3 h-3" /> {formatTime(event.start_time)}{event.end_time ? ` – ${formatTime(event.end_time)}` : ""}
+                </span>
+              )}
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mt-1 group-hover:text-accent transition-colors">
+              {event.title}
+            </h3>
+          </div>
+          <div onClick={e => e.preventDefault()}>
+            <ShareButton title={event.title} text={`${event.title} — ${event.event_date}`} url={`${window.location.origin}/events/${event.id}`} variant="icon" />
+          </div>
+        </div>
+        <div className="flex items-center gap-2 mt-1 flex-wrap">
+          {event.category && (
+            <span className="inline-flex items-center gap-1 text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full">
+              <Tag className="w-3 h-3" /> {event.category}
+            </span>
+          )}
+          {event.cost_type && (
+            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${event.cost_type === "Free" ? "bg-accent/10 text-accent" : "bg-secondary text-secondary-foreground"}`}>
+              {event.cost_type}
+            </span>
+          )}
+        </div>
+        {event.description && (
+          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{event.description}</p>
+        )}
+        {event.location && (
+          <p className="text-sm text-muted-foreground mt-2 flex items-center gap-1">
+            <MapPin className="w-3.5 h-3.5 shrink-0" /> {event.location}
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+}
+
 export default function Events() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dateFilter = searchParams.get("date") || undefined;
@@ -32,6 +100,10 @@ export default function Events() {
   );
 
   const { data: events = [], isLoading } = useEvents({ date: dateFilter, category: categoryFilter });
+
+  const today = new Date().toISOString().split("T")[0];
+  const upcomingEvents = events.filter(e => e.event_date >= today);
+  const pastEvents = events.filter(e => e.event_date < today);
 
   const updateParams = (updates: Record<string, string | undefined>) => {
     const params = new URLSearchParams(searchParams);
@@ -67,7 +139,7 @@ export default function Events() {
             <p className="text-primary-foreground/70 mt-2">Meet, learn, and grow with your community</p>
           </div>
           <div className="flex flex-col items-end gap-1">
-            <Link to={user ? "/submit-event" : "/login"}>
+            <Link to={user ? "/submit-event" : "/login?redirectTo=/submit-event"}>
               <Button variant="secondary" size="sm">
                 <Plus className="w-4 h-4 mr-1" /> Add Your Event
               </Button>
@@ -102,7 +174,7 @@ export default function Events() {
 
             {isLoading ? (
               <div className="text-center py-12 text-muted-foreground">Loading events...</div>
-            ) : events.length === 0 ? (
+            ) : upcomingEvents.length === 0 && pastEvents.length === 0 ? (
               <div className="text-center py-16">
                 <CalendarIcon className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
                 <p className="text-muted-foreground font-medium">
@@ -117,85 +189,37 @@ export default function Events() {
                   {hasFilters && (
                     <Button variant="outline" onClick={clearFilters}>Clear filters</Button>
                   )}
-                  <Link to={user ? "/submit-event" : "/login"}>
+                  <Link to={user ? "/submit-event" : "/login?redirectTo=/submit-event"}>
                     <Button variant="ghost" className="text-accent">Add your event</Button>
                   </Link>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
-                {events.map(event => (
-                  <Link
-                    key={event.id}
-                    to={`/events/${event.id}`}
-                    className="group flex gap-4 bg-card rounded-lg border overflow-hidden hover:shadow-md transition-all"
-                  >
-                    {/* Image thumbnail */}
-                    <div className="w-40 sm:w-52 shrink-0 bg-muted">
-                      {event.image_url ? (
-                        <img
-                          src={event.image_url}
-                          alt={event.title}
-                          className="w-full h-full object-cover min-h-[120px]"
-                        />
-                      ) : (
-                        <div className="w-full h-full min-h-[120px] flex items-center justify-center text-muted-foreground">
-                          <CalendarIcon className="w-8 h-8 opacity-30" />
-                        </div>
-                      )}
-                    </div>
+              <>
+                {upcomingEvents.length > 0 && (
+                  <div className="space-y-4">
+                    {upcomingEvents.map(event => (
+                      <EventCard key={event.id} event={event} isPast={false} />
+                    ))}
+                  </div>
+                )}
 
-                    {/* Content */}
-                    <div className="flex-1 py-4 pr-4">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <div className="flex items-center gap-2 text-xs font-semibold text-accent uppercase">
-                            <CalendarIcon className="w-3.5 h-3.5" />
-                            {format(parse(event.event_date, "yyyy-MM-dd", new Date()), "MMMM d, yyyy")}
-                            {event.start_time && (
-                              <span className="text-muted-foreground font-normal">
-                                · {formatTime(event.start_time)}{event.end_time ? ` – ${formatTime(event.end_time)}` : ""}
-                              </span>
-                            )}
-                          </div>
-                          <h3 className="text-lg font-semibold text-foreground mt-1 group-hover:text-accent transition-colors">
-                            {event.title}
-                          </h3>
-                        </div>
-                        <div onClick={e => e.preventDefault()}>
-                          <ShareButton title={event.title} text={`${event.title} — ${event.event_date}`} url={`${window.location.origin}/events/${event.id}`} variant="icon" />
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 mt-1 flex-wrap">
-                        {event.category && (
-                          <span className="inline-flex items-center gap-1 text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full">
-                            <Tag className="w-3 h-3" /> {event.category}
-                          </span>
-                        )}
-                        {event.cost_type && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${event.cost_type === "Free" ? "bg-accent/10 text-accent" : "bg-secondary text-secondary-foreground"}`}>
-                            {event.cost_type}
-                          </span>
-                        )}
-                      </div>
-                      {event.description && (
-                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{event.description}</p>
-                      )}
-                      {event.location && (
-                        <p className="text-sm text-muted-foreground mt-2 flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 shrink-0" /> {event.location}
-                        </p>
-                      )}
+                {pastEvents.length > 0 && (
+                  <div className="mt-10">
+                    <h2 className="text-xl font-display text-foreground mb-4">Past Events</h2>
+                    <div className="space-y-4 opacity-75">
+                      {pastEvents.map(event => (
+                        <EventCard key={event.id} event={event} isPast={true} />
+                      ))}
                     </div>
-                  </Link>
-                ))}
-              </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
 
           {/* Sidebar */}
           <div className="order-first lg:order-last space-y-4">
-            {/* Calendar */}
             <div className="bg-card rounded-lg border p-4 sticky top-4">
               <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Date</h3>
               <Calendar
@@ -211,7 +235,6 @@ export default function Events() {
               )}
             </div>
 
-            {/* Category filter */}
             <div className="bg-card rounded-lg border p-4">
               <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Category</h3>
               <div className="flex flex-wrap gap-1.5">
@@ -232,13 +255,11 @@ export default function Events() {
               </div>
             </div>
 
-            {/* Video Tip */}
             <VideoTipModule />
 
-            {/* Submit CTA */}
             <div className="bg-card rounded-lg border p-4 text-center">
               <p className="text-sm text-muted-foreground mb-2">Have an event to share?</p>
-              <Link to={user ? "/submit-event" : "/login"}>
+              <Link to={user ? "/submit-event" : "/login?redirectTo=/submit-event"}>
                 <Button variant="outline" size="sm" className="w-full">
                   <Plus className="w-4 h-4 mr-1" /> {user ? "Submit an Event" : "Log in to submit"}
                 </Button>
@@ -246,7 +267,6 @@ export default function Events() {
               <p className="text-xs text-muted-foreground mt-2">Free for community events</p>
             </div>
 
-            {/* Newsletter */}
             <NewsletterSignup source="events" variant="card" />
           </div>
         </div>
