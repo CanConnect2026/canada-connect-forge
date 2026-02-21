@@ -82,13 +82,10 @@ export default function Contact() {
                 </Button>
               </form>
             )}
-          </div>
 
-          {/* Right — Quick links + Advertising + Contact info */}
-          <div className="space-y-8">
-            {/* Contact Info — first so address is visible immediately */}
-            <div>
-              <h2 className="text-2xl font-display text-foreground mb-4">Contact Information</h2>
+            {/* Contact Info — below the form */}
+            <div className="mt-8">
+              <h3 className="text-lg font-display text-foreground mb-4">Contact Information</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
@@ -110,7 +107,10 @@ export default function Contact() {
                 </div>
               </div>
             </div>
+          </div>
 
+          {/* Right — Quick links + Advertising + Contact info */}
+          <div className="space-y-8">
             {/* Quick Links */}
             <div>
               <h2 className="text-2xl font-display text-foreground mb-4">Quick Links</h2>
