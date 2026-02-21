@@ -2,6 +2,24 @@ import { useParams, Link } from "react-router-dom";
 import { MapPin, Train, Home, Briefcase, GraduationCap, Heart, Users, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const CITY_LANDMARKS: Record<string, { url: string; alt: string }> = {
+  toronto: { url: "https://images.unsplash.com/photo-1517090504332-eaa7b23a2c01?w=600&h=800&fit=crop", alt: "CN Tower, Toronto" },
+  ottawa: { url: "https://images.unsplash.com/photo-1558531304-a4a0e7c505d0?w=600&h=800&fit=crop", alt: "Parliament Hill, Ottawa" },
+  hamilton: { url: "https://images.unsplash.com/photo-1580068797614-17b17da3d7a7?w=600&h=800&fit=crop", alt: "Dundas Peak, Hamilton" },
+  brampton: { url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=800&fit=crop", alt: "Brampton cityscape" },
+  mississauga: { url: "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=600&h=800&fit=crop", alt: "Absolute Towers, Mississauga" },
+  london: { url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=800&fit=crop", alt: "London, Ontario" },
+  windsor: { url: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=800&fit=crop", alt: "Ambassador Bridge, Windsor" },
+  kitchener: { url: "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&h=800&fit=crop", alt: "Kitchener downtown" },
+  markham: { url: "https://images.unsplash.com/photo-1555992643-0f7d1d8c8b2e?w=600&h=800&fit=crop", alt: "Markham cityscape" },
+  vaughan: { url: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&h=800&fit=crop", alt: "Vaughan Metropolitan Centre" },
+  barrie: { url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=800&fit=crop", alt: "Kempenfelt Bay, Barrie" },
+  guelph: { url: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=600&h=800&fit=crop", alt: "University of Guelph" },
+  oshawa: { url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=800&fit=crop", alt: "Oshawa cityscape" },
+  scarborough: { url: "https://images.unsplash.com/photo-1508693926297-1d61ee3df82a?w=600&h=800&fit=crop", alt: "Scarborough Bluffs" },
+  waterloo: { url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=800&fit=crop", alt: "University of Waterloo" },
+};
+
 interface CitySection {
   icon: React.ElementType;
   title: string;
@@ -1093,32 +1111,48 @@ export default function CityGuide() {
           </div>
         </div>
 
-        {/* Sections */}
-        <div className="max-w-4xl mx-auto space-y-6">
-          {data.sections.map((section) => (
-            <div key={section.title} className="bg-card rounded-2xl p-6 md:p-8 border">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                  <section.icon size={20} className="text-primary" />
+        {/* Sections with landmark imagery */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 max-w-5xl mx-auto">
+          <div className="space-y-6">
+            {data.sections.map((section) => (
+              <div key={section.title} className="bg-card rounded-2xl p-6 md:p-8 border">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <section.icon size={20} className="text-primary" />
+                  </div>
+                  <h2 className="font-display font-semibold text-xl text-foreground">{section.title}</h2>
                 </div>
-                <h2 className="font-display font-semibold text-xl text-foreground">{section.title}</h2>
+                <p className="text-foreground/80 leading-relaxed mb-4 ml-14">{section.content}</p>
+                {section.tips && (
+                  <div className="ml-14 bg-secondary/50 rounded-xl p-4">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Tips for Newcomers</p>
+                    <ul className="space-y-2">
+                      {section.tips.map((tip, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
+                          <span className="text-primary mt-0.5">•</span>
+                          {tip}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-              <p className="text-foreground/80 leading-relaxed mb-4 ml-14">{section.content}</p>
-              {section.tips && (
-                <div className="ml-14 bg-secondary/50 rounded-xl p-4">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Tips for Newcomers</p>
-                  <ul className="space-y-2">
-                    {section.tips.map((tip, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
-                        <span className="text-primary mt-0.5">•</span>
-                        {tip}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            ))}
+          </div>
+
+          {/* Landmark imagery sidebar */}
+          {city && CITY_LANDMARKS[city.toLowerCase()] && (
+            <div className="hidden lg:block">
+              <div className="sticky top-24 space-y-4">
+                <img
+                  src={CITY_LANDMARKS[city.toLowerCase()].url}
+                  alt={CITY_LANDMARKS[city.toLowerCase()].alt}
+                  className="w-full h-80 object-cover rounded-2xl border"
+                />
+                <p className="text-xs text-muted-foreground text-center">{CITY_LANDMARKS[city.toLowerCase()].alt}</p>
+              </div>
             </div>
-          ))}
+          )}
         </div>
 
         {/* CTA */}

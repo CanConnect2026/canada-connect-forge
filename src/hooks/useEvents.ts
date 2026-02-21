@@ -25,7 +25,7 @@ export interface Event {
   longitude?: number | null;
 }
 
-export function useEvents(filters?: { date?: string; city?: string; category?: string }) {
+export function useEvents(filters?: { date?: string; city?: string; category?: string; includePast?: boolean }) {
   return useQuery({
     queryKey: ["events", filters],
     queryFn: async () => {
