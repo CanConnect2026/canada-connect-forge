@@ -270,7 +270,7 @@ export default function Index() {
         </section>
       )}
       {/* Mobile App Promo */}
-      <section className="py-16 bg-section-alt">
+      <section className="py-10 bg-section-alt">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
             <div className="flex-1 flex justify-center">
