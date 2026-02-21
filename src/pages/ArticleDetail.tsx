@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useArticle, useRelatedArticles } from "@/hooks/useArticles";
-import { ChevronLeft, Clock, Calendar, BookOpen, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Clock, Calendar, ArrowRight, CheckCircle2 } from "lucide-react";
+import RelatedContentSection, { articleToRelatedItem } from "@/components/RelatedContentSection";
 import ShareButton from "@/components/ShareButton";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -114,40 +115,10 @@ export default function ArticleDetail() {
           </div>
         </div>
 
-        {/* Related Guides */}
-        {relatedArticles.length > 0 && (
-          <div className="mt-12 max-w-3xl">
-            <h2 className="text-2xl font-display text-foreground mb-6">Related Guides</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {relatedArticles.map((a) => (
-                <Link
-                  key={a.id}
-                  to={`/how-to/${a.slug}`}
-                  className="group bg-card rounded-lg border overflow-hidden hover:shadow-md transition-shadow"
-                >
-                  {a.featured_image_url ? (
-                    <div className="h-32 bg-muted">
-                      <img src={a.featured_image_url} alt={a.title} className="w-full h-full object-cover" />
-                    </div>
-                  ) : (
-                    <div className="h-32 bg-muted flex items-center justify-center">
-                      <BookOpen className="w-8 h-8 text-muted-foreground opacity-30" />
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <span className="text-xs font-semibold text-accent uppercase">{a.category}</span>
-                    <h3 className="font-semibold mt-1 text-foreground text-sm group-hover:text-accent transition-colors">
-                      {a.title}
-                    </h3>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                      <Clock className="w-3 h-3" /> {a.estimated_read_minutes} min read
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <RelatedContentSection
+          title="Related Guides"
+          items={relatedArticles.map(articleToRelatedItem)}
+        />
       </div>
     </div>
   );

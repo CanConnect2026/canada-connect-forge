@@ -2,7 +2,8 @@ import { useParams, Link } from "react-router-dom";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useEvent, useRelatedEvents } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
-import { MapPin, Calendar, Clock, ChevronLeft, Plus, Globe, Mail, Phone, ExternalLink, Tag } from "lucide-react";
+import { MapPin, Calendar, Clock, Plus, Globe, Mail, Phone, ExternalLink, Tag } from "lucide-react";
+import RelatedContentSection, { eventToRelatedItem } from "@/components/RelatedContentSection";
 import ReportIssueDialog from "@/components/ReportIssueDialog";
 import ShareButton from "@/components/ShareButton";
 import ListingDetailMap from "@/components/ListingDetailMap";
@@ -200,42 +201,10 @@ export default function EventDetail() {
           </div>
         )}
 
-        {/* Related events */}
-        {relatedEvents.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-display text-foreground mb-6">Other Upcoming Events</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {relatedEvents.map(e => (
-                <Link
-                  key={e.id}
-                  to={`/events/${e.id}`}
-                  className="group bg-card rounded-lg border overflow-hidden hover:shadow-md transition-shadow"
-                >
-                  {e.image_url ? (
-                    <div className="h-32 bg-muted">
-                      <img src={e.image_url} alt={e.title} className="w-full h-full object-cover" />
-                    </div>
-                  ) : (
-                    <div className="h-32 bg-muted flex items-center justify-center">
-                      <Calendar className="w-8 h-8 text-muted-foreground opacity-30" />
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <span className="text-xs font-semibold text-accent uppercase">
-                      {format(parse(e.event_date, "yyyy-MM-dd", new Date()), "MMM d, yyyy")}
-                    </span>
-                    <h3 className="font-semibold mt-1 text-foreground text-sm group-hover:text-accent transition-colors">{e.title}</h3>
-                    {e.location && (
-                      <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
-                        <MapPin className="w-3 h-3" /> {e.location}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <RelatedContentSection
+          title="Other Upcoming Events"
+          items={relatedEvents.map(eventToRelatedItem)}
+        />
       </div>
     </div>
   );
