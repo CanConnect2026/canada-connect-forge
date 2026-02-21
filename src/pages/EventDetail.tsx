@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEvent, useRelatedEvents } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
 import { MapPin, Calendar, Clock, ChevronLeft, Plus, Globe, Mail, Phone, ExternalLink, Tag } from "lucide-react";
+import ReportIssueDialog from "@/components/ReportIssueDialog";
 import ShareButton from "@/components/ShareButton";
 import ListingDetailMap from "@/components/ListingDetailMap";
 import { Button } from "@/components/ui/button";
@@ -130,11 +131,17 @@ export default function EventDetail() {
               </div>
             )}
 
-            {/* Community-submitted label */}
-            <p className="text-xs text-muted-foreground mt-4 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent/60" />
-              Community-submitted · Reviewed by CanConnect
-            </p>
+            {/* Community-submitted label + Report */}
+            <div className="flex items-center justify-between mt-4">
+              <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent/60" />
+                Community-submitted · Reviewed by CanConnect
+              </p>
+              <ReportIssueDialog
+                relatedUrl={window.location.href}
+                relatedEventId={event.id}
+              />
+            </div>
           </div>
 
           {/* Right sidebar */}

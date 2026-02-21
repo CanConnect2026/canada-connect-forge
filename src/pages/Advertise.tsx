@@ -3,6 +3,7 @@ import { Megaphone, CheckCircle2, BarChart3, Users, Eye, Target } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { sendNotification } from "@/hooks/useNotification";
 
 const benefits = [
   { icon: Users, title: "Reach Newcomers Directly", desc: "Connect with thousands of immigrants actively looking for services across Ontario." },
@@ -38,6 +39,17 @@ export default function Advertise() {
         message: form.message.trim() || null,
       });
       if (error) throw error;
+
+      await sendNotification({
+        type: "advertise",
+        data: {
+          first_name: form.contact_name.trim(),
+          organization_name: form.company_name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim() || undefined,
+        },
+      });
+
       setSubmitted(true);
     } catch {
       toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });

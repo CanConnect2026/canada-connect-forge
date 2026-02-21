@@ -134,6 +134,30 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
       contributions: {
         Row: {
           contribution_types: string[]
@@ -244,6 +268,60 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      issue_reports: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          id: string
+          issue_description: string
+          related_event_id: string | null
+          related_listing_id: string | null
+          related_url: string | null
+          reporter_email: string | null
+          reporter_name: string | null
+          status: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          issue_description: string
+          related_event_id?: string | null
+          related_listing_id?: string | null
+          related_url?: string | null
+          reporter_email?: string | null
+          reporter_name?: string | null
+          status?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          issue_description?: string
+          related_event_id?: string | null
+          related_listing_id?: string | null
+          related_url?: string | null
+          reporter_email?: string | null
+          reporter_name?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_reports_related_event_id_fkey"
+            columns: ["related_event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "issue_reports_related_listing_id_fkey"
+            columns: ["related_listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       listing_claims: {
         Row: {
@@ -399,18 +477,21 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          name: string | null
           source: string | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          name?: string | null
           source?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          name?: string | null
           source?: string | null
         }
         Relationships: []

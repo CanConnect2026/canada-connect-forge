@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { sendNotification } from "@/hooks/useNotification";
 
 const categories = [
   "Settlement",
@@ -97,6 +98,16 @@ export default function SuggestService() {
       });
 
       if (error) throw error;
+
+      await sendNotification({
+        type: "add_service",
+        data: {
+          first_name: values.yourName || undefined,
+          organization_name: values.organizationName,
+          email: values.yourEmail || undefined,
+        },
+      });
+
       setSubmitted(true);
     } catch {
       toast({

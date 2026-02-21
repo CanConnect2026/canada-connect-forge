@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import ListingBadge from "@/components/ListingBadge";
 import ListingCard from "@/components/ListingCard";
 import ListingDetailMap from "@/components/ListingDetailMap";
+import ReportIssueDialog from "@/components/ReportIssueDialog";
 import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Facebook, Twitter, Instagram, Linkedin, Image as ImageIcon, Navigation, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -191,10 +192,16 @@ export default function ListingDetail() {
               </div>
             )}
 
-            {/* Trust label */}
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <ShieldCheck className="w-4 h-4 text-accent/60" />
-              <span>Community-submitted · Reviewed by CanConnect</span>
+            {/* Trust label + Report */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <ShieldCheck className="w-4 h-4 text-accent/60" />
+                <span>Community-submitted · Reviewed by CanConnect</span>
+              </div>
+              <ReportIssueDialog
+                relatedUrl={window.location.href}
+                relatedListingId={listing.id}
+              />
             </div>
           </div>
 

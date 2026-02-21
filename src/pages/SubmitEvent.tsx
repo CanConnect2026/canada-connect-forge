@@ -18,6 +18,7 @@ import {
   Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { sendNotification } from "@/hooks/useNotification";
 import { EVENT_CATEGORIES } from "@/data/eventCategories";
 
 const formSchema = z.object({
@@ -122,6 +123,18 @@ export default function SubmitEvent() {
       } as any);
 
       if (error) throw error;
+
+      await sendNotification({
+        type: "add_event",
+        data: {
+          first_name: values.contact_email ? undefined : undefined,
+          event_name: values.title,
+          organization_name: values.contact_email || undefined,
+          event_date: values.event_date,
+          email: values.contact_email || undefined,
+        },
+      });
+
       setSubmitted(true);
     } catch (err: any) {
       toast({ title: "Something went wrong", description: err.message || "Please try again later.", variant: "destructive" });
