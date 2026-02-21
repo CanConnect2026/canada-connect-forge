@@ -7,6 +7,7 @@ import iconWhite from "@/assets/canconnect-icon-white.png";
 
 const socialLinks = [
   { label: "LinkedIn", icon: "in", url: "#" },
+  { label: "X", icon: "𝕏", url: "#" },
   { label: "Instagram", icon: "IG", url: "#" },
   { label: "Facebook", icon: "FB", url: "#" },
   { label: "YouTube", icon: "YT", url: "#" },
