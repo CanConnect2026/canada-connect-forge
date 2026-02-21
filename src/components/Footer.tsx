@@ -104,7 +104,7 @@ export default function Footer() {
                 { to: "/help", label: "Help Centre" },
                 { to: "/faq", label: "FAQ" },
                 { to: "/how-we-verify", label: "How We Verify" },
-                { to: "/how-we-choose-featured", label: "How We Choose Featured" },
+                { to: "/how-we-choose-featured", label: "Featured Listings" },
                 { to: "/privacy", label: "Privacy Policy" },
                 { to: "/terms", label: "Terms of Service" },
               ].map((l) => (
