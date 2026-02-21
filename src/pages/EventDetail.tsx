@@ -143,7 +143,7 @@ export default function EventDetail() {
               <div className="bg-card rounded-lg border p-5">
                 <h3 className="font-semibold text-foreground text-sm mb-3">Get Directions</h3>
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location + (event.city ? `, ${event.city}` : ""))}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location + (event.city ? `, ${event.city}, ON` : ", ON"))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-accent hover:underline"
@@ -167,23 +167,24 @@ export default function EventDetail() {
         </div>
 
         {/* Location map */}
-        {(event.latitude && event.longitude) ? (
-          <div className="mt-8">
-            <h2 className="text-2xl font-display text-foreground mb-4">Location</h2>
-            <ListingDetailMap latitude={event.latitude} longitude={event.longitude} name={event.title} />
+        {((event.latitude && event.longitude) || event.location) && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+            <div className="lg:col-span-2">
+              <h2 className="text-2xl font-display text-foreground mb-4">Location</h2>
+              {(event.latitude && event.longitude) ? (
+                <ListingDetailMap latitude={event.latitude} longitude={event.longitude} name={event.title} />
+              ) : (
+                <iframe
+                  title="Location map"
+                  className="w-full h-[300px] rounded-lg border"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(event.location + (event.city ? `, ${event.city}` : ''))}&output=embed`}
+                  allowFullScreen
+                  loading="lazy"
+                />
+              )}
+            </div>
           </div>
-        ) : event.location ? (
-          <div className="mt-8">
-            <h2 className="text-2xl font-display text-foreground mb-4">Location</h2>
-            <iframe
-              title="Location map"
-              className="w-full h-[300px] rounded-lg border"
-              src={`https://www.google.com/maps?q=${encodeURIComponent(event.location + (event.city ? `, ${event.city}` : ''))}&output=embed`}
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-        ) : null}
+        )}
 
         {/* Related events */}
         {relatedEvents.length > 0 && (
