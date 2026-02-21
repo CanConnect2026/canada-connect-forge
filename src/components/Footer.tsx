@@ -79,6 +79,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm opacity-80">
               {[
+                { to: "/claim", label: "List Your Business" },
                 { to: "/get-involved", label: "Get Involved" },
                 { to: "/suggest", label: "Suggest a Service" },
                 { to: "/submit-event", label: "Submit an Event" },
@@ -103,6 +104,8 @@ export default function Footer() {
                 { to: "/help", label: "Help Centre" },
                 { to: "/faq", label: "FAQ" },
                 { to: "/how-we-verify", label: "How We Verify" },
+                { to: "/privacy", label: "Privacy Policy" },
+                { to: "/terms", label: "Terms of Service" },
               ].map((l) => (
                 <li key={l.label}>
                   <Link to={l.to} className="hover:opacity-100 hover:text-accent transition-colors">
