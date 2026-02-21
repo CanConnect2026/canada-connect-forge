@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Mail, MapPin, Plus, Handshake, Calendar, Megaphone, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, Plus, Handshake, Calendar, Megaphone, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { sendNotification } from "@/hooks/useNotification";
+import ReportIssueDialog from "@/components/ReportIssueDialog";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -124,6 +125,22 @@ export default function Contact() {
                 <span className="text-xs text-muted-foreground">Reach newcomers across Ontario</span>
               </div>
             </Link>
+
+            {/* Report an Issue */}
+            <ReportIssueDialog
+              relatedUrl={typeof window !== "undefined" ? window.location.href : "/contact"}
+              trigger={
+                <button className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:bg-secondary transition-colors w-full text-left">
+                  <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <AlertTriangle className="w-4 h-4 text-accent" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-semibold text-foreground block">Report an Issue</span>
+                    <span className="text-xs text-muted-foreground">Flag incorrect info or broken links</span>
+                  </div>
+                </button>
+              }
+            />
 
             {/* Contact Info */}
             <div>

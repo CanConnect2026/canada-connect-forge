@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Rocket, ListChecks, CreditCard, ShieldCheck, Mail } from "lucide-react";
+import { Rocket, ListChecks, CreditCard, ShieldCheck, Mail, AlertTriangle } from "lucide-react";
+import ReportIssueDialog from "@/components/ReportIssueDialog";
 
 const sections = [
   {
@@ -99,11 +100,19 @@ export default function HelpCentre() {
               </div>
             ))}
 
-            <div className="p-6 bg-card rounded-lg border">
+            <div className="p-6 bg-card rounded-lg border flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
               <p className="text-sm text-muted-foreground">
                 Can't find what you're looking for?{" "}
                 <Link to="/contact" className="text-accent hover:underline font-medium">Contact us</Link> and we'll be happy to help.
               </p>
+              <ReportIssueDialog
+                relatedUrl={typeof window !== "undefined" ? window.location.href : "/help"}
+                trigger={
+                  <button className="flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent/80 transition-colors whitespace-nowrap">
+                    <AlertTriangle className="w-4 h-4" /> Report an Issue
+                  </button>
+                }
+              />
             </div>
           </div>
         </div>
