@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import Breadcrumb from "@/components/Breadcrumb";
 import { useListing } from "@/hooks/useListings";
 import { useRelatedListings } from "@/hooks/useRelatedListings";
 import { useAuth } from "@/hooks/useAuth";
@@ -58,9 +59,13 @@ export default function ListingDetail() {
       {/* Header */}
       <div className="bg-primary py-6">
         <div className="container">
-          <Link to="/directory" className="inline-flex items-center gap-1 text-primary-foreground/70 hover:text-primary-foreground text-sm mb-4">
-            <ChevronLeft className="w-4 h-4" /> Back to Directory
-          </Link>
+          <Breadcrumb
+            items={[
+              { label: "Find Services", to: "/directory" },
+              { label: listing.name },
+            ]}
+            className="mb-4 [&_a]:text-primary-foreground/70 [&_a:hover]:text-primary-foreground [&_svg]:text-primary-foreground/40 [&>a]:text-primary-foreground/70 [&_span.text-foreground]:text-primary-foreground"
+          />
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">

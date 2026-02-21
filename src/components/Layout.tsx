@@ -1,6 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, MapPin, LogOut, User } from "lucide-react";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, MapPin, LogOut, User, Search, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
@@ -8,15 +8,117 @@ import logoFull from "@/assets/canconnect-logo-full.jpg";
 import logoIcon from "@/assets/canconnect-icon.png";
 
 const navLinks = [
-  { to: "/", label: "Find Services" },
+  { to: "/directory", label: "Find Services" },
   { to: "/map", label: "Map" },
   { to: "/events", label: "Events" },
+];
+
+const resourceLinks = [
   { to: "/how-to", label: "How-To Guides" },
   { to: "/guides", label: "City Guides" },
+];
+
+const secondaryNavLinks = [
   { to: "/get-involved", label: "Get Involved" },
   { to: "/about", label: "About Us" },
   { to: "/contact", label: "Contact" },
 ];
+
+function ResourcesDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const isActive = resourceLinks.some(l => location.pathname.startsWith(l.to));
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+          isActive ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+        }`}
+      >
+        Resources <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute top-full left-0 mt-1 bg-card border rounded-lg shadow-lg py-1 min-w-[180px] z-50 animate-fade-in">
+          {resourceLinks.map(link => (
+            <Link
+              key={link.to}
+              to={link.to}
+              onClick={() => setOpen(false)}
+              className={`block px-4 py-2.5 text-sm transition-colors ${
+                location.pathname.startsWith(link.to)
+                  ? "bg-secondary text-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function HeaderSearch() {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open && inputRef.current) inputRef.current.focus();
+  }, [open]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/directory?search=${encodeURIComponent(query.trim())}`);
+      setQuery("");
+      setOpen(false);
+    }
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(!open)}
+        className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+        aria-label="Search"
+      >
+        <Search className="w-4 h-4" />
+      </button>
+      {open && (
+        <form onSubmit={handleSubmit} className="absolute left-0 right-0 top-full bg-card border-b shadow-md z-50 animate-fade-in">
+          <div className="container flex items-center gap-3 py-3">
+            <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search services, events, guides..."
+              className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            />
+            <button type="button" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground p-1">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </form>
+      )}
+    </>
+  );
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -41,7 +143,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main nav */}
-      <header className="bg-card border-b sticky top-0 z-50">
+      <header className="bg-card border-b sticky top-0 z-50 relative">
         <div className="container flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
             <img src={logoIcon} alt="" className="h-8 w-8" />
@@ -69,6 +171,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {link.label}
               </Link>
             ))}
+            <ResourcesDropdown />
+            {secondaryNavLinks.map(link => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  location.pathname === link.to
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
             {isAdmin && (
               <Link
                 to="/admin"
@@ -83,7 +199,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             )}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
+            <HeaderSearch />
             {user ? (
               <>
                 <span className="text-sm text-muted-foreground flex items-center gap-1">
@@ -114,6 +231,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {mobileOpen && (
           <div className="lg:hidden border-t bg-card animate-fade-in">
             <div className="container py-4 flex flex-col gap-2">
+              {/* Mobile search */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const q = (formData.get("q") as string)?.trim();
+                  if (q) {
+                    window.location.href = `/directory?search=${encodeURIComponent(q)}`;
+                    setMobileOpen(false);
+                  }
+                }}
+                className="flex items-center gap-2 bg-background rounded-md px-3 py-2 mb-2"
+              >
+                <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+                <input
+                  name="q"
+                  type="text"
+                  placeholder="Search services..."
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                />
+              </form>
+
               {navLinks.map(link => (
                 <Link
                   key={link.to}
@@ -126,6 +265,46 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   {link.label}
                 </Link>
               ))}
+
+              {/* Resources section in mobile */}
+              <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Resources</div>
+              {resourceLinks.map(link => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileOpen(false)}
+                  className={`px-3 py-2.5 rounded-md text-sm font-medium pl-6 ${
+                    location.pathname.startsWith(link.to) ? "bg-secondary text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              {secondaryNavLinks.map(link => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileOpen(false)}
+                  className={`px-3 py-2.5 rounded-md text-sm font-medium ${
+                    location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              {/* Help Centre in mobile */}
+              <Link
+                to="/help"
+                onClick={() => setMobileOpen(false)}
+                className={`px-3 py-2.5 rounded-md text-sm font-medium ${
+                  location.pathname === "/help" ? "bg-secondary text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                Help Centre
+              </Link>
+
               {isAdmin && (
                 <Link to="/admin" onClick={() => setMobileOpen(false)} className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground">
                   Admin

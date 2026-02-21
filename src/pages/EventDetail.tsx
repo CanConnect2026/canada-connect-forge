@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import Breadcrumb from "@/components/Breadcrumb";
 import { useEvent, useRelatedEvents } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
 import { MapPin, Calendar, Clock, ChevronLeft, Plus, Globe, Mail, Phone, ExternalLink, Tag } from "lucide-react";
@@ -47,9 +48,13 @@ export default function EventDetail() {
       )}
 
       <div className="container py-8">
-        <Link to="/events" className="inline-flex items-center gap-1 text-muted-foreground hover:text-accent text-sm mb-6">
-          <ChevronLeft className="w-4 h-4" /> Back to Events
-        </Link>
+        <Breadcrumb
+          items={[
+            { label: "Events", to: "/events" },
+            { label: event.title },
+          ]}
+          className="mb-6"
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main content */}
