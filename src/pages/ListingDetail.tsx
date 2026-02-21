@@ -4,7 +4,7 @@ import { useListing } from "@/hooks/useListings";
 import { useRelatedListings } from "@/hooks/useRelatedListings";
 import { useAuth } from "@/hooks/useAuth";
 import ListingBadge from "@/components/ListingBadge";
-import ListingCard from "@/components/ListingCard";
+import RelatedContentSection, { listingToRelatedItem } from "@/components/RelatedContentSection";
 import ListingDetailMap from "@/components/ListingDetailMap";
 import ReportIssueDialog from "@/components/ReportIssueDialog";
 import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Facebook, Twitter, Instagram, Linkedin, Image as ImageIcon, Navigation, ShieldCheck } from "lucide-react";
@@ -286,17 +286,10 @@ export default function ListingDetail() {
           </div>
         </div>
 
-        {/* Related Listings */}
-        {relatedListings.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-display text-foreground mb-6">Similar Services Near You</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {relatedListings.map(l => (
-                <ListingCard key={l.id} listing={l} />
-              ))}
-            </div>
-          </div>
-        )}
+        <RelatedContentSection
+          title="Similar Services Near You"
+          items={relatedListings.map(listingToRelatedItem)}
+        />
       </div>
 
       {/* Claim form modal */}
