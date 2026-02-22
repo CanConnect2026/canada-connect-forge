@@ -131,9 +131,12 @@ export default function Footer() {
 
           {/* Column 5 — Newsletter */}
           <div className="sm:col-span-2 lg:col-span-3">
-            <h4 className="font-semibold text-sm text-primary-foreground mb-1">
-              You don't have to figure this out alone.
+            <h4 className="font-semibold text-xs uppercase tracking-widest mb-3.5 opacity-50">
+              Newsletter
             </h4>
+            <p className="font-semibold text-sm text-primary-foreground mb-1">
+              You don't have to figure this out alone.
+            </p>
             <p className="text-xs opacity-60 mb-3 leading-relaxed">
               Get trusted updates, resources, and opportunities — built for immigrants, by immigrants.
             </p>
