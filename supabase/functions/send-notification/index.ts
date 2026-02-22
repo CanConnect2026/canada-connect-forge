@@ -17,10 +17,10 @@ function getUserEmail(type: string, data: Record<string, string | undefined>): {
   const name = data.first_name || "there";
 
   switch (type) {
-    case "newsletter_signup":
+    case "newsletter_confirmation":
       return {
-        subject: "Welcome to CanConnect 💛",
-        body: `Hi ${name},\n\nWelcome to CanConnect — we're so glad you're here.\n\nYou'll now receive updates about new services, community events, helpful resources, and stories from across Ontario.\n\nWe're building this space for newcomers and the organizations that support them — and you're now part of it.\n\nWarmly,\nThe CanConnect Team`,
+        subject: "One more step to join CanConnect 💛",
+        body: `Hi ${name},\n\nThank you for signing up.\n\nBefore we start sending you updates, we just need you to confirm your email address.\n\nClick the link below to complete your subscription:\n\n[Confirm My Subscription]\n\nCanConnect was created to make it easier for immigrants and newcomers to find trusted services, programs, and community support across Ontario.\n\nWe're building this together — and we're grateful you're here.\n\nIf you didn't request this, you can safely ignore this email.\n\nWarmly,\nThe CanConnect Team`,
       };
     case "add_service":
       return {
