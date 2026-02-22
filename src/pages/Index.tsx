@@ -281,9 +281,9 @@ export default function Index() {
               />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-3xl font-display text-foreground mb-3">CanConnect On the Go</h2>
+              <h2 className="text-3xl font-display text-foreground mb-3"><span className="font-bold">Can</span><span className="font-normal">Connect</span> On the Go</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Take CanConnect with you wherever you are. Browse services, find events, and connect with your community — all from your phone. Download the app and get instant access to trusted newcomer support across Ontario.
+                Take <span className="font-semibold">Can</span>Connect with you wherever you are. Browse services, find events, and connect with your community — all from your phone. Download the app and get instant access to trusted newcomer support across Ontario.
               </p>
               <p className="text-sm text-muted-foreground mb-6">Available on both iOS and Android.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
