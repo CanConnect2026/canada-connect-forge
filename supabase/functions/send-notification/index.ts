@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.3";
+import { Resend } from "npm:resend@6";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -7,6 +8,9 @@ const corsHeaders = {
 };
 
 const ADMIN_EMAIL = "admin@canconnect.ca";
+const FROM_EMAIL = "CanConnect <noreply@canconnect.ca>";
+
+const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 interface EmailPayload {
   type: string;
@@ -24,7 +28,6 @@ async function syncToHubSpot(email: string, firstName?: string): Promise<void> {
   const properties: Record<string, string> = { email };
   if (firstName) properties.firstname = firstName;
 
-  // Try to create the contact; if it already exists, update it
   const createRes = await fetch("https://api.hubapi.com/crm/v3/objects/contacts", {
     method: "POST",
     headers: {
@@ -41,9 +44,7 @@ async function syncToHubSpot(email: string, firstName?: string): Promise<void> {
 
   const createBody = await createRes.json();
 
-  // 409 = contact already exists
   if (createRes.status === 409) {
-    // Extract existing contact ID from the error
     const existingId = createBody?.message?.match(/Existing ID: (\d+)/)?.[1];
     if (existingId) {
       const updateRes = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${existingId}`, {
@@ -69,7 +70,39 @@ async function syncToHubSpot(email: string, firstName?: string): Promise<void> {
   console.error("[HubSpot] Failed to create contact:", createRes.status, JSON.stringify(createBody));
 }
 
-// ── Email templates (unchanged) ─────────────────────────────────────────
+// ── Send email via Resend ───────────────────────────────────────────────
+async function sendEmail(to: string, subject: string, body: string): Promise<{ success: boolean; id?: string; error?: string }> {
+  try {
+    // Convert plain text body to simple HTML
+    const html = body
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .split("\n")
+      .map(line => line.trim() === "" ? "<br>" : `<p style="margin:0 0 4px 0;">${line}</p>`)
+      .join("");
+
+    const { data, error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to,
+      subject,
+      html: `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1a1a; line-height: 1.6;">${html}</div>`,
+    });
+
+    if (error) {
+      console.error("[Resend] Error:", error);
+      return { success: false, error: error.message };
+    }
+
+    console.log("[Resend] Email sent:", data?.id, "to:", to);
+    return { success: true, id: data?.id };
+  } catch (err) {
+    console.error("[Resend] Exception:", err);
+    return { success: false, error: String(err) };
+  }
+}
+
+// ── Email templates ─────────────────────────────────────────────────────
 
 function getUserEmail(type: string, data: Record<string, string | undefined>): { subject: string; body: string } | null {
   const name = data.first_name || "there";
@@ -180,18 +213,16 @@ Deno.serve(async (req) => {
       }
     }
 
+    // ── Send user email via Resend ──
     if (userEmail && data.email) {
-      console.log(`[EMAIL:USER] To: ${data.email}`);
-      console.log(`[EMAIL:USER] Subject: ${userEmail.subject}`);
-      console.log(`[EMAIL:USER] Body:\n${userEmail.body}`);
-      results.user_email = { to: data.email, subject: userEmail.subject, status: "logged" };
+      const result = await sendEmail(data.email, userEmail.subject, userEmail.body);
+      results.user_email = { to: data.email, subject: userEmail.subject, ...result };
     }
 
+    // ── Send admin email via Resend ──
     if (adminEmail) {
-      console.log(`[EMAIL:ADMIN] To: ${ADMIN_EMAIL}`);
-      console.log(`[EMAIL:ADMIN] Subject: ${adminEmail.subject}`);
-      console.log(`[EMAIL:ADMIN] Body:\n${adminEmail.body}`);
-      results.admin_email = { to: ADMIN_EMAIL, subject: adminEmail.subject, status: "logged" };
+      const result = await sendEmail(ADMIN_EMAIL, adminEmail.subject, adminEmail.body);
+      results.admin_email = { to: ADMIN_EMAIL, subject: adminEmail.subject, ...result };
     }
 
     return new Response(JSON.stringify({ success: true, results }), {
