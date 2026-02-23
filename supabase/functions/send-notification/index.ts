@@ -13,6 +13,64 @@ interface EmailPayload {
   data: Record<string, string | undefined>;
 }
 
+// ── HubSpot helper ──────────────────────────────────────────────────────
+async function syncToHubSpot(email: string, firstName?: string): Promise<void> {
+  const token = Deno.env.get("HUBSPOT_ACCESS_TOKEN");
+  if (!token) {
+    console.warn("[HubSpot] HUBSPOT_ACCESS_TOKEN not configured, skipping sync");
+    return;
+  }
+
+  const properties: Record<string, string> = { email };
+  if (firstName) properties.firstname = firstName;
+
+  // Try to create the contact; if it already exists, update it
+  const createRes = await fetch("https://api.hubapi.com/crm/v3/objects/contacts", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ properties }),
+  });
+
+  if (createRes.ok) {
+    console.log("[HubSpot] Contact created:", email);
+    return;
+  }
+
+  const createBody = await createRes.json();
+
+  // 409 = contact already exists
+  if (createRes.status === 409) {
+    // Extract existing contact ID from the error
+    const existingId = createBody?.message?.match(/Existing ID: (\d+)/)?.[1];
+    if (existingId) {
+      const updateRes = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${existingId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ properties }),
+      });
+      const updateBody = await updateRes.text();
+      if (updateRes.ok) {
+        console.log("[HubSpot] Contact updated:", email);
+      } else {
+        console.error("[HubSpot] Failed to update contact:", updateRes.status, updateBody);
+      }
+    } else {
+      console.warn("[HubSpot] Contact exists but couldn't extract ID:", JSON.stringify(createBody));
+    }
+    return;
+  }
+
+  console.error("[HubSpot] Failed to create contact:", createRes.status, JSON.stringify(createBody));
+}
+
+// ── Email templates (unchanged) ─────────────────────────────────────────
+
 function getUserEmail(type: string, data: Record<string, string | undefined>): { subject: string; body: string } | null {
   const name = data.first_name || "there";
 
@@ -109,17 +167,24 @@ Deno.serve(async (req) => {
     const userEmail = getUserEmail(type, data);
     const adminEmail = getAdminEmail(type, data);
 
-    // Log emails for now — plug in email provider later
     const results: Record<string, unknown> = {};
+
+    // ── Sync to HubSpot for newsletter signups ──
+    if (type === "newsletter_confirmation" && data.email) {
+      try {
+        await syncToHubSpot(data.email, data.first_name);
+        results.hubspot = { status: "synced" };
+      } catch (err) {
+        console.error("[HubSpot] Sync error:", err);
+        results.hubspot = { status: "error", message: String(err) };
+      }
+    }
 
     if (userEmail && data.email) {
       console.log(`[EMAIL:USER] To: ${data.email}`);
       console.log(`[EMAIL:USER] Subject: ${userEmail.subject}`);
       console.log(`[EMAIL:USER] Body:\n${userEmail.body}`);
       results.user_email = { to: data.email, subject: userEmail.subject, status: "logged" };
-
-      // TODO: When email provider is configured, send here:
-      // await sendEmail({ to: data.email, subject: userEmail.subject, body: userEmail.body });
     }
 
     if (adminEmail) {
@@ -127,9 +192,6 @@ Deno.serve(async (req) => {
       console.log(`[EMAIL:ADMIN] Subject: ${adminEmail.subject}`);
       console.log(`[EMAIL:ADMIN] Body:\n${adminEmail.body}`);
       results.admin_email = { to: ADMIN_EMAIL, subject: adminEmail.subject, status: "logged" };
-
-      // TODO: When email provider is configured, send here:
-      // await sendEmail({ to: ADMIN_EMAIL, subject: adminEmail.subject, body: adminEmail.body });
     }
 
     return new Response(JSON.stringify({ success: true, results }), {
