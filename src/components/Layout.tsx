@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, MapPin, LogOut, User, Search, ChevronDown } from "lucide-react";
+import { Menu, X, MapPin, LogOut, User, Search } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -11,9 +11,6 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/directory", label: "Find Services" },
   { to: "/events", label: "Events" },
-];
-
-const resourceLinks = [
   { to: "/how-to", label: "How-To Guides" },
   { to: "/guides", label: "City Guides" },
 ];
@@ -24,51 +21,6 @@ const secondaryNavLinks = [
   { to: "/contact", label: "Contact" },
 ];
 
-function ResourcesDropdown() {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const location = useLocation();
-  const isActive = resourceLinks.some(l => location.pathname.startsWith(l.to));
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-          isActive ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-        }`}
-      >
-        Resources <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 mt-1 bg-card border rounded-lg shadow-lg py-1 min-w-[180px] z-50 animate-fade-in">
-          {resourceLinks.map(link => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setOpen(false)}
-              className={`block px-4 py-2.5 text-sm transition-colors ${
-                location.pathname.startsWith(link.to)
-                  ? "bg-secondary text-foreground font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function HeaderSearch() {
   const [open, setOpen] = useState(false);
@@ -171,7 +123,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {link.label}
               </Link>
             ))}
-            <ResourcesDropdown />
+            
             {secondaryNavLinks.map(link => (
               <Link
                 key={link.to}
@@ -265,20 +217,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </Link>
               ))}
 
-              {/* Resources section in mobile */}
-              <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Resources</div>
-              {resourceLinks.map(link => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileOpen(false)}
-                  className={`px-3 py-2.5 rounded-md text-sm font-medium pl-6 ${
-                    location.pathname.startsWith(link.to) ? "bg-secondary text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
 
               {secondaryNavLinks.map(link => (
                 <Link
