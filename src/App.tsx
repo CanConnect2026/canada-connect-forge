@@ -32,6 +32,7 @@ import Advertise from "./pages/Advertise";
 import ConfirmNewsletter from "./pages/ConfirmNewsletter";
 import ListYourBusiness from "./pages/ListYourBusiness";
 import PartnerRegistration from "./pages/PartnerRegistration";
+import CommunityPartner from "./pages/CommunityPartner";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
