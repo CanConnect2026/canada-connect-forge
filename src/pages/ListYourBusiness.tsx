@@ -207,7 +207,7 @@ export default function ListYourBusiness() {
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="country">Country</Label>
-                          <Input id="country" defaultValue="Canada" required />
+                          <Input id="country" name="country" defaultValue="Canada" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="province">Province</Label>
