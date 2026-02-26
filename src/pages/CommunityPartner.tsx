@@ -105,8 +105,8 @@ export default function CommunityPartner() {
   return (
     <main className="min-h-screen">
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-20 md:py-28">
-        <div className="container max-w-3xl text-center space-y-6">
+      <section className="bg-primary text-primary-foreground py-16 md:py-24">
+        <div className="container max-w-4xl text-center space-y-6">
           <h1 className="font-display text-4xl md:text-5xl leading-tight">
             Become a Verified Community Partner
           </h1>
@@ -117,132 +117,135 @@ export default function CommunityPartner() {
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-16 md:py-20">
-        <div className="container max-w-4xl space-y-10">
-          <h2 className="font-display text-3xl md:text-4xl text-center">
-            Why Join as a Community Partner?
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map(({ icon: Icon, label }) => (
-              <Card key={label} className="border-none shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="flex items-start gap-4 p-6">
-                  <div className="rounded-lg bg-accent/10 p-2.5 shrink-0">
-                    <Icon className="h-5 w-5 text-accent" />
-                  </div>
-                  <span className="text-foreground font-medium leading-snug">{label}</span>
-                </CardContent>
-              </Card>
-            ))}
+      {/* Two-column: content left, form right */}
+      <section className="py-12 md:py-20">
+        <div className="container max-w-6xl">
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
+            {/* Left column — content */}
+            <div className="lg:col-span-2 space-y-10">
+              {/* Benefits */}
+              <div className="space-y-5">
+                <h2 className="font-display text-2xl md:text-3xl">
+                  Why Join as a Community Partner?
+                </h2>
+                <ul className="space-y-4">
+                  {benefits.map(({ icon: Icon, label }) => (
+                    <li key={label} className="flex items-start gap-3">
+                      <div className="rounded-lg bg-accent/10 p-2 shrink-0 mt-0.5">
+                        <Icon className="h-4 w-4 text-accent" />
+                      </div>
+                      <span className="text-foreground font-medium text-sm leading-snug">{label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Cost */}
+              <div className="space-y-3 p-6 rounded-xl bg-section-alt">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Investment
+                </p>
+                <p className="font-display text-3xl text-accent">
+                  FREE <span className="text-lg text-muted-foreground">for 12 Months</span>
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  As a mission-driven organization, your visibility should not be limited by cost.
+                  We offer a complimentary 12-month partnership to support your impact.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  After 12 months, eligibility will be reviewed to determine continued partnership status.
+                </p>
+              </div>
+            </div>
+
+            {/* Right column — sticky form */}
+            <div className="lg:col-span-3">
+              <div className="lg:sticky lg:top-24">
+                <Card className="border shadow-sm">
+                  <CardContent className="p-6 md:p-8">
+                    <h2 className="font-display text-2xl mb-6">Apply Now</h2>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <div className="space-y-2">
+                        <Label htmlFor="org_name">Organization Name</Label>
+                        <Input id="org_name" name="org_name" required />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="org_type">Organization Type</Label>
+                        <Select name="org_type" defaultValue="nonprofit">
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="nonprofit">Nonprofit</SelectItem>
+                            <SelectItem value="government">Government</SelectItem>
+                            <SelectItem value="settlement_agency">Settlement Agency</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="primary_services">Primary Services</Label>
+                        <Input id="primary_services" name="primary_services" placeholder="e.g. Legal aid, language classes" required />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="target_communities">Target Communities Served</Label>
+                        <Input id="target_communities" name="target_communities" placeholder="e.g. Syrian refugees, francophone newcomers" required />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="website">Website</Label>
+                        <Input id="website" name="website" type="url" placeholder="https://" />
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="contact_person">Contact Person</Label>
+                          <Input id="contact_person" name="contact_person" required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input id="email" name="email" type="email" required />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone</Label>
+                        <Input id="phone" name="phone" type="tel" />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="short_description">Short Description</Label>
+                        <Textarea
+                          id="short_description"
+                          name="short_description"
+                          placeholder="Tell us about your organization and how you support newcomers..."
+                          rows={4}
+                        />
+                      </div>
+
+                      <div className="flex items-start gap-3 pt-2">
+                        <Checkbox
+                          id="agree"
+                          checked={agreed}
+                          onCheckedChange={(v) => setAgreed(v === true)}
+                        />
+                        <Label htmlFor="agree" className="text-sm leading-snug cursor-pointer">
+                          I confirm this organization qualifies as a nonprofit or government entity.
+                        </Label>
+                      </div>
+
+                      <Button type="submit" size="lg" className="w-full text-base" disabled={loading}>
+                        {loading ? "Submitting..." : "Apply to Become a Verified Community Partner"}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Cost */}
-      <section className="py-16 md:py-20 bg-section-alt">
-        <div className="container max-w-2xl text-center space-y-4">
-          <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Investment
-          </p>
-          <p className="font-display text-5xl md:text-6xl text-accent">
-            FREE <span className="text-2xl text-muted-foreground">for 12 Months</span>
-          </p>
-          <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            As a mission-driven organization, your visibility should not be limited by cost.
-            We offer a complimentary 12-month partnership to support your impact.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            After 12 months, eligibility will be reviewed to determine continued partnership status.
-          </p>
-        </div>
-      </section>
-
-      {/* Application Form */}
-      <section className="py-16 md:py-20">
-        <div className="container max-w-2xl space-y-8">
-          <h2 className="font-display text-3xl text-center">Apply Now</h2>
-
-          <Card className="border shadow-sm">
-            <CardContent className="p-6 md:p-8">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="space-y-2">
-                  <Label htmlFor="org_name">Organization Name</Label>
-                  <Input id="org_name" name="org_name" required />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="org_type">Organization Type</Label>
-                  <Select name="org_type" defaultValue="nonprofit">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="nonprofit">Nonprofit</SelectItem>
-                      <SelectItem value="government">Government</SelectItem>
-                      <SelectItem value="settlement_agency">Settlement Agency</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="primary_services">Primary Services</Label>
-                  <Input id="primary_services" name="primary_services" placeholder="e.g. Legal aid, language classes" required />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="target_communities">Target Communities Served</Label>
-                  <Input id="target_communities" name="target_communities" placeholder="e.g. Syrian refugees, francophone newcomers" required />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="website">Website</Label>
-                  <Input id="website" name="website" type="url" placeholder="https://" />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="contact_person">Contact Person</Label>
-                    <Input id="contact_person" name="contact_person" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" name="email" type="email" required />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" name="phone" type="tel" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="short_description">Short Description</Label>
-                  <Textarea
-                    id="short_description"
-                    name="short_description"
-                    placeholder="Tell us about your organization and how you support newcomers..."
-                    rows={4}
-                  />
-                </div>
-
-                <div className="flex items-start gap-3 pt-2">
-                  <Checkbox
-                    id="agree"
-                    checked={agreed}
-                    onCheckedChange={(v) => setAgreed(v === true)}
-                  />
-                  <Label htmlFor="agree" className="text-sm leading-snug cursor-pointer">
-                    I confirm this organization qualifies as a nonprofit or government entity.
-                  </Label>
-                </div>
-
-                <Button type="submit" size="lg" className="w-full text-base" disabled={loading}>
-                  {loading ? "Submitting..." : "Apply to Become a Verified Community Partner"}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
         </div>
       </section>
     </main>
