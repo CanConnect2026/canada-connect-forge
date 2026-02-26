@@ -7,6 +7,7 @@ import AdminClaims from "@/components/admin/AdminClaims";
 import AdminSuggestions from "@/components/admin/AdminSuggestions";
 import AdminEvents from "@/components/admin/AdminEvents";
 import AdminArticles from "@/components/admin/AdminArticles";
+import AdminCommunityPartners from "@/components/admin/AdminCommunityPartners";
 
 export default function Admin() {
   const { user, isAdmin, loading } = useAuth();
@@ -24,18 +25,20 @@ export default function Admin() {
       </div>
       <div className="container py-8">
         <Tabs defaultValue="listings">
-          <TabsList className="mb-6">
+          <TabsList className="mb-6 flex-wrap">
             <TabsTrigger value="listings">Listings</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
             <TabsTrigger value="guides">Guides</TabsTrigger>
             <TabsTrigger value="claims">Claims</TabsTrigger>
             <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
+            <TabsTrigger value="community">Community Partners</TabsTrigger>
           </TabsList>
           <TabsContent value="listings"><AdminListings /></TabsContent>
           <TabsContent value="events"><AdminEvents /></TabsContent>
           <TabsContent value="guides"><AdminArticles /></TabsContent>
           <TabsContent value="claims"><AdminClaims /></TabsContent>
           <TabsContent value="suggestions"><AdminSuggestions /></TabsContent>
+          <TabsContent value="community"><AdminCommunityPartners /></TabsContent>
         </Tabs>
       </div>
     </div>
