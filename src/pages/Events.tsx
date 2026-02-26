@@ -153,6 +153,33 @@ export default function Events() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
           {/* Event listings */}
           <div>
+            {/* Category filter chips */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <button
+                onClick={() => updateParams({ category: undefined })}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  !categoryFilter
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                All
+              </button>
+              {EVENT_CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => handleCategorySelect(cat)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    categoryFilter === cat
+                      ? "bg-accent text-accent-foreground"
+                      : "bg-secondary text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
             {hasFilters && (
               <div className="flex items-center gap-2 mb-6 flex-wrap">
                 <span className="text-sm text-muted-foreground">Filtering by:</span>
