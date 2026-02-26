@@ -144,11 +144,16 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          is_visible: boolean
           name_on_card: string
           payment_status: string
           postal_code: string
           province: string
           status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          subscription_renewal_date: string | null
+          subscription_start_date: string | null
           updated_at: string
         }
         Insert: {
@@ -160,11 +165,16 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          is_visible?: boolean
           name_on_card: string
           payment_status?: string
           postal_code: string
           province: string
           status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_renewal_date?: string | null
+          subscription_start_date?: string | null
           updated_at?: string
         }
         Update: {
@@ -176,11 +186,16 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          is_visible?: boolean
           name_on_card?: string
           payment_status?: string
           postal_code?: string
           province?: string
           status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_renewal_date?: string | null
+          subscription_start_date?: string | null
           updated_at?: string
         }
         Relationships: []
