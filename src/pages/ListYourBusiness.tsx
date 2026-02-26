@@ -38,41 +38,64 @@ const steps = [
 ];
 
 export default function ListYourBusiness() {
-  const [paid, setPaid] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!user) {
+      toast({ title: "Please log in to apply as a Verified Partner.", variant: "destructive" });
+      navigate("/login");
+      return;
+    }
+
     const form = e.currentTarget;
     const fd = new FormData(form);
 
     setLoading(true);
-    const { error } = await supabase.from("business_partner_applications").insert({
-      name_on_card: fd.get("cardName") as string,
-      company_name: (fd.get("company") as string) || null,
-      email: fd.get("email") as string,
-      billing_address: fd.get("address") as string,
-      country: fd.get("country") as string,
-      province: fd.get("province") as string,
-      city: fd.get("city") as string,
-      postal_code: fd.get("postal") as string,
-    });
-    setLoading(false);
 
-    if (error) {
+    // Step 1: Save application to database
+    const { data: application, error: insertError } = await supabase
+      .from("business_partner_applications")
+      .insert({
+        name_on_card: fd.get("cardName") as string,
+        company_name: (fd.get("company") as string) || null,
+        email: fd.get("email") as string,
+        billing_address: fd.get("address") as string,
+        country: fd.get("country") as string,
+        province: fd.get("province") as string,
+        city: fd.get("city") as string,
+        postal_code: fd.get("postal") as string,
+      })
+      .select("id")
+      .single();
+
+    if (insertError || !application) {
+      setLoading(false);
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
       return;
     }
 
-    // In production, redirect to Circle for payment here.
-    setPaid(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Step 2: Create Stripe checkout session
+    const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke(
+      "create-partner-checkout",
+      { body: { application_id: application.id } }
+    );
+
+    setLoading(false);
+
+    if (checkoutError || !checkoutData?.url) {
+      toast({ title: "Payment setup failed. Please try again.", variant: "destructive" });
+      return;
+    }
+
+    // Redirect to Stripe checkout
+    window.location.href = checkoutData.url;
   };
 
-  if (paid) {
-    return <ConfirmationScreen />;
-  }
 
   return (
     <main className="min-h-screen">
