@@ -10,7 +10,6 @@ import logoIcon from "@/assets/canconnect-icon.png";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/directory", label: "Find Services" },
-  { to: "/map", label: "Map" },
   { to: "/events", label: "Events" },
 ];
 
