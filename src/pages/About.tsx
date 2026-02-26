@@ -1,5 +1,5 @@
 import { Heart, Shield, Users, Globe, Star } from "lucide-react";
-import aboutCommunity from "@/assets/about-community.jpg";
+
 
 export default function About() {
   return (
@@ -23,14 +23,9 @@ export default function About() {
             <p className="text-muted-foreground leading-relaxed mb-4">
               At CanConnect, we believe that when immigrants have access to clear information, trusted services, and strong community connections, they are better equipped to build confident and successful lives in Canada.
             </p>
-            <p className="text-muted-foreground leading-relaxed mb-6">
+            <p className="text-muted-foreground leading-relaxed">
               CanConnect was created by immigrants who have lived this experience. We understand the uncertainty, urgency, and isolation that can come with starting over — and how powerful the right support can be.
             </p>
-            <img
-              src={aboutCommunity}
-              alt="Community of newcomers connecting together"
-              className="w-full h-56 object-cover rounded-lg"
-            />
           </div>
 
           {/* Right — Mission & Vision */}
