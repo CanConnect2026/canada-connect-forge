@@ -215,7 +215,7 @@ export default function ListYourBusiness() {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="city">City</Label>
-                          <Input id="city" placeholder="Toronto" required />
+                          <Input id="city" name="city" placeholder="Toronto" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="postal">Postal Code</Label>
