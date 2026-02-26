@@ -195,10 +195,24 @@ function getAdminEmail(type: string, data: Record<string, string | undefined>): 
         subject: "Issue Reported on Platform",
         body: `An issue has been reported.\n\nReported By: ${data.first_name || "Anonymous"}\nEmail: ${data.email || "Not provided"}\nDetails: ${data.issue_description || "N/A"}\nRelated Listing/Event: ${data.related_url || "N/A"}\n\nPlease review and take appropriate action.`,
       };
+    case "payment_success":
+      return {
+        subject: "New Business Partner Payment Received",
+        body: `A new Verified Business Partner payment has been processed.\n\nName: ${data.first_name || "N/A"}\nCompany: ${data.company_name || "N/A"}\nEmail: ${data.email || "N/A"}\nStripe Customer ID: ${data.stripe_customer_id || "N/A"}\n\nThe listing has been automatically activated.`,
+      };
+    case "payment_failed":
+      return {
+        subject: "Business Partner Payment Failed",
+        body: `A payment has failed for a Business Partner.\n\nStripe Customer ID: ${data.stripe_customer_id || "N/A"}\nEmail: ${data.email || "N/A"}\n\nThe partner's listing remains active but may need attention if payment is not resolved.`,
+      };
+    case "subscription_cancelled":
+      return {
+        subject: "Business Partner Subscription Cancelled",
+        body: `A Business Partner subscription has been cancelled.\n\nStripe Customer ID: ${data.stripe_customer_id || "N/A"}\nEmail: ${data.email || "N/A"}\n\nThe listing has been automatically hidden from the directory.`,
+      };
     default:
       return null;
   }
-}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
