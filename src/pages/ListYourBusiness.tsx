@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   MessageSquare,
@@ -16,7 +17,6 @@ import {
   Link2,
   Lock,
   ShieldCheck,
-  PartyPopper,
   Heart,
 } from "lucide-react";
 
@@ -37,41 +37,64 @@ const steps = [
 ];
 
 export default function ListYourBusiness() {
-  const [paid, setPaid] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!user) {
+      toast({ title: "Please log in to apply as a Verified Partner.", variant: "destructive" });
+      navigate("/login");
+      return;
+    }
+
     const form = e.currentTarget;
     const fd = new FormData(form);
 
     setLoading(true);
-    const { error } = await supabase.from("business_partner_applications").insert({
-      name_on_card: fd.get("cardName") as string,
-      company_name: (fd.get("company") as string) || null,
-      email: fd.get("email") as string,
-      billing_address: fd.get("address") as string,
-      country: fd.get("country") as string,
-      province: fd.get("province") as string,
-      city: fd.get("city") as string,
-      postal_code: fd.get("postal") as string,
-    });
-    setLoading(false);
 
-    if (error) {
+    // Step 1: Save application to database
+    const { data: application, error: insertError } = await supabase
+      .from("business_partner_applications")
+      .insert({
+        name_on_card: fd.get("cardName") as string,
+        company_name: (fd.get("company") as string) || null,
+        email: fd.get("email") as string,
+        billing_address: fd.get("address") as string,
+        country: fd.get("country") as string,
+        province: fd.get("province") as string,
+        city: fd.get("city") as string,
+        postal_code: fd.get("postal") as string,
+      })
+      .select("id")
+      .single();
+
+    if (insertError || !application) {
+      setLoading(false);
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
       return;
     }
 
-    // In production, redirect to Circle for payment here.
-    setPaid(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Step 2: Create Stripe checkout session
+    const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke(
+      "create-partner-checkout",
+      { body: { application_id: application.id } }
+    );
+
+    setLoading(false);
+
+    if (checkoutError || !checkoutData?.url) {
+      toast({ title: "Payment setup failed. Please try again.", variant: "destructive" });
+      return;
+    }
+
+    // Redirect to Stripe checkout
+    window.location.href = checkoutData.url;
   };
 
-  if (paid) {
-    return <ConfirmationScreen />;
-  }
 
   return (
     <main className="min-h-screen">
@@ -223,22 +246,13 @@ export default function ListYourBusiness() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="card">Card Details</Label>
-                        <Input id="card" placeholder="Card number" required />
-                        <div className="grid grid-cols-2 gap-4">
-                          <Input placeholder="MM / YY" required />
-                          <Input placeholder="CVC" required />
-                        </div>
-                      </div>
-
                       <Button type="submit" size="lg" className="w-full text-base" disabled={loading}>
-                        {loading ? "Submitting..." : "Complete Registration & Activate Profile"}
+                        {loading ? "Processing..." : "Continue to Payment — $199/year"}
                       </Button>
 
                       <p className="text-xs text-center text-muted-foreground">
-                        Payment securely processed through Circle. Your data is
-                        encrypted and never stored on our servers.
+                        You'll be redirected to our secure payment provider (Stripe) to complete your subscription.
+                        Your card details are handled securely by Stripe — never stored on our servers.
                       </p>
                     </form>
                   </CardContent>
@@ -248,40 +262,6 @@ export default function ListYourBusiness() {
           </div>
         </div>
       </section>
-    </main>
-  );
-}
-
-function ConfirmationScreen() {
-  return (
-    <main className="min-h-screen flex items-center justify-center py-16">
-      <div className="container max-w-lg text-center space-y-8">
-        <div className="mx-auto w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
-          <PartyPopper className="h-8 w-8 text-accent" />
-        </div>
-        <h1 className="font-display text-3xl md:text-4xl">
-          Congratulations — Your Profile Is Now Active
-        </h1>
-        <p className="text-muted-foreground">
-          Your Verified Business Partner listing is now live and searchable
-          inside CanConnect.
-        </p>
-        <ul className="text-left max-w-xs mx-auto space-y-2 text-sm text-foreground">
-          <li>• Edit your profile</li>
-          <li>• Receive direct inquiries</li>
-          <li>• Post events & promotions</li>
-          <li>• Access the partner community</li>
-          <li>• Use your Verified Partner badge</li>
-        </ul>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-          <Button asChild>
-            <Link to="/directory">Go to My Listing</Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/">Return to Dashboard</Link>
-          </Button>
-        </div>
-      </div>
     </main>
   );
 }

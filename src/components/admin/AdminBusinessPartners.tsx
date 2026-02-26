@@ -27,6 +27,11 @@ interface Application {
   postal_code: string;
   status: string;
   payment_status: string;
+  stripe_customer_id: string | null;
+  stripe_subscription_id: string | null;
+  subscription_start_date: string | null;
+  subscription_renewal_date: string | null;
+  is_visible: boolean;
   admin_notes: string | null;
   created_at: string;
 }
@@ -49,14 +54,12 @@ export default function AdminBusinessPartners() {
     },
   });
 
-  const updateStatus = useMutation({
-    mutationFn: async ({ id, status, payment_status, adminNotes }: { id: string; status: string; payment_status?: string; adminNotes?: string }) => {
-      const updates: Record<string, unknown> = { status };
-      if (payment_status) updates.payment_status = payment_status;
-      if (adminNotes !== undefined) updates.admin_notes = adminNotes;
+  const updateApp = useMutation({
+    mutationFn: async (updates: { id: string } & Record<string, unknown>) => {
+      const { id, ...fields } = updates;
       const { error } = await supabase
         .from("business_partner_applications")
-        .update(updates)
+        .update(fields)
         .eq("id", id);
       if (error) throw error;
     },
@@ -68,13 +71,14 @@ export default function AdminBusinessPartners() {
   });
 
   const statusColor = (s: string) => {
-    if (s === "approved") return "bg-badge-free text-accent-foreground";
-    if (s === "rejected") return "bg-badge-paid text-accent-foreground";
+    if (s === "active") return "bg-badge-free text-accent-foreground";
+    if (s === "cancelled" || s === "rejected") return "bg-badge-paid text-accent-foreground";
     return "bg-muted text-muted-foreground";
   };
 
   const paymentColor = (s: string) => {
     if (s === "paid") return "bg-badge-free text-accent-foreground";
+    if (s === "failed") return "bg-badge-paid text-accent-foreground";
     return "bg-muted text-muted-foreground";
   };
 
@@ -82,7 +86,7 @@ export default function AdminBusinessPartners() {
   if (!applications.length) return <p className="text-muted-foreground py-8">No business partner applications yet.</p>;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
@@ -91,6 +95,7 @@ export default function AdminBusinessPartners() {
             <TableHead>Email</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Payment</TableHead>
+            <TableHead>Visible</TableHead>
             <TableHead>Date</TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -107,6 +112,11 @@ export default function AdminBusinessPartners() {
                 </TableCell>
                 <TableCell>
                   <Badge className={paymentColor(app.payment_status)}>{app.payment_status}</Badge>
+                </TableCell>
+                <TableCell>
+                  <span className={app.is_visible ? "text-badge-free font-semibold" : "text-muted-foreground"}>
+                    {app.is_visible ? "Yes" : "No"}
+                  </span>
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
                   {format(new Date(app.created_at), "MMM d, yyyy")}
@@ -127,10 +137,18 @@ export default function AdminBusinessPartners() {
 
               {expandedId === app.id && (
                 <TableRow key={`${app.id}-detail`}>
-                  <TableCell colSpan={7} className="bg-muted/30 p-4">
-                    <div className="grid sm:grid-cols-2 gap-4 text-sm mb-4">
+                  <TableCell colSpan={8} className="bg-muted/30 p-4">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm mb-4">
                       <div><strong>Address:</strong> {app.billing_address}</div>
                       <div><strong>Location:</strong> {app.city}, {app.province}, {app.country} {app.postal_code}</div>
+                      <div><strong>Stripe Customer:</strong> {app.stripe_customer_id || "—"}</div>
+                      <div><strong>Subscription ID:</strong> {app.stripe_subscription_id || "—"}</div>
+                      {app.subscription_start_date && (
+                        <div><strong>Started:</strong> {format(new Date(app.subscription_start_date), "MMM d, yyyy")}</div>
+                      )}
+                      {app.subscription_renewal_date && (
+                        <div><strong>Renews:</strong> {format(new Date(app.subscription_renewal_date), "MMM d, yyyy")}</div>
+                      )}
                     </div>
                     <Textarea
                       placeholder="Admin notes..."
@@ -142,26 +160,40 @@ export default function AdminBusinessPartners() {
                     <div className="flex gap-2 flex-wrap">
                       <Button
                         size="sm"
-                        onClick={() => updateStatus.mutate({ id: app.id, status: "approved", adminNotes: notes })}
-                        disabled={updateStatus.isPending}
+                        onClick={() => updateApp.mutate({
+                          id: app.id,
+                          status: "active",
+                          is_visible: true,
+                          admin_notes: notes,
+                        })}
+                        disabled={updateApp.isPending}
                       >
-                        Approve
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => updateStatus.mutate({ id: app.id, status: "rejected", adminNotes: notes })}
-                        disabled={updateStatus.isPending}
-                      >
-                        Reject
+                        Activate
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => updateStatus.mutate({ id: app.id, status: app.status, payment_status: "paid", adminNotes: notes })}
-                        disabled={updateStatus.isPending}
+                        onClick={() => updateApp.mutate({
+                          id: app.id,
+                          is_visible: !app.is_visible,
+                          admin_notes: notes,
+                        })}
+                        disabled={updateApp.isPending}
                       >
-                        Mark as Paid
+                        {app.is_visible ? "Hide Listing" : "Show Listing"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => updateApp.mutate({
+                          id: app.id,
+                          status: "cancelled",
+                          is_visible: false,
+                          admin_notes: notes,
+                        })}
+                        disabled={updateApp.isPending}
+                      >
+                        Cancel / Reject
                       </Button>
                     </div>
                   </TableCell>
