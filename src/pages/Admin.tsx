@@ -33,6 +33,7 @@ export default function Admin() {
             <TabsTrigger value="claims">Claims</TabsTrigger>
             <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
             <TabsTrigger value="community">Community Partners</TabsTrigger>
+            <TabsTrigger value="business">Business Partners</TabsTrigger>
           </TabsList>
           <TabsContent value="listings"><AdminListings /></TabsContent>
           <TabsContent value="events"><AdminEvents /></TabsContent>
@@ -40,6 +41,7 @@ export default function Admin() {
           <TabsContent value="claims"><AdminClaims /></TabsContent>
           <TabsContent value="suggestions"><AdminSuggestions /></TabsContent>
           <TabsContent value="community"><AdminCommunityPartners /></TabsContent>
+          <TabsContent value="business"><AdminBusinessPartners /></TabsContent>
         </Tabs>
       </div>
     </div>
