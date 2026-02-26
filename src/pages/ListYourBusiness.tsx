@@ -38,10 +38,33 @@ const steps = [
 
 export default function ListYourBusiness() {
   const [paid, setPaid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In production this would integrate with Circle for payment processing.
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    setLoading(true);
+    const { error } = await supabase.from("business_partner_applications").insert({
+      name_on_card: fd.get("cardName") as string,
+      company_name: (fd.get("company") as string) || null,
+      email: fd.get("email") as string,
+      billing_address: fd.get("address") as string,
+      country: fd.get("country") as string,
+      province: fd.get("province") as string,
+      city: fd.get("city") as string,
+      postal_code: fd.get("postal") as string,
+    });
+    setLoading(false);
+
+    if (error) {
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
+      return;
+    }
+
+    // In production, redirect to Circle for payment here.
     setPaid(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
