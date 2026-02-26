@@ -196,7 +196,7 @@ export default function ListYourBusiness() {
 
                       <div className="space-y-2">
                         <Label htmlFor="email">Business Email</Label>
-                        <Input id="email" type="email" placeholder="you@company.com" required />
+                        <Input id="email" name="email" type="email" placeholder="you@company.com" required />
                       </div>
 
                       <div className="space-y-2">
