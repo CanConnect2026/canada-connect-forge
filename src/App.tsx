@@ -74,6 +74,7 @@ const App = () => (
               <Route path="/advertise" element={<Advertise />} />
               <Route path="/list-your-business" element={<ListYourBusiness />} />
               <Route path="/partner-registration" element={<PartnerRegistration />} />
+              <Route path="/community-partner" element={<CommunityPartner />} />
               <Route path="/confirm" element={<ConfirmNewsletter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
