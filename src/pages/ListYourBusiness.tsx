@@ -190,7 +190,7 @@ export default function ListYourBusiness() {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="company">Company Name (optional)</Label>
-                          <Input id="company" placeholder="Company name" />
+                          <Input id="company" name="company" placeholder="Company name" />
                         </div>
                       </div>
 
