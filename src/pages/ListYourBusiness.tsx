@@ -201,7 +201,7 @@ export default function ListYourBusiness() {
 
                       <div className="space-y-2">
                         <Label htmlFor="address">Billing Address</Label>
-                        <Input id="address" placeholder="Street address" required />
+                        <Input id="address" name="address" placeholder="Street address" required />
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
