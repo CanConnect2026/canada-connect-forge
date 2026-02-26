@@ -247,22 +247,13 @@ export default function ListYourBusiness() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="card">Card Details</Label>
-                        <Input id="card" placeholder="Card number" required />
-                        <div className="grid grid-cols-2 gap-4">
-                          <Input placeholder="MM / YY" required />
-                          <Input placeholder="CVC" required />
-                        </div>
-                      </div>
-
                       <Button type="submit" size="lg" className="w-full text-base" disabled={loading}>
-                        {loading ? "Submitting..." : "Complete Registration & Activate Profile"}
+                        {loading ? "Processing..." : "Continue to Payment — $199/year"}
                       </Button>
 
                       <p className="text-xs text-center text-muted-foreground">
-                        Payment securely processed through Circle. Your data is
-                        encrypted and never stored on our servers.
+                        You'll be redirected to our secure payment provider (Stripe) to complete your subscription.
+                        Your card details are handled securely by Stripe — never stored on our servers.
                       </p>
                     </form>
                   </CardContent>
@@ -272,40 +263,6 @@ export default function ListYourBusiness() {
           </div>
         </div>
       </section>
-    </main>
-  );
-}
-
-function ConfirmationScreen() {
-  return (
-    <main className="min-h-screen flex items-center justify-center py-16">
-      <div className="container max-w-lg text-center space-y-8">
-        <div className="mx-auto w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
-          <PartyPopper className="h-8 w-8 text-accent" />
-        </div>
-        <h1 className="font-display text-3xl md:text-4xl">
-          Congratulations — Your Profile Is Now Active
-        </h1>
-        <p className="text-muted-foreground">
-          Your Verified Business Partner listing is now live and searchable
-          inside CanConnect.
-        </p>
-        <ul className="text-left max-w-xs mx-auto space-y-2 text-sm text-foreground">
-          <li>• Edit your profile</li>
-          <li>• Receive direct inquiries</li>
-          <li>• Post events & promotions</li>
-          <li>• Access the partner community</li>
-          <li>• Use your Verified Partner badge</li>
-        </ul>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-          <Button asChild>
-            <Link to="/directory">Go to My Listing</Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/">Return to Dashboard</Link>
-          </Button>
-        </div>
-      </div>
     </main>
   );
 }
