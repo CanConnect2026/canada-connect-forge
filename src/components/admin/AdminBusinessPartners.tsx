@@ -182,6 +182,20 @@ export default function AdminBusinessPartners() {
                       >
                         {app.is_visible ? "Hide Listing" : "Show Listing"}
                       </Button>
+                      {app.stripe_customer_id && (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => {
+                            window.open(
+                              `https://dashboard.stripe.com/customers/${app.stripe_customer_id}`,
+                              "_blank"
+                            );
+                          }}
+                        >
+                          View in Stripe
+                        </Button>
+                      )}
                       <Button
                         size="sm"
                         variant="destructive"
