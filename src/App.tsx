@@ -30,6 +30,8 @@ import TermsOfService from "./pages/TermsOfService";
 import HowWeChooseFeatured from "./pages/HowWeChooseFeatured";
 import Advertise from "./pages/Advertise";
 import ConfirmNewsletter from "./pages/ConfirmNewsletter";
+import ListYourBusiness from "./pages/ListYourBusiness";
+import PartnerRegistration from "./pages/PartnerRegistration";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
