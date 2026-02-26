@@ -8,6 +8,7 @@ import {
   CalendarPlus,
   Users,
   Star,
+  Heart,
 } from "lucide-react";
 
 const benefits = [
@@ -86,6 +87,28 @@ export default function ListYourBusiness() {
               Apply to Become a Verified Business Partner
             </Link>
           </Button>
+        </div>
+      </section>
+
+      {/* Nonprofit callout */}
+      <section className="py-12 md:py-16">
+        <div className="container max-w-2xl">
+          <Card className="border-2 border-accent/20 bg-accent/5">
+            <CardContent className="flex flex-col sm:flex-row items-center gap-6 p-6 md:p-8">
+              <div className="rounded-full bg-accent/10 p-4 shrink-0">
+                <Heart className="h-7 w-7 text-accent" />
+              </div>
+              <div className="text-center sm:text-left space-y-2 flex-1">
+                <h3 className="font-display text-xl">Are you a nonprofit or government organization?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Community partners receive a <strong>free 12-month listing</strong>. No payment required.
+                </p>
+              </div>
+              <Button variant="outline" className="shrink-0" asChild>
+                <Link to="/community-partner">Apply as Community Partner</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </main>
