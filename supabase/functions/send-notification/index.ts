@@ -143,6 +143,21 @@ function getUserEmail(type: string, data: Record<string, string | undefined>): {
         subject: "Thank you for reporting this",
         body: `Hi ${name},\n\nThank you for flagging this issue.\n\nOur team will review it promptly to ensure the platform remains accurate and trustworthy.\n\nWe appreciate your help in keeping CanConnect reliable for the community.\n\nWarmly,\nThe CanConnect Team`,
       };
+    case "payment_success":
+      return {
+        subject: "Welcome to the Verified Business Partner Program 🎉",
+        body: `Hi ${name},\n\nYour payment has been successfully processed and your Verified Business Partner listing on CanConnect is now active.\n\nHere's what happens next:\n\n• Your business profile is now live in our directory\n• You'll receive the Verified Partner badge on your listing\n• Newcomers can now discover and connect with your business\n\nYour subscription will automatically renew in 12 months. You can manage your subscription at any time.\n\nThank you for supporting newcomers in Ontario — and welcome to the CanConnect partner community.\n\nWarmly,\nThe CanConnect Team`,
+      };
+    case "payment_failed":
+      return {
+        subject: "Action needed: Payment issue with your CanConnect subscription",
+        body: `Hi ${name},\n\nWe were unable to process your most recent payment for the Verified Business Partner subscription.\n\nTo keep your listing active and visible in the CanConnect directory, please update your payment method as soon as possible.\n\nIf you believe this is an error, please reach out to us at info@canconnect.ca and we'll be happy to help.\n\nWarmly,\nThe CanConnect Team`,
+      };
+    case "subscription_cancelled":
+      return {
+        subject: "Your CanConnect Business Partner subscription has been cancelled",
+        body: `Hi ${name},\n\nThis is to confirm that your Verified Business Partner subscription on CanConnect has been cancelled.\n\nYour listing has been removed from the public directory. If you'd like to re-activate your listing in the future, you're welcome to sign up again at any time.\n\nWe appreciate the time you spent as part of the CanConnect partner community. If you have any feedback, we'd love to hear from you at info@canconnect.ca.\n\nWarmly,\nThe CanConnect Team`,
+      };
     default:
       return null;
   }
@@ -180,10 +195,24 @@ function getAdminEmail(type: string, data: Record<string, string | undefined>): 
         subject: "Issue Reported on Platform",
         body: `An issue has been reported.\n\nReported By: ${data.first_name || "Anonymous"}\nEmail: ${data.email || "Not provided"}\nDetails: ${data.issue_description || "N/A"}\nRelated Listing/Event: ${data.related_url || "N/A"}\n\nPlease review and take appropriate action.`,
       };
+    case "payment_success":
+      return {
+        subject: "New Business Partner Payment Received",
+        body: `A new Verified Business Partner payment has been processed.\n\nName: ${data.first_name || "N/A"}\nCompany: ${data.company_name || "N/A"}\nEmail: ${data.email || "N/A"}\nStripe Customer ID: ${data.stripe_customer_id || "N/A"}\n\nThe listing has been automatically activated.`,
+      };
+    case "payment_failed":
+      return {
+        subject: "Business Partner Payment Failed",
+        body: `A payment has failed for a Business Partner.\n\nStripe Customer ID: ${data.stripe_customer_id || "N/A"}\nEmail: ${data.email || "N/A"}\n\nThe partner's listing remains active but may need attention if payment is not resolved.`,
+      };
+    case "subscription_cancelled":
+      return {
+        subject: "Business Partner Subscription Cancelled",
+        body: `A Business Partner subscription has been cancelled.\n\nStripe Customer ID: ${data.stripe_customer_id || "N/A"}\nEmail: ${data.email || "N/A"}\n\nThe listing has been automatically hidden from the directory.`,
+      };
     default:
       return null;
   }
-}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {

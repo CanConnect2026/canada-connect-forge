@@ -34,6 +34,25 @@ serve(async (req) => {
 
     console.log(`[WEBHOOK] Event: ${event.type}`);
 
+    // Helper to send notification emails
+    const sendNotification = async (type: string, data: Record<string, string | undefined>) => {
+      try {
+        const notifyUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/send-notification`;
+        const res = await fetch(notifyUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Deno.env.get("SUPABASE_ANON_KEY")}`,
+          },
+          body: JSON.stringify({ type, data }),
+        });
+        const result = await res.text();
+        console.log(`[WEBHOOK] Notification ${type} sent:`, result);
+      } catch (err) {
+        console.error(`[WEBHOOK] Failed to send ${type} notification:`, err);
+      }
+    };
+
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
@@ -41,7 +60,6 @@ serve(async (req) => {
         const customerId = session.customer as string;
 
         if (applicationId) {
-          // Get the subscription details
           const subscriptionId = session.subscription as string;
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
@@ -58,6 +76,22 @@ serve(async (req) => {
             })
             .eq("id", applicationId);
 
+          // Fetch application details for email
+          const { data: app } = await supabase
+            .from("business_partner_applications")
+            .select("name_on_card, company_name, email")
+            .eq("id", applicationId)
+            .single();
+
+          if (app) {
+            await sendNotification("payment_success", {
+              first_name: app.name_on_card,
+              company_name: app.company_name || undefined,
+              email: app.email,
+              stripe_customer_id: customerId,
+            });
+          }
+
           console.log(`[WEBHOOK] Application ${applicationId} activated`);
         }
         break;
@@ -72,6 +106,21 @@ serve(async (req) => {
           .update({ payment_status: "failed" })
           .eq("stripe_customer_id", customerId);
 
+        // Fetch partner email for notification
+        const { data: failedApp } = await supabase
+          .from("business_partner_applications")
+          .select("name_on_card, email")
+          .eq("stripe_customer_id", customerId)
+          .single();
+
+        if (failedApp) {
+          await sendNotification("payment_failed", {
+            first_name: failedApp.name_on_card,
+            email: failedApp.email,
+            stripe_customer_id: customerId,
+          });
+        }
+
         console.log(`[WEBHOOK] Payment failed for customer ${customerId}`);
         break;
       }
@@ -79,6 +128,13 @@ serve(async (req) => {
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
+
+        // Fetch partner email before updating
+        const { data: cancelledApp } = await supabase
+          .from("business_partner_applications")
+          .select("name_on_card, email")
+          .eq("stripe_customer_id", customerId)
+          .single();
 
         await supabase
           .from("business_partner_applications")
@@ -89,12 +145,19 @@ serve(async (req) => {
           })
           .eq("stripe_customer_id", customerId);
 
+        if (cancelledApp) {
+          await sendNotification("subscription_cancelled", {
+            first_name: cancelledApp.name_on_card,
+            email: cancelledApp.email,
+            stripe_customer_id: customerId,
+          });
+        }
+
         console.log(`[WEBHOOK] Subscription cancelled for customer ${customerId}`);
         break;
       }
 
       case "invoice.payment_succeeded": {
-        // Handle renewal
         const invoice = event.data.object as Stripe.Invoice;
         const customerId = invoice.customer as string;
         const subscriptionId = invoice.subscription as string;
