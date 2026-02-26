@@ -217,7 +217,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Link to="/login">Log In</Link>
                 </Button>
                 <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" asChild>
-                  <Link to="/get-involved">List Your Business</Link>
+                  <Link to="/list-your-business">List Your Business</Link>
                 </Button>
               </>
             )}
@@ -322,7 +322,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       <Link to="/login" onClick={() => setMobileOpen(false)}>Log In</Link>
                     </Button>
                     <Button size="sm" className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90" asChild>
-                      <Link to="/get-involved" onClick={() => setMobileOpen(false)}>List Your Business</Link>
+                      <Link to="/list-your-business" onClick={() => setMobileOpen(false)}>List Your Business</Link>
                     </Button>
                   </>
                 )}
