@@ -232,8 +232,8 @@ export default function ListYourBusiness() {
                         </div>
                       </div>
 
-                      <Button type="submit" size="lg" className="w-full text-base">
-                        Complete Registration & Activate Profile
+                      <Button type="submit" size="lg" className="w-full text-base" disabled={loading}>
+                        {loading ? "Submitting..." : "Complete Registration & Activate Profile"}
                       </Button>
 
                       <p className="text-xs text-center text-muted-foreground">
