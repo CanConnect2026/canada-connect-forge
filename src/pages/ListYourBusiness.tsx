@@ -186,7 +186,7 @@ export default function ListYourBusiness() {
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="cardName">Name on Card</Label>
-                          <Input id="cardName" placeholder="Full name" required />
+                          <Input id="cardName" name="cardName" placeholder="Full name" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="company">Company Name (optional)</Label>
