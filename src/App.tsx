@@ -33,6 +33,7 @@ import ConfirmNewsletter from "./pages/ConfirmNewsletter";
 import ListYourBusiness from "./pages/ListYourBusiness";
 import PartnerRegistration from "./pages/PartnerRegistration";
 import CommunityPartner from "./pages/CommunityPartner";
+import Partners from "./pages/Partners";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -75,6 +76,7 @@ const App = () => (
               <Route path="/list-your-business" element={<ListYourBusiness />} />
               <Route path="/partner-registration" element={<PartnerRegistration />} />
               <Route path="/community-partner" element={<CommunityPartner />} />
+              <Route path="/partners" element={<Partners />} />
               <Route path="/confirm" element={<ConfirmNewsletter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
