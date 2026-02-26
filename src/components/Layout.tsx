@@ -200,7 +200,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="hidden lg:flex items-center gap-2">
-            <HeaderSearch />
             {user ? (
               <>
                 <span className="text-sm text-muted-foreground flex items-center gap-1">
