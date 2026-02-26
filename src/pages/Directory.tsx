@@ -14,7 +14,7 @@ export default function Directory() {
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedType, setSelectedType] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locatingUser, setLocatingUser] = useState(false);
