@@ -8,6 +8,7 @@ import AdminSuggestions from "@/components/admin/AdminSuggestions";
 import AdminEvents from "@/components/admin/AdminEvents";
 import AdminArticles from "@/components/admin/AdminArticles";
 import AdminCommunityPartners from "@/components/admin/AdminCommunityPartners";
+import AdminBusinessPartners from "@/components/admin/AdminBusinessPartners";
 
 export default function Admin() {
   const { user, isAdmin, loading } = useAuth();
