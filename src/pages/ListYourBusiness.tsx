@@ -219,7 +219,7 @@ export default function ListYourBusiness() {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="postal">Postal Code</Label>
-                          <Input id="postal" placeholder="M5V 1A1" required />
+                          <Input id="postal" name="postal" placeholder="M5V 1A1" required />
                         </div>
                       </div>
 
