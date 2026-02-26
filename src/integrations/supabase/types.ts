@@ -134,6 +134,57 @@ export type Database = {
         }
         Relationships: []
       }
+      business_partner_applications: {
+        Row: {
+          admin_notes: string | null
+          billing_address: string
+          city: string
+          company_name: string | null
+          country: string
+          created_at: string
+          email: string
+          id: string
+          name_on_card: string
+          payment_status: string
+          postal_code: string
+          province: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          billing_address: string
+          city: string
+          company_name?: string | null
+          country?: string
+          created_at?: string
+          email: string
+          id?: string
+          name_on_card: string
+          payment_status?: string
+          postal_code: string
+          province: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          billing_address?: string
+          city?: string
+          company_name?: string | null
+          country?: string
+          created_at?: string
+          email?: string
+          id?: string
+          name_on_card?: string
+          payment_status?: string
+          postal_code?: string
+          province?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       community_partner_applications: {
         Row: {
           admin_notes: string | null

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,10 +38,33 @@ const steps = [
 
 export default function ListYourBusiness() {
   const [paid, setPaid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In production this would integrate with Circle for payment processing.
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    setLoading(true);
+    const { error } = await supabase.from("business_partner_applications").insert({
+      name_on_card: fd.get("cardName") as string,
+      company_name: (fd.get("company") as string) || null,
+      email: fd.get("email") as string,
+      billing_address: fd.get("address") as string,
+      country: fd.get("country") as string,
+      province: fd.get("province") as string,
+      city: fd.get("city") as string,
+      postal_code: fd.get("postal") as string,
+    });
+    setLoading(false);
+
+    if (error) {
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
+      return;
+    }
+
+    // In production, redirect to Circle for payment here.
     setPaid(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -161,40 +186,40 @@ export default function ListYourBusiness() {
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="cardName">Name on Card</Label>
-                          <Input id="cardName" placeholder="Full name" required />
+                          <Input id="cardName" name="cardName" placeholder="Full name" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="company">Company Name (optional)</Label>
-                          <Input id="company" placeholder="Company name" />
+                          <Input id="company" name="company" placeholder="Company name" />
                         </div>
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="email">Business Email</Label>
-                        <Input id="email" type="email" placeholder="you@company.com" required />
+                        <Input id="email" name="email" type="email" placeholder="you@company.com" required />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="address">Billing Address</Label>
-                        <Input id="address" placeholder="Street address" required />
+                        <Input id="address" name="address" placeholder="Street address" required />
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="country">Country</Label>
-                          <Input id="country" defaultValue="Canada" required />
+                          <Input id="country" name="country" defaultValue="Canada" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="province">Province</Label>
-                          <Input id="province" placeholder="ON" required />
+                          <Input id="province" name="province" placeholder="ON" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="city">City</Label>
-                          <Input id="city" placeholder="Toronto" required />
+                          <Input id="city" name="city" placeholder="Toronto" required />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="postal">Postal Code</Label>
-                          <Input id="postal" placeholder="M5V 1A1" required />
+                          <Input id="postal" name="postal" placeholder="M5V 1A1" required />
                         </div>
                       </div>
 
@@ -207,8 +232,8 @@ export default function ListYourBusiness() {
                         </div>
                       </div>
 
-                      <Button type="submit" size="lg" className="w-full text-base">
-                        Complete Registration & Activate Profile
+                      <Button type="submit" size="lg" className="w-full text-base" disabled={loading}>
+                        {loading ? "Submitting..." : "Complete Registration & Activate Profile"}
                       </Button>
 
                       <p className="text-xs text-center text-muted-foreground">
