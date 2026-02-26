@@ -17,7 +17,6 @@ import {
   Link2,
   Lock,
   ShieldCheck,
-  PartyPopper,
   Heart,
 } from "lucide-react";
 
