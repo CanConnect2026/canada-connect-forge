@@ -134,6 +134,63 @@ export type Database = {
         }
         Relationships: []
       }
+      community_partner_applications: {
+        Row: {
+          admin_notes: string | null
+          approved_at: string | null
+          contact_person: string
+          created_at: string
+          email: string
+          expires_at: string | null
+          id: string
+          organization_name: string
+          organization_type: string
+          phone: string | null
+          primary_services: string | null
+          short_description: string | null
+          status: string
+          target_communities: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          approved_at?: string | null
+          contact_person: string
+          created_at?: string
+          email: string
+          expires_at?: string | null
+          id?: string
+          organization_name: string
+          organization_type?: string
+          phone?: string | null
+          primary_services?: string | null
+          short_description?: string | null
+          status?: string
+          target_communities?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          approved_at?: string | null
+          contact_person?: string
+          created_at?: string
+          email?: string
+          expires_at?: string | null
+          id?: string
+          organization_name?: string
+          organization_type?: string
+          phone?: string | null
+          primary_services?: string | null
+          short_description?: string | null
+          status?: string
+          target_communities?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
