@@ -8,6 +8,7 @@ import {
   CalendarPlus,
   Users,
   Star,
+  Heart,
 } from "lucide-react";
 
 const benefits = [
