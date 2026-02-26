@@ -122,8 +122,8 @@ export default function NewsletterSignup({ source = "footer", variant = "inline"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shrink-0" disabled={loading}>
-          {loading ? "..." : "Join the Community"}
+        <Button type="submit" size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shrink-0 whitespace-nowrap" disabled={loading}>
+          {loading ? "..." : "Join"}
         </Button>
       </div>
       <p className="text-[10px] text-primary-foreground/40">📩 Monthly. Unsubscribe anytime.</p>
