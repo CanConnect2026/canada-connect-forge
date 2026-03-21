@@ -1,0 +1,10 @@
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/welcome-expo.jpg' WHERE id = '6b21dbc6-6025-4ca2-b786-606dac9ba525';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/job-fair.jpg' WHERE id = '7af111cd-77ad-4f3c-925a-25959373121d';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/immigration-workshop.jpg' WHERE id = '951bc455-04a4-4b5c-b1b9-b5d849f151fc';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/conversation-circle.jpg' WHERE id = '9c23e088-234d-4c28-b4d6-e423a6879c9e';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/social-mixer.jpg' WHERE id = '6dd5eed4-5491-4d8c-9f62-6fa26b6f578f';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/health-fair.jpg' WHERE id = 'af937cfa-6f3f-415a-b32a-7a6cd359abc9';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/youth-summit.jpg' WHERE id = '6b91d897-0c37-45b1-beb8-27775421ef72';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/community-festival.jpg' WHERE id = 'ddf4acd5-d136-45d6-87ba-9c3e8b4e845e';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/business-workshop.jpg' WHERE id = 'a9681c48-48d0-440b-8cff-042d62a8e9a0';
+UPDATE public.events SET image_url = 'https://gbrbtdfrbrfrdumwjwyi.supabase.co/storage/v1/object/public/event-images/admin/housing-literacy.jpg' WHERE id = '5aa7ed85-3d85-4855-9597-5fd055acb4d2';
