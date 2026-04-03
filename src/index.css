@@ -42,7 +42,11 @@
     --badge-paid: 0 70% 55%;
     --hero-overlay: 220 50% 10%;
     --warm-glow: 30 80% 55%;
-    --section-alt: 30 10% 97%;
+    --section-alt: 30 15% 97%;
+    --accent-secondary: 174 62% 40%;
+    --accent-secondary-foreground: 0 0% 100%;
+    --accent-gold: 38 80% 55%;
+    --accent-gold-foreground: 0 0% 10%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
