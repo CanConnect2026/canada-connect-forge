@@ -15,11 +15,7 @@ const navLinks = [
   { to: "/guides", label: "City Guides" },
 ];
 
-const secondaryNavLinks = [
-  { to: "/get-involved", label: "Get Involved" },
-  { to: "/about", label: "About Us" },
-  { to: "/contact", label: "Contact" },
-];
+const secondaryNavLinks: { to: string; label: string }[] = [];
 
 
 function HeaderSearch() {
