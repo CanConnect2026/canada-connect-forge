@@ -126,21 +126,21 @@ export default function Index() {
       </section>
 
       {/* Featured Support */}
-      <section className="py-10 bg-section-alt">
+      <section className="py-16 bg-section-alt">
         <div className="container">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-end justify-between mb-10">
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-3xl font-display text-foreground">Featured Support for Newcomers</h2>
+                <h2 className="text-3xl md:text-4xl font-display text-foreground">Featured Support for Newcomers</h2>
                 <FeaturedSupportModal />
               </div>
-              <p className="text-muted-foreground mt-1">Trusted organizations offering practical help, professional guidance, and community connection</p>
+              <p className="text-muted-foreground mt-2 text-base">Trusted organizations offering practical help, professional guidance, and community connection</p>
             </div>
             <Link to="/directory" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredListings.map(listing => (
               <ListingCard key={listing.id} listing={listing} />
             ))}
