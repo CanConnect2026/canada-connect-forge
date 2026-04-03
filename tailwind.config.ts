@@ -68,6 +68,14 @@ export default {
         "badge-paid": "hsl(var(--badge-paid))",
         "warm-glow": "hsl(var(--warm-glow))",
         "section-alt": "hsl(var(--section-alt))",
+        "accent-secondary": {
+          DEFAULT: "hsl(var(--accent-secondary))",
+          foreground: "hsl(var(--accent-secondary-foreground))",
+        },
+        "accent-gold": {
+          DEFAULT: "hsl(var(--accent-gold))",
+          foreground: "hsl(var(--accent-gold-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
