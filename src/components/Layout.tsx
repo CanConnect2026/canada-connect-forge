@@ -93,16 +93,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Main nav */}
       <header className="bg-card border-b sticky top-0 z-50 relative">
         <div className="container flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2.5">
             <img src={logoIcon} alt="" className="h-8 w-8" />
-            <div className="flex flex-col leading-none">
-              <span className="text-lg tracking-tight uppercase text-foreground">
-                <span className="font-bold">CAN</span><span className="font-normal">CONNECT</span>
-              </span>
-              <span className="text-[9px] tracking-[0.2em] uppercase text-accent font-semibold">
-                Arrive. Connect. Thrive.
-              </span>
-            </div>
+            <span className="text-xl font-heading font-bold tracking-tight uppercase text-accent">
+              <span className="font-extrabold">CAN</span>CONNECT
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
