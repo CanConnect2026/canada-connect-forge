@@ -149,11 +149,11 @@ export default function Index() {
       </section>
 
       {/* Services & Resources */}
-      <section className="py-10">
+      <section className="py-16">
         <div className="container">
-          <h2 className="text-3xl font-display text-foreground text-center mb-3">Services & Resources</h2>
-          <p className="text-muted-foreground text-center mb-10">Browse by category to find exactly what you need</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          <h2 className="text-3xl md:text-4xl font-display text-foreground text-center mb-3">Services & Resources</h2>
+          <p className="text-muted-foreground text-center mb-12 text-base">Browse by category to find exactly what you need</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
             {categoryIcons.map(cat => (
               <CategoryCard
                 key={cat.title}
