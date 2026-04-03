@@ -94,8 +94,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="bg-card border-b sticky top-0 z-50 relative">
         <div className="container flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logoIcon} alt="" className="h-9 w-9" />
-            <span className="text-2xl font-heading tracking-tight uppercase">
+            <img src={logoIcon} alt="" className="h-10 w-10" />
+            <span className="text-[1.7rem] font-heading tracking-tight uppercase leading-none">
               <span className="font-extrabold text-foreground">CAN</span><span className="font-semibold text-accent">CONNECT</span>
             </span>
           </Link>
