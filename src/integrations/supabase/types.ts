@@ -774,7 +774,53 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      user_listing_claims: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string | null
+          id: string | null
+          listing_id: string | null
+          organization_name: string | null
+          proof_description: string | null
+          status: Database["public"]["Enums"]["claim_status"] | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string | null
+          listing_id?: string | null
+          organization_name?: string | null
+          proof_description?: string | null
+          status?: Database["public"]["Enums"]["claim_status"] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string | null
+          listing_id?: string | null
+          organization_name?: string | null
+          proof_description?: string | null
+          status?: Database["public"]["Enums"]["claim_status"] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_claims_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       has_role: {
