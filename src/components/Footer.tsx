@@ -22,9 +22,11 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-3">
             <div className="flex items-center gap-2.5 mb-1.5">
               <img src={iconWhite} alt="" className="h-9 w-9 object-contain" />
-              <span className="text-2xl font-display tracking-wide text-primary-foreground"><span className="font-bold">CAN</span><span className="font-normal">CONNECT</span></span>
+              <span className="text-2xl font-heading tracking-tight uppercase text-primary-foreground">
+                <span className="font-extrabold">CAN</span><span className="font-semibold">CONNECT</span>
+              </span>
             </div>
-            <p className="text-xs uppercase tracking-[0.15em] font-semibold opacity-70 mb-3">
+            <p className="text-sm italic opacity-70 mb-3">
               Arrive. Connect. Thrive.
             </p>
             <ul className="space-y-2.5 text-sm opacity-80 mb-5">

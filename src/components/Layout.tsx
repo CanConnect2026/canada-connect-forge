@@ -93,10 +93,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Main nav */}
       <header className="bg-card border-b sticky top-0 z-50 relative">
         <div className="container flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logoIcon} alt="" className="h-8 w-8" />
-            <span className="text-xl font-heading font-bold tracking-tight uppercase text-accent">
-              <span className="font-extrabold">CAN</span>CONNECT
+          <Link to="/" className="flex items-center gap-3">
+            <img src={logoIcon} alt="" className="h-9 w-9" />
+            <span className="text-2xl font-heading tracking-tight uppercase">
+              <span className="font-extrabold text-foreground">CAN</span><span className="font-semibold text-accent">CONNECT</span>
             </span>
           </Link>
 
