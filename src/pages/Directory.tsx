@@ -18,6 +18,7 @@ export default function Directory() {
   const [showMap, setShowMap] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locatingUser, setLocatingUser] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
 
   const { data: listings = [], isLoading } = useListings({
     search: search || undefined,
@@ -27,7 +28,6 @@ export default function Directory() {
     listingType: selectedType || undefined,
   });
 
-  // Get all listings for category counts (unfiltered)
   const { data: allListings = [] } = useListings({});
 
   const categoryCounts = useMemo(() => {
@@ -60,60 +60,72 @@ export default function Directory() {
     );
   };
 
-  const hasActiveSearch = search || selectedCategory || selectedCity || selectedLanguage || selectedType;
-
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero search section */}
-      <section className="bg-primary py-12 sm:py-16">
-        <div className="container text-center">
-          <h1 className="text-3xl sm:text-4xl font-display text-primary-foreground mb-2">
+      {/* Compact hero */}
+      <section className="bg-primary py-6 sm:py-8">
+        <div className="container">
+          <h1 className="text-2xl sm:text-3xl font-display text-primary-foreground mb-1 text-center">
             Find Services
           </h1>
-          <p className="text-primary-foreground/70 text-sm sm:text-base mb-8 max-w-lg mx-auto">
-            Search trusted services and organizations across Ontario for newcomers
+          <p className="text-primary-foreground/70 text-sm mb-4 max-w-lg mx-auto text-center">
+            Search trusted services and organizations across Ontario
           </p>
 
-          <DirectorySearch search={search} onSearchChange={setSearch} />
+          <DirectorySearch
+            search={search}
+            onSearchChange={setSearch}
+            selectedCity={selectedCity}
+            onCityChange={setSelectedCity}
+          />
 
-          {/* Quick action buttons */}
-          <div className="flex items-center justify-center gap-3 mt-4">
+          {/* Quick actions row */}
+          <div className="flex items-center justify-center gap-2 mt-3">
             <Button
               variant="outline"
               size="sm"
               onClick={handleNearMe}
               disabled={locatingUser}
-              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20"
+              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 text-xs h-8"
             >
-              <Locate className={`w-4 h-4 mr-1.5 ${locatingUser ? "animate-pulse" : ""}`} />
+              <Locate className={`w-3.5 h-3.5 mr-1 ${locatingUser ? "animate-pulse" : ""}`} />
               {locatingUser ? "Locating..." : "Near Me"}
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setShowMap(true)}
-              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20"
+              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 text-xs h-8"
             >
-              <Map className="w-4 h-4 mr-1.5" />
-              View Map
+              <Map className="w-3.5 h-3.5 mr-1" />
+              Map
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowCategories(!showCategories)}
+              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 text-xs h-8"
+            >
+              {showCategories ? "Hide" : "Browse"} Categories
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Category browse */}
-      <section className="container py-8">
-        <h2 className="text-lg font-semibold text-foreground mb-4 text-center">Browse by Category</h2>
-        <CategoryBrowse
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          categoryCounts={categoryCounts}
-        />
-      </section>
+      {/* Collapsible categories */}
+      {showCategories && (
+        <section className="container py-4 border-b border-border">
+          <CategoryBrowse
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            categoryCounts={categoryCounts}
+          />
+        </section>
+      )}
 
       {/* Filters + Results */}
-      <section className="container pb-16">
-        <div className="mb-6">
+      <section className="container py-4">
+        <div className="mb-3">
           <DirectoryFilters
             selectedCategory={selectedCategory}
             selectedCity={selectedCity}
@@ -128,7 +140,7 @@ export default function Directory() {
         </div>
 
         {/* Results count */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3">
           <p className="text-sm text-muted-foreground">
             {isLoading ? "Searching..." : `${listings.length} service${listings.length !== 1 ? "s" : ""} found`}
           </p>
@@ -148,11 +160,11 @@ export default function Directory() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
+          <div className="text-center py-12">
+            <Search className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
             <p className="text-foreground font-semibold">No services found</p>
             <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search terms</p>
-            <div className="flex flex-col items-center gap-2 mt-6">
+            <div className="flex flex-col items-center gap-2 mt-4">
               <Button variant="outline" size="sm" onClick={clearFilters}>Clear all filters</Button>
               <Link to="/suggest">
                 <Button variant="ghost" size="sm" className="text-accent text-xs">Suggest a service</Button>
@@ -162,7 +174,6 @@ export default function Directory() {
         )}
       </section>
 
-      {/* Map overlay */}
       {showMap && (
         <MapOverlay
           listings={listings}
