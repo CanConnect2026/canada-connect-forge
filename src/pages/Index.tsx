@@ -72,6 +72,9 @@ export default function Index() {
         ))}
         <div className="container relative z-10 py-20">
           <div className="max-w-2xl animate-fade-in-up">
+            <p className="text-accent font-heading font-bold text-sm tracking-widest uppercase mb-3">
+              Arrive. Connect. Thrive.
+            </p>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-primary-foreground leading-tight transition-opacity duration-500">
               {slides[currentSlide].title}
             </h1>
