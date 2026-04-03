@@ -62,13 +62,13 @@ export default function Directory() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Compact hero */}
-      <section className="bg-primary py-6 sm:py-8">
+      {/* Compact hero — light background */}
+      <section className="bg-gradient-to-b from-section-alt to-background py-8 sm:py-10 border-b border-border/40">
         <div className="container">
-          <h1 className="text-2xl sm:text-3xl font-display text-primary-foreground mb-1 text-center">
+          <h1 className="text-3xl sm:text-4xl font-display text-foreground mb-1 text-center">
             Find Services
           </h1>
-          <p className="text-primary-foreground/70 text-sm mb-4 max-w-lg mx-auto text-center">
+          <p className="text-muted-foreground text-sm mb-5 max-w-lg mx-auto text-center">
             Search trusted services and organizations across Ontario
           </p>
 
@@ -80,13 +80,13 @@ export default function Directory() {
           />
 
           {/* Quick actions row */}
-          <div className="flex items-center justify-center gap-2 mt-3">
+          <div className="flex items-center justify-center gap-2 mt-4">
             <Button
               variant="outline"
               size="sm"
               onClick={handleNearMe}
               disabled={locatingUser}
-              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 text-xs h-8"
+              className="text-xs h-8 border-border hover:border-accent hover:text-accent"
             >
               <Locate className={`w-3.5 h-3.5 mr-1 ${locatingUser ? "animate-pulse" : ""}`} />
               {locatingUser ? "Locating..." : "Near Me"}
@@ -95,7 +95,7 @@ export default function Directory() {
               variant="outline"
               size="sm"
               onClick={() => setShowMap(true)}
-              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 text-xs h-8"
+              className="text-xs h-8 border-border hover:border-accent hover:text-accent"
             >
               <Map className="w-3.5 h-3.5 mr-1" />
               Map
@@ -104,7 +104,7 @@ export default function Directory() {
               variant="outline"
               size="sm"
               onClick={() => setShowCategories(!showCategories)}
-              className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 text-xs h-8"
+              className="text-xs h-8 border-border hover:border-accent hover:text-accent"
             >
               {showCategories ? "Hide" : "Browse"} Categories
             </Button>
