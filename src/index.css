@@ -79,6 +79,10 @@
     --input: 220 25% 18%;
     --ring: 10 78% 54%;
     --section-alt: 220 30% 10%;
+    --accent-secondary: 174 55% 45%;
+    --accent-secondary-foreground: 0 0% 100%;
+    --accent-gold: 38 70% 50%;
+    --accent-gold-foreground: 0 0% 100%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
