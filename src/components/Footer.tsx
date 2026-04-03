@@ -22,8 +22,8 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-3">
             <div className="flex items-center gap-2.5 mb-1.5">
               <img src={iconWhite} alt="" className="h-9 w-9 object-contain" />
-              <span className="text-2xl font-heading tracking-tight uppercase text-primary-foreground">
-                <span className="font-extrabold">CAN</span><span className="font-semibold">CONNECT</span>
+              <span className="text-2xl font-heading tracking-tight text-primary-foreground">
+                <span className="font-extrabold">Can</span><span className="font-semibold">Connect</span>
               </span>
             </div>
             <p className="text-sm italic opacity-70 mb-3">
