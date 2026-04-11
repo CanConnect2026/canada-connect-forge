@@ -216,11 +216,11 @@ export default function Index() {
       </section>
 
       {/* Community for Newcomers — lighter background with accent border */}
-      <section className="py-16 bg-primary text-primary-foreground">
+      <section className="py-16 bg-primary">
         <div className="container text-center">
-          <span className="text-xs font-semibold text-accent-secondary uppercase tracking-widest">Join the Community</span>
-          <h2 className="text-3xl md:text-4xl font-display text-foreground mt-2 mb-4">Community for Newcomers</h2>
-          <p className="text-muted-foreground max-w-lg mx-auto mb-8 leading-relaxed text-base">
+          <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Join the Community</span>
+          <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Community for Newcomers</h2>
+          <p className="text-primary-foreground/80 max-w-lg mx-auto mb-8 leading-relaxed text-base">
             Starting a new life in Canada can feel overwhelming — but you don't have to do it alone. Connect with others who understand your journey. Share stories, ask questions, and find your community.
           </p>
           <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/20">
