@@ -216,7 +216,7 @@ export default function Index() {
       </section>
 
       {/* Community for Newcomers — lighter background with accent border */}
-      <section className="py-16 bg-gradient-to-br from-accent-secondary/5 via-background to-accent/5 border-y border-border/40">
+      <section className="py-16 bg-primary text-primary-foreground">
         <div className="container text-center">
           <span className="text-xs font-semibold text-accent-secondary uppercase tracking-widest">Join the Community</span>
           <h2 className="text-3xl md:text-4xl font-display text-foreground mt-2 mb-4">Community for Newcomers</h2>
