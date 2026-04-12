@@ -136,19 +136,6 @@ export default function ListingDetail() {
               </div>
             )}
 
-            {/* Services */}
-            {listing.services_provided && listing.services_provided.length > 0 && (
-              <div className="bg-card rounded-lg border p-6">
-                <h2 className="font-display text-xl text-foreground mb-3">Services Provided</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {listing.services_provided.map(s => (
-                    <li key={s} className="text-sm text-muted-foreground flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" /> {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             {/* Languages */}
             {listing.languages_served.length > 0 && (
@@ -281,6 +268,20 @@ export default function ListingDetail() {
               <div className="bg-card rounded-lg border p-5">
                 <h3 className="font-semibold text-foreground mb-3">Address</h3>
                 <p className="text-sm text-muted-foreground">{listing.full_address}</p>
+              </div>
+            )}
+
+            {/* Services Provided */}
+            {listing.services_provided && listing.services_provided.length > 0 && (
+              <div className="bg-card rounded-lg border p-5">
+                <h3 className="font-semibold text-foreground mb-3">Services Provided</h3>
+                <ul className="space-y-1.5">
+                  {listing.services_provided.map(s => (
+                    <li key={s} className="text-sm text-muted-foreground flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" /> {s}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
