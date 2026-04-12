@@ -52,7 +52,21 @@ export function useEvents(filters?: { date?: string; city?: string; category?: s
   });
 }
 
-export function useEvent(id: string) {
+export function useAllEventDates() {
+  return useQuery({
+    queryKey: ["event-dates"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("events")
+        .select("event_date")
+        .eq("is_published", true);
+      if (error) throw error;
+      const uniqueDates = [...new Set(data.map(e => e.event_date))];
+      return uniqueDates;
+    },
+  });
+}
+
   return useQuery({
     queryKey: ["event", id],
     queryFn: async () => {
