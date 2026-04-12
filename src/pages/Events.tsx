@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { MapPin, Calendar as CalendarIcon, Clock, Plus, Tag } from "lucide-react";
-import { useEvents, Event } from "@/hooks/useEvents";
+import { useEvents, useAllEventDates, Event } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
 import ShareButton from "@/components/ShareButton";
 import { Calendar } from "@/components/ui/calendar";
@@ -100,6 +100,9 @@ export default function Events() {
   );
 
   const { data: events = [], isLoading } = useEvents({ date: dateFilter, category: categoryFilter });
+  const { data: eventDates = [] } = useAllEventDates();
+
+  const eventDaysSet = eventDates.map(d => parse(d, "yyyy-MM-dd", new Date()));
 
   const today = new Date().toISOString().split("T")[0];
   const upcomingEvents = events.filter(e => e.event_date >= today);
@@ -253,6 +256,8 @@ export default function Events() {
                 mode="single"
                 selected={selectedDate}
                 onSelect={handleDateSelect}
+                modifiers={{ hasEvent: eventDaysSet }}
+                modifiersClassNames={{ hasEvent: "has-event-day" }}
                 className={cn("p-0 pointer-events-auto")}
               />
               {selectedDate && (
