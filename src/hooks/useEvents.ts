@@ -67,6 +67,7 @@ export function useAllEventDates() {
   });
 }
 
+export function useEvent(id: string) {
   return useQuery({
     queryKey: ["event", id],
     queryFn: async () => {
