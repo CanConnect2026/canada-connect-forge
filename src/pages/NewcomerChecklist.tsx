@@ -75,8 +75,8 @@ export default function NewcomerChecklist() {
     <>
       <Breadcrumb
         items={[
-          { label: "Home", href: "/" },
-          { label: "Newcomer Checklists", href: "/#checklists" },
+          { label: "Home", to: "/" },
+          { label: "Newcomer Checklists", to: "/#checklists" },
           { label: streamData.label },
         ]}
       />
