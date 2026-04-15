@@ -216,29 +216,21 @@ export default function Index() {
       </section>
 
       {/* Newcomer Checklists */}
-      <section className="py-10 bg-primary">
+      <section className="py-6 bg-primary">
         <div className="container text-center">
-          <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Your First 90 Days</span>
-          <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Newcomer Checklists</h2>
-          <p className="text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed text-base mb-10">
-            Not sure what to do first? Our step-by-step checklists are tailored to how you arrived in Canada. Pick your path and we'll guide you through everything you need to do — with direct links to the services that can help.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <h2 className="text-2xl md:text-3xl font-display text-primary-foreground mb-1">Newcomer Checklists</h2>
+          <p className="text-primary-foreground/70 text-sm mb-6">Pick your path — we'll guide you through your first 90 days.</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {[
-              { icon: Leaf, label: "Permanent Resident", desc: "Express Entry, PNP, Family Sponsorship", slug: "permanent-resident" },
-              { icon: Shield, label: "Refugee / Asylum", desc: "Refugee claimants & protected persons", slug: "refugee" },
-              { icon: GraduationCap, label: "International Student", desc: "Study permit holders & graduates", slug: "international-student" },
-              { icon: Briefcase, label: "Temporary Worker", desc: "Work permits & LMIA workers", slug: "temporary-worker" },
+              { icon: Leaf, label: "Permanent Resident", slug: "permanent-resident" },
+              { icon: Shield, label: "Refugee / Asylum", slug: "refugee" },
+              { icon: GraduationCap, label: "International Student", slug: "international-student" },
+              { icon: Briefcase, label: "Temporary Worker", slug: "temporary-worker" },
             ].map((stream) => (
-              <Link key={stream.label} to={`/checklist/${stream.slug}`} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-6 text-center border border-primary-foreground/15 hover:bg-primary-foreground/20 transition-all hover:-translate-y-1 group">
-                <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-4">
-                  <stream.icon className="w-6 h-6 text-accent" />
-                </div>
-                <h3 className="font-bold text-primary-foreground text-sm group-hover:text-accent transition-colors">{stream.label}</h3>
-                <p className="text-primary-foreground/60 text-xs mt-1 mb-3">{stream.desc}</p>
-                <span className="text-accent text-xs font-medium inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Start checklist <ArrowRight className="w-3 h-3" />
-                </span>
+              <Link key={stream.label} to={`/checklist/${stream.slug}`} className="inline-flex items-center gap-2 text-primary-foreground/80 hover:text-accent transition-colors group">
+                <stream.icon className="w-5 h-5 text-accent" />
+                <span className="font-semibold text-sm group-hover:underline">{stream.label}</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </Link>
             ))}
           </div>
