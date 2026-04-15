@@ -88,7 +88,7 @@ export default function Directory() {
               disabled={locatingUser}
               className="text-xs h-8 border-border hover:border-accent hover:text-accent"
             >
-              <Locate className={`w-3.5 h-3.5 mr-1 ${locatingUser ? "animate-pulse" : ""}`} />
+              <Locate className={`w-3.5 h-3.5 mr-1 text-accent ${locatingUser ? "animate-pulse" : ""}`} />
               {locatingUser ? "Locating..." : "Near Me"}
             </Button>
             <Button
@@ -97,7 +97,7 @@ export default function Directory() {
               onClick={() => setShowMap(true)}
               className="text-xs h-8 border-border hover:border-accent hover:text-accent"
             >
-              <Map className="w-3.5 h-3.5 mr-1" />
+              <Map className="w-3.5 h-3.5 mr-1 text-accent" />
               Map
             </Button>
             <Button
