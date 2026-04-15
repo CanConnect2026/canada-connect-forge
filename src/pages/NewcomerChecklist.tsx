@@ -52,6 +52,18 @@ export default function NewcomerChecklist() {
     [stream]
   );
 
+  if (authLoading) {
+    return (
+      <div className="container py-20 text-center">
+        <p className="text-muted-foreground">Loading…</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to={`/login?redirectTo=${encodeURIComponent(location.pathname)}`} replace />;
+  }
+
   if (!streamData) {
     return (
       <div className="container py-20 text-center">
