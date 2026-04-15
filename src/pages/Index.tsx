@@ -216,7 +216,7 @@ export default function Index() {
       </section>
 
       {/* Newcomer Checklists */}
-      <section className="py-16 bg-primary">
+      <section className="py-10 bg-primary">
         <div className="container text-center">
           <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Your First 90 Days</span>
           <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Newcomer Checklists</h2>
