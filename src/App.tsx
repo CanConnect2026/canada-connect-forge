@@ -80,6 +80,7 @@ const App = () => (
               <Route path="/community-partner" element={<CommunityPartner />} />
               <Route path="/partners" element={<Partners />} />
               <Route path="/partner-success" element={<PartnerSuccess />} />
+              <Route path="/checklist/:stream" element={<NewcomerChecklist />} />
               <Route path="/confirm" element={<ConfirmNewsletter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
