@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
-import { ArrowLeft, ArrowRight, Check, ExternalLink, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ExternalLink, ChevronRight, Leaf, Shield, GraduationCap, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { checklistStreams, type ChecklistPhase } from "@/data/checklistData";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -89,7 +89,15 @@ export default function NewcomerChecklist() {
               <ArrowLeft className="w-4 h-4" /> All Checklists
             </Link>
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-4xl">{streamData.emoji}</span>
+              {(() => {
+                const iconMap: Record<string, React.ElementType> = { Leaf, Shield, GraduationCap, Briefcase };
+                const IconComp = iconMap[streamData.icon];
+                return IconComp ? (
+                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center">
+                    <IconComp className="w-6 h-6 text-accent" />
+                  </div>
+                ) : null;
+              })()}
               <h1 className="text-3xl md:text-4xl font-display text-foreground">{streamData.label} Checklist</h1>
             </div>
             <p className="text-muted-foreground max-w-2xl leading-relaxed">{streamData.description}</p>
