@@ -74,8 +74,26 @@ function HeaderSearch() {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const resourcesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const { user, isAdmin, signOut } = useAuth();
+
+  // Close resources dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setResourcesOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col">
