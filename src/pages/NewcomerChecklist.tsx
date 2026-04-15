@@ -24,6 +24,8 @@ function saveChecked(streamSlug: string, checked: Set<string>) {
 }
 
 export default function NewcomerChecklist() {
+  const { user, loading: authLoading } = useAuth();
+  const location = useLocation();
   const { stream } = useParams<{ stream: string }>();
   const streamData = checklistStreams.find((s) => s.slug === stream);
   const [activePhase, setActivePhase] = useState(0);
