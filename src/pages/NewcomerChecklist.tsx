@@ -96,7 +96,7 @@ export default function NewcomerChecklist() {
               />
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Your progress saves automatically in your browser — come back anytime.
+              Your progress saves automatically to your account — pick up where you left off on any device.
             </p>
           </div>
 
