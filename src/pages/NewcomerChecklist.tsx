@@ -1,9 +1,10 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, ChevronRight, Leaf, Shield, GraduationCap, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { checklistStreams, type ChecklistPhase } from "@/data/checklistData";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useAuth } from "@/hooks/useAuth";
 
 function getStorageKey(streamSlug: string) {
   return `canconnect-checklist-${streamSlug}`;
