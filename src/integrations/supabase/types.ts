@@ -200,6 +200,33 @@ export type Database = {
         }
         Relationships: []
       }
+      checklist_progress: {
+        Row: {
+          checked_items: string[]
+          created_at: string
+          id: string
+          stream_slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          checked_items?: string[]
+          created_at?: string
+          id?: string
+          stream_slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          checked_items?: string[]
+          created_at?: string
+          id?: string
+          stream_slug?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       community_partner_applications: {
         Row: {
           admin_notes: string | null
