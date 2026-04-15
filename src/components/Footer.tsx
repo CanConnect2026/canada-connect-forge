@@ -73,6 +73,11 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a href="https://firstbitesto.lovable.app" target="_blank" rel="noopener noreferrer" className="hover:opacity-100 hover:text-accent transition-colors">
+                  FirstBitesTO 🍽️
+                </a>
+              </li>
             </ul>
           </div>
 
