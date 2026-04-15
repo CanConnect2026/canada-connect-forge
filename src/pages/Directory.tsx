@@ -63,7 +63,7 @@ export default function Directory() {
   return (
     <div className="bg-background min-h-screen">
       {/* Compact hero — light background */}
-      <section className="bg-gradient-to-b from-section-alt to-background py-8 sm:py-10 border-b border-border/40">
+      <section className="bg-gradient-to-b from-primary/[0.06] via-accent/[0.04] to-background py-8 sm:py-10 border-b border-accent/10">
         <div className="container">
           <h1 className="text-3xl sm:text-4xl font-display text-foreground mb-1 text-center">
             Find Services
