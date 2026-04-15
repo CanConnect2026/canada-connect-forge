@@ -177,6 +177,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Admin
               </Link>
             )}
+            <a
+              href="https://firstbitesto.lovable.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-md text-sm font-medium text-accent hover:bg-secondary transition-colors"
+            >
+              FirstBitesTO 🍽️
+            </a>
           </nav>
 
           <div className="hidden lg:flex items-center gap-2">
@@ -275,6 +283,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Admin
                 </Link>
               )}
+              <a
+                href="https://firstbitesto.lovable.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2.5 rounded-md text-sm font-medium text-accent"
+              >
+                FirstBitesTO 🍽️
+              </a>
               <div className="flex gap-3 mt-3 pt-3 border-t">
                 {user ? (
                   <Button variant="outline" size="sm" className="flex-1" onClick={() => { signOut(); setMobileOpen(false); }}>
