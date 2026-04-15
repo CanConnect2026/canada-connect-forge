@@ -15,7 +15,7 @@ export default function NewcomerChecklist() {
   const [activePhase, setActivePhase] = useState(0);
   const { checked, loading: progressLoading, toggleItem } = useChecklistProgress(user?.id, stream);
 
-  if (authLoading) {
+  if (authLoading || progressLoading) {
     return (
       <div className="container py-20 text-center">
         <p className="text-muted-foreground">Loading…</p>
