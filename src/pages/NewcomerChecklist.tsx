@@ -1,9 +1,10 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, ChevronRight, Leaf, Shield, GraduationCap, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { checklistStreams, type ChecklistPhase } from "@/data/checklistData";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useAuth } from "@/hooks/useAuth";
 
 function getStorageKey(streamSlug: string) {
   return `canconnect-checklist-${streamSlug}`;
@@ -23,6 +24,8 @@ function saveChecked(streamSlug: string, checked: Set<string>) {
 }
 
 export default function NewcomerChecklist() {
+  const { user, loading: authLoading } = useAuth();
+  const location = useLocation();
   const { stream } = useParams<{ stream: string }>();
   const streamData = checklistStreams.find((s) => s.slug === stream);
   const [activePhase, setActivePhase] = useState(0);
@@ -48,6 +51,18 @@ export default function NewcomerChecklist() {
     },
     [stream]
   );
+
+  if (authLoading) {
+    return (
+      <div className="container py-20 text-center">
+        <p className="text-muted-foreground">Loading…</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to={`/login?redirectTo=${encodeURIComponent(location.pathname)}`} replace />;
+  }
 
   if (!streamData) {
     return (
