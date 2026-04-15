@@ -1,4 +1,4 @@
-import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar, Clock, Info } from "lucide-react";
+import { Search, MapPin, Users, Heart, Briefcase, Home, Scale, BookOpen, Stethoscope, DollarSign, UtensilsCrossed, Landmark, AlertTriangle, ArrowRight, ChevronRight, Calendar, Clock, Info, Leaf, Shield, GraduationCap, Wrench } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
@@ -225,13 +225,15 @@ export default function Index() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { emoji: "🍁", label: "Permanent Resident", desc: "Express Entry, PNP, Family Sponsorship", slug: "permanent-resident" },
-              { emoji: "🛡️", label: "Refugee / Asylum", desc: "Refugee claimants & protected persons", slug: "refugee" },
-              { emoji: "🎓", label: "International Student", desc: "Study permit holders & graduates", slug: "international-student" },
-              { emoji: "💼", label: "Temporary Worker", desc: "Work permits & LMIA workers", slug: "temporary-worker" },
+              { icon: Leaf, label: "Permanent Resident", desc: "Express Entry, PNP, Family Sponsorship", slug: "permanent-resident" },
+              { icon: Shield, label: "Refugee / Asylum", desc: "Refugee claimants & protected persons", slug: "refugee" },
+              { icon: GraduationCap, label: "International Student", desc: "Study permit holders & graduates", slug: "international-student" },
+              { icon: Briefcase, label: "Temporary Worker", desc: "Work permits & LMIA workers", slug: "temporary-worker" },
             ].map((stream) => (
               <Link key={stream.label} to={`/checklist/${stream.slug}`} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-6 text-center border border-primary-foreground/15 hover:bg-primary-foreground/20 transition-all hover:-translate-y-1 group">
-                <span className="text-4xl mb-3 block">{stream.emoji}</span>
+                <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-4">
+                  <stream.icon className="w-6 h-6 text-accent" />
+                </div>
                 <h3 className="font-bold text-primary-foreground text-sm group-hover:text-accent transition-colors">{stream.label}</h3>
                 <p className="text-primary-foreground/60 text-xs mt-1 mb-3">{stream.desc}</p>
                 <span className="text-accent text-xs font-medium inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
