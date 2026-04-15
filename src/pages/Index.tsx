@@ -216,10 +216,13 @@ export default function Index() {
       </section>
 
       {/* Newcomer Checklists */}
-      <section className="py-6 bg-primary">
+      <section className="py-8 bg-primary">
         <div className="container text-center">
-          <h2 className="text-2xl md:text-3xl font-display text-primary-foreground mb-1">Newcomer Checklists</h2>
-          <p className="text-primary-foreground/70 text-sm mb-6">Pick your path — we'll guide you through your first 90 days.</p>
+          <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Your First 90 Days</span>
+          <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-3">Newcomer Checklists</h2>
+          <p className="text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed text-base mb-8">
+            Not sure what to do first? Our step-by-step checklists are tailored to how you arrived in Canada. Pick your path and we'll guide you through everything you need to do — with direct links to the services that can help.
+          </p>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {[
               { icon: Leaf, label: "Permanent Resident", slug: "permanent-resident" },
