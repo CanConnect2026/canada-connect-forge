@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, MapPin, LogOut, User, Search } from "lucide-react";
+import { Menu, X, MapPin, LogOut, User, Search, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -11,8 +11,12 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/directory", label: "Find Services" },
   { to: "/events", label: "Events" },
+];
+
+const resourceLinks = [
   { to: "/how-to", label: "How-To Guides" },
   { to: "/guides", label: "City Guides" },
+  { to: "/checklist/permanent-resident", label: "Newcomer Checklists" },
 ];
 
 const secondaryNavLinks: { to: string; label: string }[] = [];
