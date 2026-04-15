@@ -35,6 +35,7 @@ import PartnerRegistration from "./pages/PartnerRegistration";
 import CommunityPartner from "./pages/CommunityPartner";
 import Partners from "./pages/Partners";
 import PartnerSuccess from "./pages/PartnerSuccess";
+import NewcomerChecklist from "./pages/NewcomerChecklist";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -79,6 +80,7 @@ const App = () => (
               <Route path="/community-partner" element={<CommunityPartner />} />
               <Route path="/partners" element={<Partners />} />
               <Route path="/partner-success" element={<PartnerSuccess />} />
+              <Route path="/checklist/:stream" element={<NewcomerChecklist />} />
               <Route path="/confirm" element={<ConfirmNewsletter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
