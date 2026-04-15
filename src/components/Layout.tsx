@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, MapPin, LogOut, User, Search } from "lucide-react";
+import { Menu, X, MapPin, LogOut, User, Search, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -11,12 +11,13 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/directory", label: "Find Services" },
   { to: "/events", label: "Events" },
-  { to: "/how-to", label: "How-To Guides" },
-  { to: "/guides", label: "City Guides" },
 ];
 
-const secondaryNavLinks: { to: string; label: string }[] = [];
-
+const resourceLinks = [
+  { to: "/how-to", label: "How-To Guides" },
+  { to: "/guides", label: "City Guides" },
+  { to: "/checklist/permanent-resident", label: "Newcomer Checklists" },
+];
 
 function HeaderSearch() {
   const [open, setOpen] = useState(false);
@@ -70,8 +71,26 @@ function HeaderSearch() {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const resourcesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const { user, isAdmin, signOut } = useAuth();
+
+  // Close resources dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setResourcesOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -114,20 +133,38 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {link.label}
               </Link>
             ))}
-            
-            {secondaryNavLinks.map(link => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === link.to
+
+            {/* Resources dropdown */}
+            <div ref={resourcesRef} className="relative">
+              <button
+                onClick={() => setResourcesOpen(!resourcesOpen)}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center gap-1 ${
+                  resourceLinks.some(l => location.pathname.startsWith(l.to.split('/').slice(0, 2).join('/')))
                     ? "bg-secondary text-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
               >
-                {link.label}
-              </Link>
-            ))}
+                Resources
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${resourcesOpen ? "rotate-180" : ""}`} />
+              </button>
+              {resourcesOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-card border rounded-md shadow-lg py-1 z-50 animate-fade-in">
+                  {resourceLinks.map(link => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className={`block px-4 py-2.5 text-sm transition-colors ${
+                        location.pathname.startsWith(link.to.split('/').slice(0, 2).join('/'))
+                          ? "bg-secondary text-foreground font-medium"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             {isAdmin && (
               <Link
                 to="/admin"
@@ -209,20 +246,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               ))}
 
 
-              {secondaryNavLinks.map(link => (
+              {/* Resources section */}
+              <div className="px-3 pt-2 pb-1 text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Resources</div>
+              {resourceLinks.map(link => (
                 <Link
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
                   className={`px-3 py-2.5 rounded-md text-sm font-medium ${
-                    location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
+                    location.pathname.startsWith(link.to.split('/').slice(0, 2).join('/')) ? "bg-secondary text-foreground" : "text-muted-foreground"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-
-              {/* Help Centre in mobile */}
               <Link
                 to="/help"
                 onClick={() => setMobileOpen(false)}
