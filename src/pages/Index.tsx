@@ -217,53 +217,28 @@ export default function Index() {
 
       {/* Newcomer Checklists */}
       <section className="py-16 bg-primary">
-        <div className="container">
-          <div className="text-center mb-10">
-            <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Your First 90 Days</span>
-            <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Newcomer Checklists</h2>
-            <p className="text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed text-base">
-              Not sure what to do first? Our step-by-step checklists are tailored to how you arrived in Canada — whether you're a Permanent Resident, refugee, international student, or temporary worker. Each item links directly to the services you need.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        <div className="container text-center">
+          <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Your First 90 Days</span>
+          <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Newcomer Checklists</h2>
+          <p className="text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed text-base mb-10">
+            Not sure what to do first? Our step-by-step checklists are tailored to how you arrived in Canada. Pick your path and we'll guide you through everything you need to do — with direct links to the services that can help.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { emoji: "🍁", label: "Permanent Resident", desc: "Express Entry, PNP, Family Sponsorship" },
-              { emoji: "🛡️", label: "Refugee / Asylum", desc: "Refugee claimants & protected persons" },
-              { emoji: "🎓", label: "International Student", desc: "Study permit holders & graduates" },
-              { emoji: "💼", label: "Temporary Worker", desc: "Work permits & LMIA workers" },
+              { emoji: "🍁", label: "Permanent Resident", desc: "Express Entry, PNP, Family Sponsorship", slug: "permanent-resident" },
+              { emoji: "🛡️", label: "Refugee / Asylum", desc: "Refugee claimants & protected persons", slug: "refugee" },
+              { emoji: "🎓", label: "International Student", desc: "Study permit holders & graduates", slug: "international-student" },
+              { emoji: "💼", label: "Temporary Worker", desc: "Work permits & LMIA workers", slug: "temporary-worker" },
             ].map((stream) => (
-              <div key={stream.label} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-5 text-center border border-primary-foreground/15 hover:bg-primary-foreground/15 transition-colors cursor-pointer">
-                <span className="text-3xl mb-3 block">{stream.emoji}</span>
-                <h3 className="font-bold text-primary-foreground text-sm">{stream.label}</h3>
-                <p className="text-primary-foreground/60 text-xs mt-1">{stream.desc}</p>
-              </div>
+              <Link key={stream.label} to={`/checklist/${stream.slug}`} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-6 text-center border border-primary-foreground/15 hover:bg-primary-foreground/20 transition-all hover:-translate-y-1 group">
+                <span className="text-4xl mb-3 block">{stream.emoji}</span>
+                <h3 className="font-bold text-primary-foreground text-sm group-hover:text-accent transition-colors">{stream.label}</h3>
+                <p className="text-primary-foreground/60 text-xs mt-1 mb-3">{stream.desc}</p>
+                <span className="text-accent text-xs font-medium inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Start checklist <ArrowRight className="w-3 h-3" />
+                </span>
+              </Link>
             ))}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10">
-            {[
-              { phase: "Days 1–7", items: ["Get your SIN number", "Open a bank account", "Apply for health insurance"] },
-              { phase: "Days 8–30", items: ["Find housing", "Enroll children in school", "Get a phone plan"] },
-              { phase: "Days 31–90", items: ["Start credential recognition", "Attend a job fair", "Connect with community groups"] },
-            ].map((phase) => (
-              <div key={phase.phase} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-5 border border-primary-foreground/15">
-                <h4 className="font-bold text-accent text-sm mb-3">{phase.phase}</h4>
-                <ul className="space-y-2">
-                  {phase.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-primary-foreground/80 text-sm">
-                      <span className="w-4 h-4 rounded border border-primary-foreground/30 shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="text-center">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/20">
-              Start Your Checklist
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-            <p className="text-primary-foreground/50 text-xs mt-3">Progress saves automatically — come back anytime to pick up where you left off.</p>
           </div>
         </div>
       </section>
