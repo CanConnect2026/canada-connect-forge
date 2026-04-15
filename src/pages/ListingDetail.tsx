@@ -68,7 +68,7 @@ export default function ListingDetail() {
           />
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center flex-wrap gap-3 mb-2">
                 <h1 className="text-3xl font-display text-primary-foreground">{listing.name}</h1>
                 <ListingBadge type={listing.listing_type} />
               </div>
