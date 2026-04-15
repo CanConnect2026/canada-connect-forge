@@ -136,20 +136,38 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {link.label}
               </Link>
             ))}
-            
-            {secondaryNavLinks.map(link => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === link.to
+
+            {/* Resources dropdown */}
+            <div ref={resourcesRef} className="relative">
+              <button
+                onClick={() => setResourcesOpen(!resourcesOpen)}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center gap-1 ${
+                  resourceLinks.some(l => location.pathname.startsWith(l.to.split('/').slice(0, 2).join('/')))
                     ? "bg-secondary text-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
               >
-                {link.label}
-              </Link>
-            ))}
+                Resources
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${resourcesOpen ? "rotate-180" : ""}`} />
+              </button>
+              {resourcesOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-card border rounded-md shadow-lg py-1 z-50 animate-fade-in">
+                  {resourceLinks.map(link => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className={`block px-4 py-2.5 text-sm transition-colors ${
+                        location.pathname.startsWith(link.to.split('/').slice(0, 2).join('/'))
+                          ? "bg-secondary text-foreground font-medium"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             {isAdmin && (
               <Link
                 to="/admin"
