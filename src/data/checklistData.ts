@@ -16,6 +16,7 @@ export type ChecklistPhase = {
 export type ChecklistStream = {
   slug: string;
   emoji: string;
+  icon: string;
   label: string;
   description: string;
   phases: ChecklistPhase[];
@@ -74,6 +75,7 @@ export const checklistStreams: ChecklistStream[] = [
   {
     slug: "permanent-resident",
     emoji: "🍁",
+    icon: "Leaf",
     label: "Permanent Resident",
     description: "For newcomers arriving through Express Entry, Provincial Nominee Programs (PNP), or Family Sponsorship. Your PR card is your key to building a life in Canada.",
     phases: [
@@ -88,6 +90,7 @@ export const checklistStreams: ChecklistStream[] = [
   {
     slug: "refugee",
     emoji: "🛡️",
+    icon: "Shield",
     label: "Refugee / Asylum",
     description: "For refugee claimants and protected persons. You have unique supports available — from shelter to legal aid. This checklist helps you navigate the system step by step.",
     phases: [
@@ -115,6 +118,7 @@ export const checklistStreams: ChecklistStream[] = [
   {
     slug: "international-student",
     emoji: "🎓",
+    icon: "GraduationCap",
     label: "International Student",
     description: "For study permit holders and recent graduates. From campus life to post-graduation work permits — this checklist covers your unique journey.",
     phases: [
@@ -152,6 +156,7 @@ export const checklistStreams: ChecklistStream[] = [
   {
     slug: "temporary-worker",
     emoji: "💼",
+    icon: "Briefcase",
     label: "Temporary Worker",
     description: "For work permit holders including LMIA-based workers, open work permits, and IEC participants. Navigate your rights, settle in, and plan your path to permanence.",
     phases: [
