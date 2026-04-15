@@ -215,18 +215,56 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Community for Newcomers — lighter background with accent border */}
+      {/* Newcomer Checklists */}
       <section className="py-16 bg-primary">
-        <div className="container text-center">
-          <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Join the Community</span>
-          <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Community for Newcomers</h2>
-          <p className="text-primary-foreground/80 max-w-lg mx-auto mb-8 leading-relaxed text-base">
-            Starting a new life in Canada can feel overwhelming — but you don't have to do it alone. Connect with others who understand your journey. Share stories, ask questions, and find your community.
-          </p>
-          <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/20">
-            Explore Your Community
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+        <div className="container">
+          <div className="text-center mb-10">
+            <span className="text-xs font-semibold text-accent-gold uppercase tracking-widest">Your First 90 Days</span>
+            <h2 className="text-3xl md:text-4xl font-display text-primary-foreground mt-2 mb-4">Newcomer Checklists</h2>
+            <p className="text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed text-base">
+              Not sure what to do first? Our step-by-step checklists are tailored to how you arrived in Canada — whether you're a Permanent Resident, refugee, international student, or temporary worker. Each item links directly to the services you need.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+            {[
+              { emoji: "🍁", label: "Permanent Resident", desc: "Express Entry, PNP, Family Sponsorship" },
+              { emoji: "🛡️", label: "Refugee / Asylum", desc: "Refugee claimants & protected persons" },
+              { emoji: "🎓", label: "International Student", desc: "Study permit holders & graduates" },
+              { emoji: "💼", label: "Temporary Worker", desc: "Work permits & LMIA workers" },
+            ].map((stream) => (
+              <div key={stream.label} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-5 text-center border border-primary-foreground/15 hover:bg-primary-foreground/15 transition-colors cursor-pointer">
+                <span className="text-3xl mb-3 block">{stream.emoji}</span>
+                <h3 className="font-bold text-primary-foreground text-sm">{stream.label}</h3>
+                <p className="text-primary-foreground/60 text-xs mt-1">{stream.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10">
+            {[
+              { phase: "Days 1–7", items: ["Get your SIN number", "Open a bank account", "Apply for health insurance"] },
+              { phase: "Days 8–30", items: ["Find housing", "Enroll children in school", "Get a phone plan"] },
+              { phase: "Days 31–90", items: ["Start credential recognition", "Attend a job fair", "Connect with community groups"] },
+            ].map((phase) => (
+              <div key={phase.phase} className="bg-primary-foreground/10 backdrop-blur rounded-xl p-5 border border-primary-foreground/15">
+                <h4 className="font-bold text-accent text-sm mb-3">{phase.phase}</h4>
+                <ul className="space-y-2">
+                  {phase.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-primary-foreground/80 text-sm">
+                      <span className="w-4 h-4 rounded border border-primary-foreground/30 shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/20">
+              Start Your Checklist
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+            <p className="text-primary-foreground/50 text-xs mt-3">Progress saves automatically — come back anytime to pick up where you left off.</p>
+          </div>
         </div>
       </section>
 
