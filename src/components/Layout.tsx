@@ -19,9 +19,6 @@ const resourceLinks = [
   { to: "/checklist/permanent-resident", label: "Newcomer Checklists" },
 ];
 
-const secondaryNavLinks: { to: string; label: string }[] = [];
-
-
 function HeaderSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
