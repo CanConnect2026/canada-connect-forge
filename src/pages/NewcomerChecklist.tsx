@@ -1,27 +1,11 @@
 import { useParams, Link, Navigate, useLocation } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, ChevronRight, Leaf, Shield, GraduationCap, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { checklistStreams, type ChecklistPhase } from "@/data/checklistData";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useAuth } from "@/hooks/useAuth";
-
-function getStorageKey(streamSlug: string) {
-  return `canconnect-checklist-${streamSlug}`;
-}
-
-function loadChecked(streamSlug: string): Set<string> {
-  try {
-    const raw = localStorage.getItem(getStorageKey(streamSlug));
-    return raw ? new Set(JSON.parse(raw)) : new Set();
-  } catch {
-    return new Set();
-  }
-}
-
-function saveChecked(streamSlug: string, checked: Set<string>) {
-  localStorage.setItem(getStorageKey(streamSlug), JSON.stringify([...checked]));
-}
+import { useChecklistProgress } from "@/hooks/useChecklistProgress";
 
 export default function NewcomerChecklist() {
   const { user, loading: authLoading } = useAuth();
@@ -29,30 +13,9 @@ export default function NewcomerChecklist() {
   const { stream } = useParams<{ stream: string }>();
   const streamData = checklistStreams.find((s) => s.slug === stream);
   const [activePhase, setActivePhase] = useState(0);
-  const [checked, setChecked] = useState<Set<string>>(new Set());
+  const { checked, loading: progressLoading, toggleItem } = useChecklistProgress(user?.id, stream);
 
-  useEffect(() => {
-    if (stream) {
-      setChecked(loadChecked(stream));
-      setActivePhase(0);
-    }
-  }, [stream]);
-
-  const toggleItem = useCallback(
-    (itemId: string) => {
-      if (!stream) return;
-      setChecked((prev) => {
-        const next = new Set(prev);
-        if (next.has(itemId)) next.delete(itemId);
-        else next.add(itemId);
-        saveChecked(stream, next);
-        return next;
-      });
-    },
-    [stream]
-  );
-
-  if (authLoading) {
+  if (authLoading || progressLoading) {
     return (
       <div className="container py-20 text-center">
         <p className="text-muted-foreground">Loading…</p>
@@ -133,7 +96,7 @@ export default function NewcomerChecklist() {
               />
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Your progress saves automatically in your browser — come back anytime.
+              Your progress saves automatically to your account — pick up where you left off on any device.
             </p>
           </div>
 
