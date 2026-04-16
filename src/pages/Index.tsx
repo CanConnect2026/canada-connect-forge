@@ -184,7 +184,17 @@ export default function Index() {
           </div>
         </div>
       </section>
-      <section className="py-16 bg-section-alt">
+      {/* ===== GET SETTLED — Canada Connect cluster ===== */}
+      <section className="pt-16 pb-2 bg-section-alt">
+        <div className="container text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold uppercase tracking-widest mb-3">
+            <Users className="w-3.5 h-3.5" /> Get Settled · Canada Connect
+          </div>
+          <h2 className="text-2xl md:text-3xl font-display text-foreground">Practical help to build your life in Canada</h2>
+        </div>
+      </section>
+
+      <section className="pt-6 pb-16 bg-section-alt">
         <div className="container">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -238,7 +248,7 @@ export default function Index() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {upcomingEvents.slice(0, 3).map(event => (
+            {upcomingEvents.filter(e => !e.tags?.includes("food")).slice(0, 3).map(event => (
               <Link key={event.id} to={`/events/${event.id}`} className="group bg-card rounded-xl border border-border/60 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 {event.image_url ? (
                   <div className="aspect-[16/9] overflow-hidden">
@@ -345,6 +355,16 @@ export default function Index() {
           </div>
         </section>
       )}
+
+      {/* ===== EXPLORE THE CITY — FirstBitesTO cluster ===== */}
+      <section className="pt-16 pb-2">
+        <div className="container text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-[11px] font-bold uppercase tracking-widest mb-3">
+            <UtensilsCrossed className="w-3.5 h-3.5" /> Explore the City · FirstBitesTO
+          </div>
+          <h2 className="text-2xl md:text-3xl font-display text-foreground">Curated discovery through food and neighbourhoods</h2>
+        </div>
+      </section>
 
       {/* Explore Toronto Cross-Link */}
       <ExploreTorontoSection />

@@ -9,11 +9,13 @@ function useFeaturedRestaurants(limit = 3) {
   return useQuery({
     queryKey: ["featured-restaurants-listings", limit],
     queryFn: async () => {
+      // Curate via the unified `tags` system (food/featured) with a category fallback
+      // so the section stays populated while admins finish tagging content.
       const { data, error } = await supabase
         .from("listings")
-        .select("id, name, slug, cuisine, neighborhood, price_range, image_url, owner_home_country")
+        .select("id, name, slug, cuisine, neighborhood, price_range, image_url, owner_home_country, tags")
         .eq("is_published", true)
-        .eq("category", "Restaurants")
+        .or("tags.cs.{food},category.eq.Restaurants")
         .limit(limit);
       if (error) throw error;
       return data;
