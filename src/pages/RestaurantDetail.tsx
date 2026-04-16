@@ -298,7 +298,9 @@ const RestaurantDetail = () => {
               })}
             </div>
           </div>
-        )}
+        <div className="container">
+          <CrossPlatformPrompt variant="suggest-services" />
+        </div>
       </main>
     </>
   );
