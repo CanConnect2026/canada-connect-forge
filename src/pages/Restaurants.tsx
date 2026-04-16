@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Search, MapPin, DollarSign, Leaf, UtensilsCrossed } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Breadcrumb from "@/components/Breadcrumb";
-import { Helmet } from "react-helmet-async";
+
 
 const dietaryFilters = [
   { key: "halal", label: "Halal" },
