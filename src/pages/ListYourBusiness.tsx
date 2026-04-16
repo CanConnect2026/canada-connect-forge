@@ -47,7 +47,7 @@ export default function ListYourBusiness() {
 
     if (!user) {
       toast({ title: "Please log in to apply as a Verified Partner.", variant: "destructive" });
-      navigate("/login");
+      navigate("/login?redirectTo=/list-your-business");
       return;
     }
 
