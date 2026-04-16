@@ -8,18 +8,19 @@ import logoFull from "@/assets/canconnect-logo-full.jpg";
 import logoIcon from "@/assets/canconnect-icon.png";
 
 
-const navLinks = [
-  { to: "/", label: "Home" },
-  { to: "/directory", label: "Services" },
-  { to: "https://taste-to-trails.lovable.app", label: "Explore Food", external: true },
-  { to: "/events", label: "Community" },
-  { to: "/partners", label: "For Businesses" },
+// Two primary entry points: utility (Get Settled) + discovery (Explore the City)
+const getSettledLinks = [
+  { to: "/directory", label: "Find Services", description: "Connect with verified support" },
+  { to: "/events", label: "Events", description: "Workshops & community gatherings" },
+  { to: "/how-to", label: "How-To Guides", description: "Step-by-step settlement help" },
+  { to: "/guides", label: "City Guides", description: "Get to know your new city" },
+  { to: "/checklist/permanent-resident", label: "Newcomer Checklists", description: "Track your first steps" },
+  { to: "/partners", label: "For Businesses", description: "List your organization" },
 ];
 
-const resourceLinks = [
-  { to: "/how-to", label: "How-To Guides" },
-  { to: "/guides", label: "City Guides" },
-  { to: "/checklist/permanent-resident", label: "Newcomer Checklists" },
+const exploreLinks = [
+  { to: "/restaurants", label: "Food Experiences", description: "Newcomer-owned places to eat" },
+  { to: "https://taste-to-trails.lovable.app", label: "Toronto Food Trails", description: "Curated neighbourhood journeys", external: true },
 ];
 
 function HeaderSearch() {
