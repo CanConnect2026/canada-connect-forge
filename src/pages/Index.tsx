@@ -247,7 +247,9 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Insights & Stories / How-To Guides */}
+      {/* Explore Toronto Cross-Link */}
+      <ExploreTorontoSection />
+
       {featuredArticles.length > 0 && (
         <section className="py-16">
           <div className="container">
