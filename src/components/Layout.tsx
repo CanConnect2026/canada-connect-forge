@@ -12,6 +12,7 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/directory", label: "Find Services" },
   { to: "/events", label: "Events" },
+  { to: "/restaurants", label: "Restaurants" },
 ];
 
 const resourceLinks = [
