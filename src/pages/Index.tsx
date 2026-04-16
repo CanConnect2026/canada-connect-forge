@@ -14,6 +14,7 @@ import mobileAppPreview from "@/assets/mobile-app-preview.png";
 import { useState, useEffect, useCallback } from "react";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import ExploreTorontoSection from "@/components/ExploreTorontoSection";
+import IntentPrompt from "@/components/IntentPrompt";
 import { format } from "date-fns";
 
 const categoryIcons = [
