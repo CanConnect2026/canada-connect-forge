@@ -72,11 +72,12 @@ const Restaurants = () => {
       <section className="py-16 bg-section-alt">
         <div className="container">
           <div className="text-center mb-8">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-3">FirstBitesTO · Curated Discovery</p>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-              Explore Restaurants
+              Food Experiences in Toronto
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              Discover Toronto's most authentic multicultural food spots — owned and run by newcomers who brought their flavours to Canada.
+              A curated guide to newcomer-owned places worth a trip — flavours, neighbourhoods, and the people behind every dish.
             </p>
           </div>
 
