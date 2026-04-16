@@ -25,20 +25,22 @@ export interface Event {
   longitude?: number | null;
 }
 
-export function useEvents(filters?: { date?: string; city?: string; category?: string; includePast?: boolean }) {
+export function useEvents(filters?: { date?: string; city?: string; category?: string; includePast?: boolean; pastOnly?: boolean }) {
   return useQuery({
     queryKey: ["events", filters],
     queryFn: async () => {
+      const today = new Date().toISOString().split("T")[0];
       let query = supabase
         .from("events")
         .select("*")
-        .eq("is_published", true)
-        .order("event_date", { ascending: true });
+        .eq("is_published", true);
 
-      // By default, exclude past events unless includePast is true
-      if (!filters?.includePast && !filters?.date) {
-        const today = new Date().toISOString().split("T")[0];
-        query = query.gte("event_date", today);
+      if (filters?.pastOnly) {
+        query = query.lt("event_date", today).order("event_date", { ascending: false });
+      } else if (!filters?.includePast && !filters?.date) {
+        query = query.gte("event_date", today).order("event_date", { ascending: true });
+      } else {
+        query = query.order("event_date", { ascending: true });
       }
 
       if (filters?.date) {

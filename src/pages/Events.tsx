@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { MapPin, Calendar as CalendarIcon, Clock, Plus, Tag } from "lucide-react";
+import { MapPin, Calendar as CalendarIcon, Clock, Plus, Tag, Archive } from "lucide-react";
 import { useEvents, useAllEventDates, Event } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/useAuth";
 import ShareButton from "@/components/ShareButton";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { format, parse } from "date-fns";
 import { cn } from "@/lib/utils";
 import { EVENT_CATEGORIES } from "@/data/eventCategories";
