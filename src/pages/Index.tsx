@@ -61,6 +61,9 @@ export default function Index() {
 
   return (
     <>
+      {/* Intent Prompt */}
+      <IntentPrompt />
+
       {/* Hero */}
       <section className="relative min-h-[520px] flex items-center overflow-hidden">
         {slides.map((slide, index) => (
