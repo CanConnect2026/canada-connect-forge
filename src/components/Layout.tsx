@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
 import logoFull from "@/assets/canconnect-logo-full.jpg";
 import logoIcon from "@/assets/canconnect-icon.png";
+import CrossProjectBar from "@/components/CrossProjectBar";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -94,6 +95,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Cross-project ecosystem bar */}
+      <CrossProjectBar />
       {/* Top bar */}
       <div className="bg-primary text-primary-foreground text-sm py-1.5">
         <div className="container flex justify-between items-center">
