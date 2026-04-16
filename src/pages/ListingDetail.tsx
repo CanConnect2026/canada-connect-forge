@@ -28,7 +28,13 @@ const socialIcons: Record<string, React.ComponentType<{ className?: string }>> =
 };
 
 export default function ListingDetail() {
+  const { trackView } = useEngagementTracker();
   const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    trackView("service");
+  }, [trackView]);
+
   const { data: listing, isLoading } = useListing(id || "");
   const { data: relatedListings = [] } = useRelatedListings(listing);
   const { user } = useAuth();
