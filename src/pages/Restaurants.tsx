@@ -133,9 +133,9 @@ const Restaurants = () => {
             </div>
           ) : !filtered.length ? (
             <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg mb-4">No restaurants found.</p>
+              <p className="text-muted-foreground text-lg mb-4">No experiences match your search yet.</p>
               <Button variant="outline" className="rounded-full" onClick={() => { setCuisine(""); setSearchQuery(""); }}>
-                View all restaurants
+                View all experiences
               </Button>
             </div>
           ) : (
