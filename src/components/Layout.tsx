@@ -281,7 +281,34 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 />
               </form>
 
-              {navLinks.map(link =>
+              <Link
+                to="/"
+                onClick={() => setMobileOpen(false)}
+                className={`px-3 py-2.5 rounded-md text-sm font-medium ${
+                  location.pathname === "/" ? "bg-secondary text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                Home
+              </Link>
+
+              {/* Get Settled section */}
+              <div className="px-3 pt-3 pb-1 text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Get Settled</div>
+              {getSettledLinks.map(link => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileOpen(false)}
+                  className={`px-3 py-2.5 rounded-md text-sm font-medium ${
+                    location.pathname.startsWith(link.to.split('/').slice(0, 2).join('/')) ? "bg-secondary text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              {/* Explore the City section */}
+              <div className="px-3 pt-3 pb-1 text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Explore the City</div>
+              {exploreLinks.map(link =>
                 link.external ? (
                   <a
                     key={link.to}
@@ -297,29 +324,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
                     className={`px-3 py-2.5 rounded-md text-sm font-medium ${
-                      location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
+                      location.pathname.startsWith(link.to) ? "bg-secondary text-foreground" : "text-muted-foreground"
                     }`}
                   >
                     {link.label}
                   </Link>
                 )
               )}
-
-
-              {/* Resources section */}
-              <div className="px-3 pt-2 pb-1 text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Resources</div>
-              {resourceLinks.map(link => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileOpen(false)}
-                  className={`px-3 py-2.5 rounded-md text-sm font-medium ${
-                    location.pathname.startsWith(link.to.split('/').slice(0, 2).join('/')) ? "bg-secondary text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
               <Link
                 to="/help"
                 onClick={() => setMobileOpen(false)}
