@@ -12,6 +12,12 @@ import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
 import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 
 export default function Directory() {
+  const { trackView } = useEngagementTracker();
+
+  useEffect(() => {
+    trackView("service");
+  }, [trackView]);
+
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
