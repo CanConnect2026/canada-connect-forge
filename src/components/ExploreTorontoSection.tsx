@@ -7,12 +7,13 @@ import { getRestaurantImage } from "@/lib/restaurantImages";
 
 function useFeaturedRestaurants(limit = 3) {
   return useQuery({
-    queryKey: ["featured-restaurants", limit],
+    queryKey: ["featured-restaurants-listings", limit],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("restaurants")
+        .from("listings")
         .select("id, name, slug, cuisine, neighborhood, price_range, image_url, owner_home_country")
         .eq("is_published", true)
+        .eq("category", "Restaurants")
         .limit(limit);
       if (error) throw error;
       return data;
