@@ -9,14 +9,17 @@ import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
 import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 
 // Editorial food trails — curated narrative experiences (presentation-only).
-// Each trail "borrows" newcomer-owned restaurants from Canada Connect via tags.
+// Each trail consumes Canada Connect listings via the unified `tags` system.
+// `tags` is the primary curation signal; `cuisineFallback` keeps trails populated
+// with sensible stops while admins finish tagging content.
 const editorialTrails = [
   {
     slug: "downtown-flavours",
     eyebrow: "Trail · 1",
     title: "A Day in Downtown Flavours",
     description: "From morning chai in Kensington to late-night dumplings in Chinatown — a walking food story through Toronto's core.",
-    cuisineTags: ["Indian", "Chinese", "Vietnamese", "Caribbean"],
+    tags: ["food", "neighbourhood", "culture"],
+    cuisineFallback: ["Indian", "Chinese", "Vietnamese", "Caribbean"],
     accent: "from-accent/90 to-accent-secondary/80",
     icon: Compass,
   },
@@ -25,7 +28,8 @@ const editorialTrails = [
     eyebrow: "Trail · 2",
     title: "Best Hidden Brunch Spots",
     description: "Off-radar weekend tables run by newcomer chefs — slow mornings, warm welcomes, unforgettable plates.",
-    cuisineTags: ["Mediterranean", "Ethiopian", "Mexican", "Filipino"],
+    tags: ["food", "featured"],
+    cuisineFallback: ["Mediterranean", "Ethiopian", "Mexican", "Filipino"],
     accent: "from-primary/90 to-accent/70",
     icon: Sparkles,
   },
@@ -34,7 +38,8 @@ const editorialTrails = [
     eyebrow: "Trail · 3",
     title: "Your First Week in Toronto",
     description: "An easy, comforting introduction to the city's food identity — three meals, three neighbourhoods, one welcome.",
-    cuisineTags: ["Italian", "Japanese", "Middle Eastern", "Thai"],
+    tags: ["food", "newcomer"],
+    cuisineFallback: ["Italian", "Japanese", "Middle Eastern", "Thai"],
     accent: "from-accent-secondary/90 to-primary/80",
     icon: MapIcon,
   },
@@ -47,6 +52,8 @@ const Restaurants = () => {
     trackView("food");
   }, [trackView]);
 
+  // Pull FirstBitesTO-eligible listings from Canada Connect via the unified `tags` system.
+  // During transition, also include legacy 'Restaurants'-category listings so trails populate.
   const { data: restaurants } = useQuery({
     queryKey: ["firstbites-curated-restaurants"],
     queryFn: async () => {
@@ -54,22 +61,31 @@ const Restaurants = () => {
         .from("listings")
         .select("*")
         .eq("is_published", true)
-        .eq("category", "Restaurants")
+        .or("tags.cs.{food},category.eq.Restaurants")
         .order("name");
       if (error) throw error;
       return data;
     },
   });
 
-  // Match restaurants to each editorial trail via cuisine tags (curation, not a directory).
+  // Curate each trail by tag overlap, falling back to cuisine while admins tag content.
   const trailsWithStops = useMemo(() => {
     if (!restaurants) return editorialTrails.map(t => ({ ...t, stops: [] as typeof restaurants }));
-    return editorialTrails.map(trail => ({
-      ...trail,
-      stops: restaurants
-        .filter(r => trail.cuisineTags.some(tag => r.cuisine?.toLowerCase().includes(tag.toLowerCase())))
-        .slice(0, 3),
-    }));
+    return editorialTrails.map(trail => {
+      const tagged = restaurants.filter(r =>
+        Array.isArray(r.tags) && trail.tags.some(t => r.tags!.includes(t))
+      );
+      const fallback = restaurants.filter(r =>
+        trail.cuisineFallback.some(c => r.cuisine?.toLowerCase().includes(c.toLowerCase()))
+      );
+      const seen = new Set<string>();
+      const stops = [...tagged, ...fallback].filter(r => {
+        if (seen.has(r.id)) return false;
+        seen.add(r.id);
+        return true;
+      }).slice(0, 3);
+      return { ...trail, stops };
+    });
   }, [restaurants]);
 
   // A small "Featured Place" spotlight (one curated restaurant) — editorial, not a list.
