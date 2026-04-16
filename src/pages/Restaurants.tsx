@@ -48,10 +48,6 @@ export default function Restaurants() {
 
   return (
     <>
-      <Helmet>
-        <title>Restaurants | CanConnect</title>
-        <meta name="description" content="Discover immigrant-owned restaurants in Toronto. Filter by cuisine, price, and dietary needs." />
-      </Helmet>
 
       <div className="bg-secondary/50 border-b">
         <div className="container py-4">
