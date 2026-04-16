@@ -175,7 +175,7 @@ export default function Index() {
               </div>
               <h3 className="text-2xl md:text-3xl font-display text-foreground mb-2">Explore Food & Experiences</h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                Explore food trails, neighbourhoods, and local experiences — curated journeys through Toronto's most loved newcomer-owned places.
+                Taste the world right here in Toronto — curated food trails, neighbourhood guides, and authentic flavours from every culture across the GTA.
               </p>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
                 Discover FirstBitesTO <ArrowRight className="w-4 h-4" />

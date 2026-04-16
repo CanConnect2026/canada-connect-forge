@@ -19,7 +19,7 @@ const getSettledLinks = [
 ];
 
 const exploreLinks = [
-  { to: "/restaurants", label: "Food Experiences", description: "Newcomer-owned places to eat" },
+  { to: "/restaurants", label: "Food Experiences", description: "Authentic flavours from every culture" },
   { to: "https://taste-to-trails.lovable.app", label: "Toronto Food Trails", description: "Curated neighbourhood journeys", external: true },
 ];
 

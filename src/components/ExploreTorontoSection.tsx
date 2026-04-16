@@ -32,9 +32,9 @@ export default function ExploreTorontoSection() {
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-2">FirstBitesTO · Curated</p>
-            <h2 className="text-3xl md:text-4xl font-display text-foreground">Explore the City Through Food</h2>
+            <h2 className="text-3xl md:text-4xl font-display text-foreground">Taste the world in Toronto</h2>
             <p className="text-muted-foreground mt-2 text-base">
-              Hand-picked food experiences from newcomer-owned places across Toronto.
+              Authentic food from every culture, neighbourhood, and craving across the GTA.
             </p>
           </div>
           <Link to="/restaurants" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">

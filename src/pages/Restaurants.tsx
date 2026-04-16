@@ -8,26 +8,26 @@ import { getRestaurantImage } from "@/lib/restaurantImages";
 import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
 import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 
-// Editorial food trails — curated narrative experiences (presentation-only).
-// Each trail consumes Canada Connect listings via the unified `tags` system.
-// `tags` is the primary curation signal; `cuisineFallback` keeps trails populated
-// with sensible stops while admins finish tagging content.
+// Editorial food trails — curated multicultural journeys across Toronto.
+// FirstBitesTO frames the city's food scene as something newcomers can *experience*,
+// organized by culture, neighbourhood, and discovery — not by who owns the kitchen.
+// Trails consume Canada Connect listings via the unified `tags` system.
 const editorialTrails = [
   {
-    slug: "downtown-flavours",
+    slug: "around-the-world",
     eyebrow: "Trail · 1",
-    title: "A Day in Downtown Flavours",
-    description: "From morning chai in Kensington to late-night dumplings in Chinatown — a walking food story through Toronto's core.",
-    tags: ["food", "neighbourhood", "culture"],
-    cuisineFallback: ["Indian", "Chinese", "Vietnamese", "Caribbean"],
+    title: "Taste the World in One Day",
+    description: "Breakfast in Little India, lunch in Chinatown, dinner in Little Italy — a walking journey through the cuisines that make Toronto.",
+    tags: ["food", "culture", "neighbourhood"],
+    cuisineFallback: ["Indian", "Chinese", "Italian", "Caribbean"],
     accent: "from-accent/90 to-accent-secondary/80",
     icon: Compass,
   },
   {
-    slug: "hidden-brunch",
+    slug: "hidden-gems",
     eyebrow: "Trail · 2",
-    title: "Best Hidden Brunch Spots",
-    description: "Off-radar weekend tables run by newcomer chefs — slow mornings, warm welcomes, unforgettable plates.",
+    title: "Hidden Gems Locals Love",
+    description: "Affordable, under-the-radar spots tucked between the big names — the places Torontonians quietly send their friends to.",
     tags: ["food", "featured"],
     cuisineFallback: ["Mediterranean", "Ethiopian", "Mexican", "Filipino"],
     accent: "from-primary/90 to-accent/70",
@@ -36,8 +36,8 @@ const editorialTrails = [
   {
     slug: "first-week",
     eyebrow: "Trail · 3",
-    title: "Your First Week in Toronto",
-    description: "An easy, comforting introduction to the city's food identity — three meals, three neighbourhoods, one welcome.",
+    title: "Your First Week of Eating in Toronto",
+    description: "New to the city? Start here. Three approachable meals across three neighbourhoods — a gentle introduction to Toronto's flavour.",
     tags: ["food", "newcomer"],
     cuisineFallback: ["Italian", "Japanese", "Middle Eastern", "Thai"],
     accent: "from-accent-secondary/90 to-primary/80",
@@ -103,10 +103,10 @@ const Restaurants = () => {
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.25em] text-accent font-semibold mb-4">FirstBitesTO · Curated Discovery</p>
             <h1 className="text-4xl md:text-6xl font-display font-bold leading-[1.05] text-foreground">
-              Toronto, told through<br className="hidden md:block" /> the people who feed it.
+              Taste the world,<br className="hidden md:block" /> right here in Toronto.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-              Curated food trails, neighbourhood journeys, and editorial guides — built around the newcomer-owned places shaping the city's flavour.
+              Discover authentic food from every culture, neighbourhood, and corner of the GTA — curated into trails, guides, and journeys you can follow.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90" asChild>
@@ -125,8 +125,8 @@ const Restaurants = () => {
         <div className="container">
           <div className="max-w-2xl mb-12">
             <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-2">Food Trails</p>
-            <h2 className="text-3xl md:text-4xl font-display text-foreground">Curated journeys, not a list of places</h2>
-            <p className="text-muted-foreground mt-2">Each trail is a narrative — three places, one neighbourhood mood, a story to follow.</p>
+            <h2 className="text-3xl md:text-4xl font-display text-foreground">Find your next flavour</h2>
+            <p className="text-muted-foreground mt-2">Curated journeys across cultures and neighbourhoods — three stops, one story, a city to taste.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -244,8 +244,8 @@ const Restaurants = () => {
         <div className="container">
           <div className="max-w-2xl mb-10">
             <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-2">Neighbourhood Experiences</p>
-            <h2 className="text-3xl md:text-4xl font-display text-foreground">Explore Toronto by mood</h2>
-            <p className="text-muted-foreground mt-2">More curated journeys are on the way. In the meantime, follow a trail above or read this week's spotlight.</p>
+            <h2 className="text-3xl md:text-4xl font-display text-foreground">Explore Toronto by culture & area</h2>
+            <p className="text-muted-foreground mt-2">From Little India to Koreatown, Kensington to Greektown — more curated guides are on the way. For now, follow a trail above or read this week's spotlight.</p>
           </div>
           <CrossPlatformPrompt variant="suggest-services" />
         </div>
