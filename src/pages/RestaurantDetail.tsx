@@ -13,6 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ShareButton from "@/components/ShareButton";
 import { getRestaurantImage } from "@/lib/restaurantImages";
+import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
+import { useEngagementTracker } from "@/hooks/useEngagementTracker";
+import { useEffect } from "react";
 
 const RestaurantDetail = () => {
   const { slug } = useParams<{ slug: string }>();
