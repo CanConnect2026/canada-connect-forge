@@ -7,7 +7,8 @@ import ListingCard from "@/components/ListingCard";
 import { useFeaturedListings } from "@/hooks/useListings";
 import { useEvents } from "@/hooks/useEvents";
 import { useFeaturedArticles } from "@/hooks/useArticles";
-import heroImage from "@/assets/hero-image.jpg";
+
+import heroFood from "@/assets/hero-food.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
 import mobileAppPreview from "@/assets/mobile-app-preview.png";
 import { useState, useEffect, useCallback } from "react";
@@ -42,7 +43,7 @@ export default function Index() {
       subtitle: "Built for newcomers — discover verified services, community resources, and the help you need to settle and succeed.",
     },
     {
-      image: heroImage,
+      image: heroFood,
       title: "Discover Toronto through food and local experiences",
       subtitle: "Curated food spots, hidden gems, and neighbourhood favourites designed to help you feel at home in the city.",
     },
@@ -246,7 +247,9 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Insights & Stories / How-To Guides */}
+      {/* Explore Toronto Cross-Link */}
+      <ExploreTorontoSection />
+
       {featuredArticles.length > 0 && (
         <section className="py-16">
           <div className="container">
@@ -289,8 +292,6 @@ export default function Index() {
           </div>
         </section>
       )}
-      {/* Explore Toronto Cross-Link */}
-      <ExploreTorontoSection />
 
       {/* Mobile App Promo */}
       <section className="py-16 bg-section-alt">
