@@ -688,6 +688,81 @@ export type Database = {
         }
         Relationships: []
       }
+      restaurants: {
+        Row: {
+          created_at: string
+          cuisine: string
+          full_address: string | null
+          google_places_id: string | null
+          halal: boolean
+          id: string
+          image_url: string | null
+          is_published: boolean
+          kosher: boolean
+          latitude: number | null
+          longitude: number | null
+          name: string
+          neighborhood: string
+          owner_home_country: string | null
+          owner_name: string | null
+          owner_story: string | null
+          phone: string | null
+          price_range: string
+          updated_at: string
+          vegan_friendly: boolean
+          vegetarian_friendly: boolean
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          cuisine: string
+          full_address?: string | null
+          google_places_id?: string | null
+          halal?: boolean
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          kosher?: boolean
+          latitude?: number | null
+          longitude?: number | null
+          name: string
+          neighborhood: string
+          owner_home_country?: string | null
+          owner_name?: string | null
+          owner_story?: string | null
+          phone?: string | null
+          price_range?: string
+          updated_at?: string
+          vegan_friendly?: boolean
+          vegetarian_friendly?: boolean
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          cuisine?: string
+          full_address?: string | null
+          google_places_id?: string | null
+          halal?: boolean
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          kosher?: boolean
+          latitude?: number | null
+          longitude?: number | null
+          name?: string
+          neighborhood?: string
+          owner_home_country?: string | null
+          owner_name?: string | null
+          owner_story?: string | null
+          phone?: string | null
+          price_range?: string
+          updated_at?: string
+          vegan_friendly?: boolean
+          vegetarian_friendly?: boolean
+          website?: string | null
+        }
+        Relationships: []
+      }
       suggested_services: {
         Row: {
           admin_notes: string | null
