@@ -23,6 +23,7 @@ export interface Event {
   languages?: string[];
   latitude?: number | null;
   longitude?: number | null;
+  tags?: string[] | null;
 }
 
 export function useEvents(filters?: { date?: string; city?: string; category?: string; includePast?: boolean; pastOnly?: boolean }) {

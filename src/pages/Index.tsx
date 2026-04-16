@@ -356,6 +356,16 @@ export default function Index() {
         </section>
       )}
 
+      {/* ===== EXPLORE THE CITY — FirstBitesTO cluster ===== */}
+      <section className="pt-16 pb-2">
+        <div className="container text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-[11px] font-bold uppercase tracking-widest mb-3">
+            <UtensilsCrossed className="w-3.5 h-3.5" /> Explore the City · FirstBitesTO
+          </div>
+          <h2 className="text-2xl md:text-3xl font-display text-foreground">Curated discovery through food and neighbourhoods</h2>
+        </div>
+      </section>
+
       {/* Explore Toronto Cross-Link */}
       <ExploreTorontoSection />
 
