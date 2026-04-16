@@ -10,8 +10,10 @@ import CrossProjectBar from "@/components/CrossProjectBar";
 
 const navLinks = [
   { to: "/", label: "Home" },
-  { to: "/directory", label: "Find Services" },
-  { to: "/events", label: "Events" },
+  { to: "/directory", label: "Services" },
+  { to: "https://taste-to-trails.lovable.app", label: "Explore Food", external: true },
+  { to: "/events", label: "Community" },
+  { to: "/partners", label: "For Businesses" },
 ];
 
 const resourceLinks = [
@@ -123,19 +125,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map(link => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === link.to
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map(link =>
+              link.external ? (
+                <a
+                  key={link.to}
+                  href={link.to}
+                  className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === link.to
+                      ? "bg-secondary text-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
 
             {/* Resources dropdown */}
             <div ref={resourcesRef} className="relative">
@@ -235,18 +247,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 />
               </form>
 
-              {navLinks.map(link => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileOpen(false)}
-                  className={`px-3 py-2.5 rounded-md text-sm font-medium ${
-                    location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map(link =>
+                link.external ? (
+                  <a
+                    key={link.to}
+                    href={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={`px-3 py-2.5 rounded-md text-sm font-medium ${
+                      location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
 
 
               {/* Resources section */}

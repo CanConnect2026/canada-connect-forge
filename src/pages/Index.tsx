@@ -12,6 +12,7 @@ import heroImage2 from "@/assets/hero-image-2.jpg";
 import mobileAppPreview from "@/assets/mobile-app-preview.png";
 import { useState, useEffect, useCallback } from "react";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import ExploreTorontoSection from "@/components/ExploreTorontoSection";
 import { format } from "date-fns";
 
 const categoryIcons = [
@@ -35,15 +36,15 @@ export default function Index() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
-    // {
-    //   image: heroImage,
-    //   title: "Your Warm Welcome to Canada",
-    //   subtitle: "Find trusted services, resources, and community support in your new home.",
-    // },
     {
       image: heroImage2,
-      title: "Find trusted services and community support across Ontario",
-      subtitle: "CanConnect helps newcomers discover verified services, organizations, and local resources — all in one place.",
+      title: "Find trusted services and support across Canada",
+      subtitle: "Built for newcomers — discover verified services, community resources, and the help you need to settle and succeed.",
+    },
+    {
+      image: heroImage,
+      title: "Discover Toronto through food and local experiences",
+      subtitle: "Curated food spots, hidden gems, and neighbourhood favourites designed to help you feel at home in the city.",
     },
   ];
 
@@ -104,7 +105,7 @@ export default function Index() {
                 </select>
               </div>
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 px-6" asChild>
-                <Link to={`/directory${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""}`}>Search</Link>
+                <Link to={`/directory${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""}`}>Explore Services</Link>
               </Button>
             </div>
             <div className="mt-6 flex gap-2">
@@ -288,6 +289,9 @@ export default function Index() {
           </div>
         </section>
       )}
+      {/* Explore Toronto Cross-Link */}
+      <ExploreTorontoSection />
+
       {/* Mobile App Promo */}
       <section className="py-16 bg-section-alt">
         <div className="container">

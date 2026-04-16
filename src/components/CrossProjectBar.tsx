@@ -11,7 +11,7 @@ export default function CrossProjectBar() {
           href="https://taste-to-trails.lovable.app"
           className="inline-flex items-center gap-1.5 font-medium text-accent hover:underline ml-auto"
         >
-          🥘 Explore Toronto Food
+          🍽️ Explore Toronto Food & Experiences
           <ExternalLink className="w-3 h-3" />
         </a>
       </div>
