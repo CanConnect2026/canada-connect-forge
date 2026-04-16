@@ -9,7 +9,8 @@ import ListingDetailMap from "@/components/ListingDetailMap";
 import ReportIssueDialog from "@/components/ReportIssueDialog";
 import { MapPin, Phone, Globe, Mail, Clock, ChevronLeft, Flag, ExternalLink, Facebook, Twitter, Instagram, Linkedin, Image as ImageIcon, Navigation, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 import ClaimForm from "@/components/ClaimForm";
 import ShareButton from "@/components/ShareButton";
 import type { Json } from "@/integrations/supabase/types";
@@ -27,7 +28,13 @@ const socialIcons: Record<string, React.ComponentType<{ className?: string }>> =
 };
 
 export default function ListingDetail() {
+  const { trackView } = useEngagementTracker();
   const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    trackView("service");
+  }, [trackView]);
+
   const { data: listing, isLoading } = useListing(id || "");
   const { data: relatedListings = [] } = useRelatedListings(listing);
   const { user } = useAuth();

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,8 +6,16 @@ import { MapPin, UtensilsCrossed, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getRestaurantImage } from "@/lib/restaurantImages";
+import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
+import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 
 const Restaurants = () => {
+  const { trackView } = useEngagementTracker();
+
+  useEffect(() => {
+    trackView("food");
+  }, [trackView]);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCuisine = searchParams.get("cuisine") || "";
   const [searchQuery, setSearchQuery] = useState("");
@@ -176,6 +184,9 @@ const Restaurants = () => {
               })}
             </div>
           )}
+        </div>
+        <div className="container">
+          <CrossPlatformPrompt variant="suggest-services" />
         </div>
       </section>
     </>

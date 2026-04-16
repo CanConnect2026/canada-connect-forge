@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, Map, Locate } from "lucide-react";
 import ListingCard from "@/components/ListingCard";
 import { useListings } from "@/hooks/useListings";
@@ -8,8 +8,16 @@ import DirectorySearch from "@/components/directory/DirectorySearch";
 import DirectoryFilters from "@/components/directory/DirectoryFilters";
 import CategoryBrowse from "@/components/directory/CategoryBrowse";
 import MapOverlay from "@/components/directory/MapOverlay";
+import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
+import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 
 export default function Directory() {
+  const { trackView } = useEngagementTracker();
+
+  useEffect(() => {
+    trackView("service");
+  }, [trackView]);
+
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -172,6 +180,7 @@ export default function Directory() {
             </div>
           </div>
         )}
+        <CrossPlatformPrompt variant="suggest-food" />
       </section>
 
       {showMap && (

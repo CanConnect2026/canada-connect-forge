@@ -13,9 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ShareButton from "@/components/ShareButton";
 import { getRestaurantImage } from "@/lib/restaurantImages";
+import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
+import { useEngagementTracker } from "@/hooks/useEngagementTracker";
+import { useEffect } from "react";
 
 const RestaurantDetail = () => {
+  const { trackView } = useEngagementTracker();
   const { slug } = useParams<{ slug: string }>();
+
+  useEffect(() => {
+    trackView("food");
+  }, [trackView]);
 
   const { data: restaurant, isLoading } = useQuery({
     queryKey: ["restaurant-detail", slug],
@@ -291,6 +299,9 @@ const RestaurantDetail = () => {
             </div>
           </div>
         )}
+        <div className="container">
+          <CrossPlatformPrompt variant="suggest-services" />
+        </div>
       </main>
     </>
   );
