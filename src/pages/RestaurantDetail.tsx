@@ -18,7 +18,12 @@ import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 import { useEffect } from "react";
 
 const RestaurantDetail = () => {
+  const { trackView } = useEngagementTracker();
   const { slug } = useParams<{ slug: string }>();
+
+  useEffect(() => {
+    trackView("food");
+  }, [trackView]);
 
   const { data: restaurant, isLoading } = useQuery({
     queryKey: ["restaurant-detail", slug],

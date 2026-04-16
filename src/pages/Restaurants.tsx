@@ -10,6 +10,12 @@ import CrossPlatformPrompt from "@/components/CrossPlatformPrompt";
 import { useEngagementTracker } from "@/hooks/useEngagementTracker";
 
 const Restaurants = () => {
+  const { trackView } = useEngagementTracker();
+
+  useEffect(() => {
+    trackView("food");
+  }, [trackView]);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCuisine = searchParams.get("cuisine") || "";
   const [searchQuery, setSearchQuery] = useState("");
