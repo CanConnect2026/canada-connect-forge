@@ -127,62 +127,93 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map(link =>
-              link.external ? (
-                <a
-                  key={link.to}
-                  href={link.to}
-                  className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === link.to
-                      ? "bg-secondary text-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              )
-            )}
+          <nav ref={menuRef} className="hidden lg:flex items-center gap-1">
+            <Link
+              to="/"
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === "/"
+                  ? "bg-secondary text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              Home
+            </Link>
 
-            {/* Resources dropdown */}
-            <div ref={resourcesRef} className="relative">
+            {/* Get Settled mega-menu */}
+            <div className="relative">
               <button
-                onClick={() => setResourcesOpen(!resourcesOpen)}
+                onClick={() => setOpenMenu(openMenu === "settled" ? null : "settled")}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center gap-1 ${
-                  resourceLinks.some(l => location.pathname.startsWith(l.to.split('/').slice(0, 2).join('/')))
+                  isSettledActive || openMenu === "settled"
                     ? "bg-secondary text-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
               >
-                Resources
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${resourcesOpen ? "rotate-180" : ""}`} />
+                Get Settled
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openMenu === "settled" ? "rotate-180" : ""}`} />
               </button>
-              {resourcesOpen && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-card border rounded-md shadow-lg py-1 z-50 animate-fade-in">
-                  {resourceLinks.map(link => (
+              {openMenu === "settled" && (
+                <div className="absolute top-full left-0 mt-1 w-72 bg-card border rounded-lg shadow-xl py-2 z-50 animate-fade-in">
+                  <div className="px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                    Find help & connect
+                  </div>
+                  {getSettledLinks.map(link => (
                     <Link
                       key={link.to}
                       to={link.to}
-                      className={`block px-4 py-2.5 text-sm transition-colors ${
-                        location.pathname.startsWith(link.to.split('/').slice(0, 2).join('/'))
-                          ? "bg-secondary text-foreground font-medium"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                      }`}
+                      className="block px-4 py-2.5 transition-colors hover:bg-secondary"
                     >
-                      {link.label}
+                      <div className="text-sm font-medium text-foreground">{link.label}</div>
+                      <div className="text-xs text-muted-foreground">{link.description}</div>
                     </Link>
                   ))}
                 </div>
               )}
             </div>
+
+            {/* Explore the City mega-menu */}
+            <div className="relative">
+              <button
+                onClick={() => setOpenMenu(openMenu === "explore" ? null : "explore")}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center gap-1 ${
+                  isExploreActive || openMenu === "explore"
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                }`}
+              >
+                Explore the City
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openMenu === "explore" ? "rotate-180" : ""}`} />
+              </button>
+              {openMenu === "explore" && (
+                <div className="absolute top-full left-0 mt-1 w-72 bg-card border rounded-lg shadow-xl py-2 z-50 animate-fade-in">
+                  <div className="px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                    Curated discovery
+                  </div>
+                  {exploreLinks.map(link =>
+                    link.external ? (
+                      <a
+                        key={link.to}
+                        href={link.to}
+                        className="block px-4 py-2.5 transition-colors hover:bg-secondary"
+                      >
+                        <div className="text-sm font-medium text-foreground">{link.label}</div>
+                        <div className="text-xs text-muted-foreground">{link.description}</div>
+                      </a>
+                    ) : (
+                      <Link
+                        key={link.to}
+                        to={link.to}
+                        className="block px-4 py-2.5 transition-colors hover:bg-secondary"
+                      >
+                        <div className="text-sm font-medium text-foreground">{link.label}</div>
+                        <div className="text-xs text-muted-foreground">{link.description}</div>
+                      </Link>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
             {isAdmin && (
               <Link
                 to="/admin"
