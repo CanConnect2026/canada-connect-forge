@@ -533,16 +533,21 @@ export type Database = {
           claim_status: Database["public"]["Enums"]["claim_status"]
           claimed_by: string | null
           created_at: string
+          cuisine: string | null
           description_en: string | null
           description_fr: string | null
           email: string | null
           external_reference: string | null
           firstbites_eligible: boolean
           full_address: string | null
+          google_places_id: string | null
+          halal: boolean
           id: string
+          image_url: string | null
           images: string[] | null
           is_featured: boolean
           is_published: boolean
+          kosher: boolean
           languages_served: string[]
           latitude: number | null
           listing_type: Database["public"]["Enums"]["listing_type"]
@@ -550,13 +555,21 @@ export type Database = {
           longitude: number | null
           monetization_tier: string
           name: string
+          neighborhood: string | null
           opening_hours: Json | null
+          owner_home_country: string | null
+          owner_name: string | null
+          owner_story: string | null
           phone: string | null
+          price_range: string | null
           pricing_info: string | null
           province: string
           services_provided: string[] | null
+          slug: string | null
           social_links: Json | null
           updated_at: string
+          vegan_friendly: boolean
+          vegetarian_friendly: boolean
           verification_status: Database["public"]["Enums"]["verification_status"]
           website: string | null
         }
@@ -566,16 +579,21 @@ export type Database = {
           claim_status?: Database["public"]["Enums"]["claim_status"]
           claimed_by?: string | null
           created_at?: string
+          cuisine?: string | null
           description_en?: string | null
           description_fr?: string | null
           email?: string | null
           external_reference?: string | null
           firstbites_eligible?: boolean
           full_address?: string | null
+          google_places_id?: string | null
+          halal?: boolean
           id?: string
+          image_url?: string | null
           images?: string[] | null
           is_featured?: boolean
           is_published?: boolean
+          kosher?: boolean
           languages_served?: string[]
           latitude?: number | null
           listing_type?: Database["public"]["Enums"]["listing_type"]
@@ -583,13 +601,21 @@ export type Database = {
           longitude?: number | null
           monetization_tier?: string
           name: string
+          neighborhood?: string | null
           opening_hours?: Json | null
+          owner_home_country?: string | null
+          owner_name?: string | null
+          owner_story?: string | null
           phone?: string | null
+          price_range?: string | null
           pricing_info?: string | null
           province?: string
           services_provided?: string[] | null
+          slug?: string | null
           social_links?: Json | null
           updated_at?: string
+          vegan_friendly?: boolean
+          vegetarian_friendly?: boolean
           verification_status?: Database["public"]["Enums"]["verification_status"]
           website?: string | null
         }
@@ -599,16 +625,21 @@ export type Database = {
           claim_status?: Database["public"]["Enums"]["claim_status"]
           claimed_by?: string | null
           created_at?: string
+          cuisine?: string | null
           description_en?: string | null
           description_fr?: string | null
           email?: string | null
           external_reference?: string | null
           firstbites_eligible?: boolean
           full_address?: string | null
+          google_places_id?: string | null
+          halal?: boolean
           id?: string
+          image_url?: string | null
           images?: string[] | null
           is_featured?: boolean
           is_published?: boolean
+          kosher?: boolean
           languages_served?: string[]
           latitude?: number | null
           listing_type?: Database["public"]["Enums"]["listing_type"]
@@ -616,13 +647,21 @@ export type Database = {
           longitude?: number | null
           monetization_tier?: string
           name?: string
+          neighborhood?: string | null
           opening_hours?: Json | null
+          owner_home_country?: string | null
+          owner_name?: string | null
+          owner_story?: string | null
           phone?: string | null
+          price_range?: string | null
           pricing_info?: string | null
           province?: string
           services_provided?: string[] | null
+          slug?: string | null
           social_links?: Json | null
           updated_at?: string
+          vegan_friendly?: boolean
+          vegetarian_friendly?: boolean
           verification_status?: Database["public"]["Enums"]["verification_status"]
           website?: string | null
         }
