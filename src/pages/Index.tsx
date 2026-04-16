@@ -36,11 +36,6 @@ export default function Index() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
-    // {
-    //   image: heroImage,
-    //   title: "Your Warm Welcome to Canada",
-    //   subtitle: "Find trusted services, resources, and community support in your new home.",
-    // },
     {
       image: heroImage2,
       title: "Find trusted services and support across Canada",
