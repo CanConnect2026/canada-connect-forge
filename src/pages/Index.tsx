@@ -248,7 +248,7 @@ export default function Index() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {upcomingEvents.slice(0, 3).map(event => (
+            {upcomingEvents.filter(e => !e.tags?.includes("food")).slice(0, 3).map(event => (
               <Link key={event.id} to={`/events/${event.id}`} className="group bg-card rounded-xl border border-border/60 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 {event.image_url ? (
                   <div className="aspect-[16/9] overflow-hidden">
