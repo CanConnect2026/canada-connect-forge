@@ -29,13 +29,14 @@ export default function ExploreTorontoSection() {
       <div className="container">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl md:text-4xl font-display text-foreground">Explore Toronto</h2>
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-2">FirstBitesTO · Curated</p>
+            <h2 className="text-3xl md:text-4xl font-display text-foreground">Explore the City Through Food</h2>
             <p className="text-muted-foreground mt-2 text-base">
-              Discover food, culture, and local experiences across the city.
+              Hand-picked food experiences from newcomer-owned places across Toronto.
             </p>
           </div>
           <Link to="/restaurants" className="hidden sm:flex items-center gap-1 text-sm font-medium text-accent hover:underline">
-            All restaurants <ChevronRight className="w-4 h-4" />
+            All food experiences <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -80,7 +81,7 @@ export default function ExploreTorontoSection() {
         <div className="text-center">
           <Button variant="outline" className="gap-2" asChild>
             <Link to="/restaurants">
-              Explore All Restaurants
+              Discover all food experiences
               <ExternalLink className="w-4 h-4" />
             </Link>
           </Button>
