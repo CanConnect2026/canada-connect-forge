@@ -32,7 +32,7 @@ export default function IntentPrompt() {
             className="gap-1.5"
             onClick={() => {
               setIntent("explorer");
-              navigate("/restaurants");
+              window.open("https://firstbitesto.com", "_blank", "noopener,noreferrer");
             }}
           >
             <UtensilsCrossed className="w-3.5 h-3.5" />

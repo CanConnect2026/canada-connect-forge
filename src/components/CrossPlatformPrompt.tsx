@@ -13,9 +13,10 @@ const prompts = {
   "suggest-food": {
     icon: UtensilsCrossed,
     title: "Explore your city",
-    text: "Discover food, culture, and local experiences in Toronto.",
+    text: "Discover food, culture, and local experiences in Toronto on FirstBitesTO.",
     cta: "Explore FirstBitesTO",
-    link: "/restaurants",
+    link: "https://firstbitesto.com",
+    external: true,
     dismissType: "service" as const,
   },
   "suggest-services": {
@@ -24,6 +25,7 @@ const prompts = {
     text: "Discover trusted services, housing, and support resources.",
     cta: "Explore Canada Connect",
     link: "/directory",
+    external: false,
     dismissType: "food" as const,
   },
 };
@@ -54,11 +56,28 @@ export default function CrossPlatformPrompt({ variant }: CrossPlatformPromptProp
         <div className="flex-1">
           <h4 className="font-bold text-foreground text-sm">{config.title}</h4>
           <p className="text-sm text-muted-foreground mt-0.5">{config.text}</p>
-          <Button size="sm" variant="link" className="px-0 mt-1 text-accent gap-1" asChild>
-            <Link to={config.link}>
-              {config.cta} <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </Button>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {config.external ? (
+              <Button size="sm" className="gap-1.5" asChild>
+                <a href={config.link} target="_blank" rel="noopener noreferrer">
+                  {config.cta} <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </Button>
+            ) : (
+              <Button size="sm" className="gap-1.5" asChild>
+                <Link to={config.link}>
+                  {config.cta} <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </Button>
+            )}
+            {variant === "suggest-food" && (
+              <Button size="sm" variant="outline" className="gap-1.5" asChild>
+                <Link to="/">
+                  <Leaf className="w-3.5 h-3.5" /> Back to Canada Connect
+                </Link>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>
