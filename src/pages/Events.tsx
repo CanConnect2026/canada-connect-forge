@@ -94,20 +94,23 @@ export default function Events() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dateFilter = searchParams.get("date") || undefined;
   const categoryFilter = searchParams.get("category") || undefined;
+  const tab = searchParams.get("tab") || "upcoming";
   const { user } = useAuth();
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     dateFilter ? parse(dateFilter, "yyyy-MM-dd", new Date()) : undefined
   );
 
-  const { data: events = [], isLoading } = useEvents({ date: dateFilter, category: categoryFilter });
+  const isPastTab = tab === "archive";
+
+  const { data: events = [], isLoading } = useEvents({
+    date: dateFilter,
+    category: categoryFilter,
+    pastOnly: isPastTab,
+  });
   const { data: eventDates = [] } = useAllEventDates();
 
   const eventDaysSet = eventDates.map(d => parse(d, "yyyy-MM-dd", new Date()));
-
-  const today = new Date().toISOString().split("T")[0];
-  const upcomingEvents = events.filter(e => e.event_date >= today);
-  const pastEvents = events.filter(e => e.event_date < today);
 
   const updateParams = (updates: Record<string, string | undefined>) => {
     const params = new URLSearchParams(searchParams);
@@ -127,9 +130,19 @@ export default function Events() {
     updateParams({ category: categoryFilter === cat ? undefined : cat });
   };
 
+  const handleTabChange = (value: string) => {
+    setSelectedDate(undefined);
+    const params = new URLSearchParams();
+    if (value !== "upcoming") params.set("tab", value);
+    if (categoryFilter) params.set("category", categoryFilter);
+    setSearchParams(params);
+  };
+
   const clearFilters = () => {
     setSelectedDate(undefined);
-    setSearchParams({});
+    const params = new URLSearchParams();
+    if (isPastTab) params.set("tab", "archive");
+    setSearchParams(params);
   };
 
   const hasFilters = dateFilter || categoryFilter;
@@ -139,8 +152,14 @@ export default function Events() {
       <div className="bg-primary py-12">
         <div className="container flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-4xl font-display text-primary-foreground">Upcoming Events</h1>
-            <p className="text-primary-foreground/70 mt-2">Meet, learn, and grow with your community</p>
+            <h1 className="text-4xl font-display text-primary-foreground">
+              {isPastTab ? "Event Archive" : "Upcoming Events"}
+            </h1>
+            <p className="text-primary-foreground/70 mt-2">
+              {isPastTab
+                ? "Browse past community events"
+                : "Meet, learn, and grow with your community"}
+            </p>
           </div>
           <div className="flex flex-col items-end gap-1">
             <Link to={user ? "/submit-event" : "/login?redirectTo=/submit-event"}>
@@ -154,6 +173,17 @@ export default function Events() {
       </div>
 
       <div className="container py-10">
+        <Tabs value={tab} onValueChange={handleTabChange} className="mb-6">
+          <TabsList>
+            <TabsTrigger value="upcoming">
+              <CalendarIcon className="w-4 h-4 mr-1.5" /> Upcoming
+            </TabsTrigger>
+            <TabsTrigger value="archive">
+              <Archive className="w-4 h-4 mr-1.5" /> Past Events
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
           {/* Event listings */}
           <div>
@@ -205,68 +235,61 @@ export default function Events() {
 
             {isLoading ? (
               <div className="text-center py-12 text-muted-foreground">Loading events...</div>
-            ) : upcomingEvents.length === 0 && pastEvents.length === 0 ? (
+            ) : events.length === 0 ? (
               <div className="text-center py-16">
                 <CalendarIcon className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
                 <p className="text-muted-foreground font-medium">
-                  {hasFilters ? "No events match your filters" : "No upcoming events right now"}
+                  {isPastTab
+                    ? hasFilters ? "No past events match your filters" : "No past events yet"
+                    : hasFilters ? "No events match your filters" : "No upcoming events right now"}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
                   {hasFilters
                     ? "Try a different date or category to find what you're looking for."
-                    : "Check back soon — new events are added regularly by the community."}
+                    : isPastTab
+                      ? "Past events will appear here once they've passed."
+                      : "Check back soon — new events are added regularly by the community."}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5">
                   {hasFilters && (
                     <Button variant="outline" onClick={clearFilters}>Clear filters</Button>
                   )}
-                  <Link to={user ? "/submit-event" : "/login?redirectTo=/submit-event"}>
-                    <Button variant="ghost" className="text-accent">Add your event</Button>
-                  </Link>
+                  {!isPastTab && (
+                    <Link to={user ? "/submit-event" : "/login?redirectTo=/submit-event"}>
+                      <Button variant="ghost" className="text-accent">Add your event</Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             ) : (
-              <>
-                {upcomingEvents.length > 0 && (
-                  <div className="space-y-4">
-                    {upcomingEvents.map(event => (
-                      <EventCard key={event.id} event={event} isPast={false} />
-                    ))}
-                  </div>
-                )}
-
-                {pastEvents.length > 0 && (
-                  <div className="mt-10">
-                    <h2 className="text-xl font-display text-foreground mb-4">Past Events</h2>
-                    <div className="space-y-4 opacity-75">
-                      {pastEvents.map(event => (
-                        <EventCard key={event.id} event={event} isPast={true} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </>
+              <div className="space-y-4">
+                {events.map(event => (
+                  <EventCard key={event.id} event={event} isPast={isPastTab} />
+                ))}
+              </div>
             )}
           </div>
 
           {/* Sidebar */}
           <div className="order-first lg:order-last space-y-4">
-            <div className="bg-card rounded-lg border p-4 sticky top-4">
-              <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Date</h3>
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={handleDateSelect}
-                modifiers={{ hasEvent: eventDaysSet }}
-                modifiersClassNames={{ hasEvent: "has-event-day" }}
-                className={cn("p-0 pointer-events-auto")}
-              />
-              {selectedDate && (
-                <button onClick={() => handleDateSelect(undefined)} className="w-full mt-3 text-xs text-accent hover:underline text-center">
-                  Show all dates
-                </button>
-              )}
-            </div>
+            {!isPastTab && (
+              <div className="bg-card rounded-lg border p-4 sticky top-4">
+                <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Date</h3>
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={handleDateSelect}
+                  modifiers={{ hasEvent: eventDaysSet }}
+                  modifiersClassNames={{ hasEvent: "has-event-day" }}
+                  className={cn("p-0 pointer-events-auto")}
+                />
+                {selectedDate && (
+                  <button onClick={() => handleDateSelect(undefined)} className="w-full mt-3 text-xs text-accent hover:underline text-center">
+                    Show all dates
+                  </button>
+                )}
+              </div>
+            )}
 
             <div className="bg-card rounded-lg border p-4">
               <h3 className="font-semibold text-foreground mb-3 text-sm">Filter by Category</h3>
