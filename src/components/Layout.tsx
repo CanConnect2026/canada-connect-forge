@@ -247,18 +247,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 />
               </form>
 
-              {navLinks.map(link => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileOpen(false)}
-                  className={`px-3 py-2.5 rounded-md text-sm font-medium ${
-                    location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map(link =>
+                link.external ? (
+                  <a
+                    key={link.to}
+                    href={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={`px-3 py-2.5 rounded-md text-sm font-medium ${
+                      location.pathname === link.to ? "bg-secondary text-foreground" : "text-muted-foreground"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
 
 
               {/* Resources section */}

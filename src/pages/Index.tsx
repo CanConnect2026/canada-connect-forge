@@ -12,6 +12,7 @@ import heroImage2 from "@/assets/hero-image-2.jpg";
 import mobileAppPreview from "@/assets/mobile-app-preview.png";
 import { useState, useEffect, useCallback } from "react";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import ExploreTorontoSection from "@/components/ExploreTorontoSection";
 import { format } from "date-fns";
 
 const categoryIcons = [
