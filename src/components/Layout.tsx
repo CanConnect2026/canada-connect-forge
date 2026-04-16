@@ -75,16 +75,16 @@ function HeaderSearch() {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
-  const resourcesRef = useRef<HTMLDivElement>(null);
+  const [openMenu, setOpenMenu] = useState<"settled" | "explore" | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const { user, isAdmin, signOut } = useAuth();
 
-  // Close resources dropdown on outside click
+  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
-        setResourcesOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -93,8 +93,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   // Close dropdown on route change
   useEffect(() => {
-    setResourcesOpen(false);
+    setOpenMenu(null);
   }, [location.pathname]);
+
+  const isSettledActive = getSettledLinks.some(l => location.pathname.startsWith(l.to.split("/").slice(0, 2).join("/")));
+  const isExploreActive = exploreLinks.some(l => !l.external && location.pathname.startsWith(l.to));
 
   return (
     <div className="min-h-screen flex flex-col">
