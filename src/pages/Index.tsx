@@ -131,7 +131,59 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Featured Support */}
+      {/* Two Pathways — Primary Entry Points */}
+      <section className="py-14 bg-background border-b border-border/40">
+        <div className="container">
+          <div className="text-center mb-10 max-w-2xl mx-auto">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-3">One platform · Two pathways</p>
+            <h2 className="text-3xl md:text-4xl font-display text-foreground">Where would you like to start?</h2>
+            <p className="text-muted-foreground mt-2">Pick the path that matches what you need today.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {/* Get Settled */}
+            <Link
+              to="/directory"
+              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Users className="w-6 h-6 text-primary" />
+                </div>
+                <span className="text-xs uppercase tracking-widest font-semibold text-primary">Canada Connect</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-display text-foreground mb-2">Get Settled in Canada</h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Find services, guides, and support to help you settle in Canada — verified organizations, step-by-step checklists, and community events.
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
+                Go to Canada Connect <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+
+            {/* Explore the City */}
+            <Link
+              to="/restaurants"
+              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                  <UtensilsCrossed className="w-6 h-6 text-accent" />
+                </div>
+                <span className="text-xs uppercase tracking-widest font-semibold text-accent">FirstBitesTO</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-display text-foreground mb-2">Explore Food & Experiences</h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Explore food trails, neighbourhoods, and local experiences — curated journeys through Toronto's most loved newcomer-owned places.
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+                Discover FirstBitesTO <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
       <section className="py-16 bg-section-alt">
         <div className="container">
           <div className="flex items-end justify-between mb-10">
