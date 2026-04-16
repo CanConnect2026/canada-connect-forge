@@ -26,14 +26,15 @@ const RestaurantDetail = () => {
   }, [trackView]);
 
   const { data: restaurant, isLoading } = useQuery({
-    queryKey: ["restaurant-detail", slug],
+    queryKey: ["restaurant-detail-listings", slug],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("restaurants")
+        .from("listings")
         .select("*")
         .eq("slug", slug)
+        .eq("category", "Restaurants")
         .eq("is_published", true)
-        .single();
+        .maybeSingle();
       if (error) throw error;
       return data;
     },
@@ -41,22 +42,24 @@ const RestaurantDetail = () => {
   });
 
   const { data: similarRestaurants } = useQuery({
-    queryKey: ["similar-restaurants", restaurant?.id, restaurant?.cuisine],
+    queryKey: ["similar-restaurants-listings", restaurant?.id, restaurant?.cuisine],
     queryFn: async () => {
       if (restaurant!.cuisine) {
         const { data, error } = await supabase
-          .from("restaurants")
+          .from("listings")
           .select("id, name, slug, image_url, cuisine, neighborhood, price_range")
           .eq("is_published", true)
+          .eq("category", "Restaurants")
           .eq("cuisine", restaurant!.cuisine)
           .neq("id", restaurant!.id)
           .limit(4);
         if (!error && data && data.length > 0) return data;
       }
       const { data, error } = await supabase
-        .from("restaurants")
+        .from("listings")
         .select("id, name, slug, image_url, cuisine, neighborhood, price_range")
         .eq("is_published", true)
+        .eq("category", "Restaurants")
         .neq("id", restaurant!.id)
         .limit(4);
       if (error) throw error;
@@ -85,6 +88,7 @@ const RestaurantDetail = () => {
   }
 
   const heroImage = getRestaurantImage(restaurant);
+  const description = restaurant.description_en || (restaurant as any).description || null;
   const dietaryTags: string[] = [];
   if (restaurant.halal) dietaryTags.push("Halal");
   if (restaurant.kosher) dietaryTags.push("Kosher");
@@ -117,7 +121,7 @@ const RestaurantDetail = () => {
             <div className="flex flex-wrap items-center gap-3 text-white/90 text-sm">
               <ShareButton
                 title={restaurant.name}
-                text={(restaurant as any).description || undefined}
+                text={description || undefined}
                 className="border-white/30 text-white hover:bg-white/20 hover:text-white"
               />
               {restaurant.cuisine && (
@@ -145,10 +149,10 @@ const RestaurantDetail = () => {
           {/* Left – Details */}
           <div className="md:col-span-2 space-y-10">
             {/* Description */}
-            {(restaurant as any).description && (
+            {description && (
               <div>
                 <h2 className="text-xl font-display font-bold mb-3">About</h2>
-                <p className="text-muted-foreground leading-relaxed">{(restaurant as any).description}</p>
+                <p className="text-muted-foreground leading-relaxed">{description}</p>
               </div>
             )}
 
