@@ -21,12 +21,13 @@ const Restaurants = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: restaurants, isLoading } = useQuery({
-    queryKey: ["restaurants-list"],
+    queryKey: ["restaurants-list-listings"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("restaurants")
+        .from("listings")
         .select("*")
         .eq("is_published", true)
+        .eq("category", "Restaurants")
         .order("name");
       if (error) throw error;
       return data;
