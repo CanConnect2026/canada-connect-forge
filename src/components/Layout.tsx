@@ -10,8 +10,10 @@ import CrossProjectBar from "@/components/CrossProjectBar";
 
 const navLinks = [
   { to: "/", label: "Home" },
-  { to: "/directory", label: "Find Services" },
-  { to: "/events", label: "Events" },
+  { to: "/directory", label: "Services" },
+  { to: "https://taste-to-trails.lovable.app", label: "Explore Food", external: true },
+  { to: "/events", label: "Community" },
+  { to: "/partners", label: "For Businesses" },
 ];
 
 const resourceLinks = [
