@@ -35,6 +35,12 @@ export function useEvents(filters?: { date?: string; city?: string; category?: s
         .eq("is_published", true)
         .order("event_date", { ascending: true });
 
+      // By default, exclude past events unless includePast is true
+      if (!filters?.includePast && !filters?.date) {
+        const today = new Date().toISOString().split("T")[0];
+        query = query.gte("event_date", today);
+      }
+
       if (filters?.date) {
         query = query.eq("event_date", filters.date);
       }
