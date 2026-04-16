@@ -7,7 +7,7 @@ import ListingCard from "@/components/ListingCard";
 import { useFeaturedListings } from "@/hooks/useListings";
 import { useEvents } from "@/hooks/useEvents";
 import { useFeaturedArticles } from "@/hooks/useArticles";
-import heroImage from "@/assets/hero-image.jpg";
+
 import heroFood from "@/assets/hero-food.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
 import mobileAppPreview from "@/assets/mobile-app-preview.png";
