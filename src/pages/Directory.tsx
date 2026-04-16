@@ -180,6 +180,7 @@ export default function Directory() {
             </div>
           </div>
         )}
+        <CrossPlatformPrompt variant="suggest-food" />
       </section>
 
       {showMap && (
