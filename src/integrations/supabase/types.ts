@@ -93,6 +93,7 @@ export type Database = {
           province: string | null
           slug: string
           summary: string | null
+          tags: string[]
           title: string
           updated_at: string
         }
@@ -111,6 +112,7 @@ export type Database = {
           province?: string | null
           slug: string
           summary?: string | null
+          tags?: string[]
           title: string
           updated_at?: string
         }
@@ -129,6 +131,7 @@ export type Database = {
           province?: string | null
           slug?: string
           summary?: string | null
+          tags?: string[]
           title?: string
           updated_at?: string
         }
@@ -359,6 +362,7 @@ export type Database = {
           start_time: string | null
           status: Database["public"]["Enums"]["event_status"]
           submitted_by_type: string
+          tags: string[]
           title: string
           updated_at: string
           website: string | null
@@ -386,6 +390,7 @@ export type Database = {
           start_time?: string | null
           status?: Database["public"]["Enums"]["event_status"]
           submitted_by_type?: string
+          tags?: string[]
           title: string
           updated_at?: string
           website?: string | null
@@ -413,6 +418,7 @@ export type Database = {
           start_time?: string | null
           status?: Database["public"]["Enums"]["event_status"]
           submitted_by_type?: string
+          tags?: string[]
           title?: string
           updated_at?: string
           website?: string | null
@@ -567,6 +573,7 @@ export type Database = {
           services_provided: string[] | null
           slug: string | null
           social_links: Json | null
+          tags: string[]
           updated_at: string
           vegan_friendly: boolean
           vegetarian_friendly: boolean
@@ -613,6 +620,7 @@ export type Database = {
           services_provided?: string[] | null
           slug?: string | null
           social_links?: Json | null
+          tags?: string[]
           updated_at?: string
           vegan_friendly?: boolean
           vegetarian_friendly?: boolean
@@ -659,6 +667,7 @@ export type Database = {
           services_provided?: string[] | null
           slug?: string | null
           social_links?: Json | null
+          tags?: string[]
           updated_at?: string
           vegan_friendly?: boolean
           vegetarian_friendly?: boolean
