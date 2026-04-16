@@ -184,7 +184,17 @@ export default function Index() {
           </div>
         </div>
       </section>
-      <section className="py-16 bg-section-alt">
+      {/* ===== GET SETTLED — Canada Connect cluster ===== */}
+      <section className="pt-16 pb-2 bg-section-alt">
+        <div className="container text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold uppercase tracking-widest mb-3">
+            <Users className="w-3.5 h-3.5" /> Get Settled · Canada Connect
+          </div>
+          <h2 className="text-2xl md:text-3xl font-display text-foreground">Practical help to build your life in Canada</h2>
+        </div>
+      </section>
+
+      <section className="pt-6 pb-16 bg-section-alt">
         <div className="container">
           <div className="flex items-end justify-between mb-10">
             <div>
