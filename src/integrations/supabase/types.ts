@@ -537,6 +537,7 @@ export type Database = {
           description_fr: string | null
           email: string | null
           external_reference: string | null
+          firstbites_eligible: boolean
           full_address: string | null
           id: string
           images: string[] | null
@@ -547,6 +548,7 @@ export type Database = {
           listing_type: Database["public"]["Enums"]["listing_type"]
           logo_url: string | null
           longitude: number | null
+          monetization_tier: string
           name: string
           opening_hours: Json | null
           phone: string | null
@@ -568,6 +570,7 @@ export type Database = {
           description_fr?: string | null
           email?: string | null
           external_reference?: string | null
+          firstbites_eligible?: boolean
           full_address?: string | null
           id?: string
           images?: string[] | null
@@ -578,6 +581,7 @@ export type Database = {
           listing_type?: Database["public"]["Enums"]["listing_type"]
           logo_url?: string | null
           longitude?: number | null
+          monetization_tier?: string
           name: string
           opening_hours?: Json | null
           phone?: string | null
@@ -599,6 +603,7 @@ export type Database = {
           description_fr?: string | null
           email?: string | null
           external_reference?: string | null
+          firstbites_eligible?: boolean
           full_address?: string | null
           id?: string
           images?: string[] | null
@@ -609,6 +614,7 @@ export type Database = {
           listing_type?: Database["public"]["Enums"]["listing_type"]
           logo_url?: string | null
           longitude?: number | null
+          monetization_tier?: string
           name?: string
           opening_hours?: Json | null
           phone?: string | null
