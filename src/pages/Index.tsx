@@ -178,6 +178,7 @@ export default function Index() {
                 icon={cat.icon}
                 title={cat.title}
                 count={cat.count}
+                action={cat.action}
                 href={`/directory?category=${encodeURIComponent(cat.title)}`}
               />
             ))}
