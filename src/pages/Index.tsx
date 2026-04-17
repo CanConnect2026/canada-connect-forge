@@ -18,168 +18,118 @@ import IntentPrompt from "@/components/IntentPrompt";
 import { format } from "date-fns";
 
 const categoryIcons = [
-  { icon: Users, title: "Settlement & Newcomer Services", count: 42 },
-  { icon: Scale, title: "Immigration & Legal Support", count: 28 },
-  { icon: Home, title: "Housing & Shelter", count: 19 },
-  { icon: Briefcase, title: "Employment & Career Support", count: 35 },
-  { icon: BookOpen, title: "Language & Education", count: 22 },
-  { icon: Stethoscope, title: "Health & Wellness", count: 31 },
-  { icon: DollarSign, title: "Financial Services & Support", count: 14 },
-  { icon: UtensilsCrossed, title: "Food & Clothing Support", count: 17 },
-  { icon: Landmark, title: "Community & Cultural Organizations", count: 26 },
-  { icon: AlertTriangle, title: "Crisis & Emergency Help", count: 11 },
+  { icon: Users, title: "Settlement & Newcomer Services", count: 42, action: "Find" },
+  { icon: Scale, title: "Immigration & Legal Support", count: 28, action: "Access" },
+  { icon: Home, title: "Housing & Shelter", count: 19, action: "Find" },
+  { icon: Briefcase, title: "Employment & Career Support", count: 35, action: "Explore" },
+  { icon: BookOpen, title: "Language & Education", count: 22, action: "Learn" },
+  { icon: Stethoscope, title: "Health & Wellness", count: 31, action: "Access" },
+  { icon: DollarSign, title: "Financial Services & Support", count: 14, action: "Access" },
+  { icon: UtensilsCrossed, title: "Food & Clothing Support", count: 17, action: "Find" },
+  { icon: Landmark, title: "Community & Cultural Organizations", count: 26, action: "Connect" },
+  { icon: AlertTriangle, title: "Crisis & Emergency Help", count: 11, action: "Get help" },
 ];
 
 export default function Index() {
-  const [searchQuery, setSearchQuery] = useState("");
   const { data: featuredListings = [] } = useFeaturedListings();
   const { data: upcomingEvents = [] } = useEvents();
   const { data: featuredArticles = [] } = useFeaturedArticles(3);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
-    {
-      image: heroImage2,
-      title: "Find trusted services and support across Canada",
-      subtitle: "Built for newcomers — discover verified services, community resources, and the help you need to settle and succeed.",
-    },
-    {
-      image: heroFood,
-      title: "Discover Toronto through food and local experiences",
-      subtitle: "Curated food spots, hidden gems, and neighbourhood favourites designed to help you feel at home in the city.",
-    },
-  ];
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [slides.length]);
-
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 6000);
-    return () => clearInterval(timer);
-  }, [nextSlide]);
 
   return (
     <>
       {/* Intent Prompt */}
       <IntentPrompt />
 
-      {/* Hero */}
-      <section className="relative min-h-[520px] flex items-center overflow-hidden">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-            style={{ opacity: currentSlide === index ? 1 : 0 }}
-          >
-            <img src={slide.image} alt="" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-[hsl(var(--hero-overlay)/0.75)]" />
-          </div>
-        ))}
-        <div className="container relative z-10 py-20">
-          <div className="max-w-2xl animate-fade-in-up">
-            <p className="text-accent font-heading font-bold text-sm tracking-widest uppercase mb-3">
-              Arrive. Connect. Thrive.
+      {/* ─── DUAL-PATHWAY HERO (decision zone) ─────────────────────────── */}
+      <section className="relative bg-background">
+        <div className="container py-10 md:py-14">
+          <div className="text-center max-w-2xl mx-auto mb-8 md:mb-10">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-accent font-bold mb-3">
+              One platform · Two pathways
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-primary-foreground leading-tight transition-opacity duration-500">
-              {slides[currentSlide].title}
+            <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-[1.05]">
+              Where would you like to start?
             </h1>
-            <p className="mt-4 text-lg text-primary-foreground/80 leading-relaxed transition-opacity duration-500">
-              {slides[currentSlide].subtitle}
+            <p className="mt-4 text-base md:text-lg text-muted-foreground">
+              Pick the path that matches what you need today.
             </p>
-            <div className="mt-8 bg-card/95 backdrop-blur rounded-lg p-2 flex flex-col sm:flex-row gap-2 shadow-xl">
-              <div className="flex-1 flex items-center gap-2 bg-background rounded-md px-3">
-                <Search className="w-4 h-4 text-muted-foreground shrink-0" />
-                <input
-                  type="text"
-                  placeholder="What do you need help with?"
-                  className="w-full py-2.5 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center gap-2 bg-background rounded-md px-3">
-                <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
-                <select className="py-2.5 bg-transparent text-sm outline-none text-foreground">
-                  <option>All Ontario</option>
-                  <option>Toronto</option>
-                  <option>Ottawa</option>
-                  <option>Mississauga</option>
-                  <option>Hamilton</option>
-                  <option>London</option>
-                </select>
-              </div>
-              <Button className="bg-accent text-accent-foreground hover:bg-accent/90 px-6" asChild>
-                <Link to={`/directory${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""}`}>Explore Services</Link>
-              </Button>
-            </div>
-            <div className="mt-6 flex gap-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    currentSlide === index
-                      ? "bg-primary-foreground w-8"
-                      : "bg-primary-foreground/40 hover:bg-primary-foreground/60"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Two Pathways — Primary Entry Points */}
-      <section className="py-14 bg-background border-b border-border/40">
-        <div className="container">
-          <div className="text-center mb-10 max-w-2xl mx-auto">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-3">One platform · Two pathways</p>
-            <h2 className="text-3xl md:text-4xl font-display text-foreground">Where would you like to start?</h2>
-            <p className="text-muted-foreground mt-2">Pick the path that matches what you need today.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {/* Get Settled */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 max-w-6xl mx-auto">
+            {/* Get Settled — Canada Connect */}
             <Link
               to="/directory"
-              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              className="group relative overflow-hidden rounded-3xl bg-card border border-border/60 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 min-h-[420px] md:min-h-[480px] flex flex-col"
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Users className="w-6 h-6 text-primary" />
+              <div className="relative h-48 md:h-60 overflow-hidden">
+                <img
+                  src={heroImage2}
+                  alt=""
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/40 to-transparent" />
+                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/95 backdrop-blur text-[11px] font-bold uppercase tracking-widest text-primary">
+                  <Compass className="w-3.5 h-3.5" /> Canada Connect
                 </div>
-                <span className="text-xs uppercase tracking-widest font-semibold text-primary">Canada Connect</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-display text-foreground mb-2">Get Settled in Canada</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                Find services, guides, and support to help you settle in Canada — verified organizations, step-by-step checklists, and community events.
-              </p>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
-                Go to Canada Connect <ArrowRight className="w-4 h-4" />
-              </span>
+              <div className="p-6 md:p-8 flex-1 flex flex-col">
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground leading-tight mb-3">
+                  Get Settled in Canada
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Find services, guides, and support to start your life in Canada — verified organizations, step-by-step checklists, and community events.
+                </p>
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/60">
+                  <div className="flex flex-wrap gap-2 text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+                    <span>Services</span>
+                    <span className="text-border">·</span>
+                    <span>Guides</span>
+                    <span className="text-border">·</span>
+                    <span>Events</span>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-primary group-hover:gap-2.5 transition-all">
+                    Start <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </div>
             </Link>
 
-            {/* Explore the City */}
+            {/* Explore the City — FirstBitesTO */}
             <Link
               to="/restaurants"
-              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              className="group relative overflow-hidden rounded-3xl bg-card border border-border/60 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 min-h-[420px] md:min-h-[480px] flex flex-col"
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                  <UtensilsCrossed className="w-6 h-6 text-accent" />
+              <div className="relative h-48 md:h-60 overflow-hidden">
+                <img
+                  src={heroFood}
+                  alt=""
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-accent/85 via-accent/40 to-transparent" />
+                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/95 backdrop-blur text-[11px] font-bold uppercase tracking-widest text-accent">
+                  <Sparkles className="w-3.5 h-3.5" /> FirstBitesTO
                 </div>
-                <span className="text-xs uppercase tracking-widest font-semibold text-accent">FirstBitesTO</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-display text-foreground mb-2">Explore Food & Experiences</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                Taste the world right here in Toronto — curated food trails, neighbourhood guides, and authentic flavours from every culture across the GTA.
-              </p>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
-                Discover FirstBitesTO <ArrowRight className="w-4 h-4" />
-              </span>
+              <div className="p-6 md:p-8 flex-1 flex flex-col">
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground leading-tight mb-3">
+                  Explore Food & Experiences
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Taste the world right here in Toronto — curated food trails, neighbourhood guides, and authentic flavours from every culture across the GTA.
+                </p>
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/60">
+                  <div className="flex flex-wrap gap-2 text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+                    <span>Trails</span>
+                    <span className="text-border">·</span>
+                    <span>Neighbourhoods</span>
+                    <span className="text-border">·</span>
+                    <span>Stories</span>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-accent group-hover:gap-2.5 transition-all">
+                    Discover <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </div>
             </Link>
           </div>
         </div>
